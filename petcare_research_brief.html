@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>リサーチブリーフ｜ペットケア代理サービス 市場検証</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=DM+Mono:wght@400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --paper: #f5f0e8;
+    --accent: #c84b2f;
+    --muted: #7a7060;
+    --border: #d0c8b4;
+    --highlight: #fff3cd;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    line-height: 1.8;
+    padding: 2rem 1rem 6rem;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .header {
+    border-top: 4px solid var(--ink);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 8vw, 4rem);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+
+  h1 span {
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* PREMISE BOX */
+  .premise {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 3rem;
+    border-left: 5px solid var(--accent);
+  }
+
+  .premise p {
+    font-size: 0.95rem;
+    line-height: 1.9;
+  }
+
+  .premise strong {
+    color: #ffdd99;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 3.5rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* QUESTION CARD */
+  .q-card {
+    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  .q-title {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.6rem 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+
+  .q-body {
+    padding: 1.2rem 1.2rem 0.8rem;
+  }
+
+  .q-main {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+  }
+
+  .q-why {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+    border-left: 3px solid var(--border);
+    padding-left: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  /* METHOD TABLE */
+  .method-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin-top: 0.5rem;
+  }
+
+  .method-table th {
+    background: #e8e0d0;
+    padding: 0.4rem 0.7rem;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .method-table td {
+    padding: 0.6rem 0.7rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .method-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .tag-desk { background: #ddeeff; color: #2255aa; }
+  .tag-field { background: #ffeedd; color: #aa5522; }
+  .tag-quant { background: #eeffdd; color: #336622; }
+
+  /* OUTPUT BOX */
+  .output-box {
+    background: var(--highlight);
+    border: 1px solid #e0c040;
+    padding: 1.2rem 1.4rem;
+    margin-top: 1rem;
+  }
+
+  .output-box .out-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    color: #996600;
+    margin-bottom: 0.5rem;
+  }
+
+  .output-box p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  /* DELIVERABLE */
+  .deliverable {
+    border: 2px solid var(--accent);
+    padding: 1.5rem 1.8rem;
+    margin-top: 3rem;
+  }
+
+  .deliverable .del-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+
+  .del-item {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    margin-bottom: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .del-check {
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  /* VERDICT */
+  .verdict {
+    margin-top: 3rem;
+    padding: 1.5rem 1.8rem;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .verdict-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+
+  .verdict p {
+    font-size: 0.9rem;
+    line-height: 1.9;
+  }
+
+  .verdict strong { color: #ffdd99; }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="label">Research Brief v1.0 ／ くじら舎</div>
+    <h1>ペットケア<span>代理</span><br>市場検証</h1>
+    <div class="subtitle">作成日：2026.05.30 ／ ステータス：リサーチ前</div>
+  </div>
+
+  <div class="premise">
+    <p>
+      <strong>このブリーフが答えたいこと：</strong><br>
+      「ペットの散歩・世話を誰かに任せたい人が、日本にどれだけいるか。そしてなぜ既存サービスで満たされていないのか。」<br><br>
+      この2点が確認できれば参入判断ができる。できなければやらない。それだけのリサーチだ。
+    </p>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2>需要はあるか ― お金を払う意志のある人がいるか</h2>
+    </div>
+
+    <div class="q-card">
+      <div class="q-title">QUESTION A ／ 市場規模</div>
+      <div class="q-body">
+        <div class="q-main">日本のペット飼育世帯のうち、「ペットの世話を外部に頼んだことがある／頼みたい」割合はどのくらいか？</div>
+        <div class="q-why">「困っているはず」ではなく、数字で確認する。感覚論を排除するため。</div>
+        <table class="method-table">
+          <tr>
+            <th>手法</th>
+            <th>具体的にやること</th>
+          </tr>
+          <tr>
+            <td><span class="tag tag-desk">デスク</span></td>
+            <td>ペットフード協会「全国犬猫飼育実態調査」最新版を取得。飼育頭数・世帯数の推移を把握する。</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-desk">デスク</span></td>
+            <td>矢野経済研究所・富士経済のペットサービス市場レポートでペットシッター・ペットホテル市場規模を確認（図書館でも可）。</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-quant">定量</span></td>
+            <td>Googleフォームで10問以内のアンケートを作成。SNS（X・Instagram）でペット飼育者100人以上に配布。設問：①犬猫の有無、②外出時の世話困り経験、③有料サービス利用経験・金額感。</td>
+          </tr>
+        </table>
+        <div class="output-box">
+          <div class="out-label">▶ このリサーチのアウトプット</div>
+          <p>「潜在需要世帯数（推計）」と「実際に金を払う意志がある割合（％）」の2つの数字。これが出れば市場の天井が見える。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-title">QUESTION B ／ 支払い意志額（WTP）</div>
+      <div class="q-body">
+        <div class="q-main">1回の散歩代行・チェックインに、いくらまでなら払えるか？</div>
+        <div class="q-why">需要があっても単価が低ければビジネスにならない。Unit Economicsの土台になる数字。</div>
+        <table class="method-table">
+          <tr>
+            <th>手法</th>
+            <th>具体的にやること</th>
+          </tr>
+          <tr>
+            <td><span class="tag tag-quant">定量</span></td>
+            <td>上記アンケートに「散歩30分でいくらまで払えるか」の選択肢を入れる（500円／1000円／1500円／2000円以上／払わない）。</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-field">ヒアリング</span></td>
+            <td>ペット飼育者の知人・友人5名に15分ずつ話を聞く。「実際に旅行のとき誰に頼んだか」「そのとき何を払ったか」を具体的に掘る。</td>
+          </tr>
+        </table>
+        <div class="output-box">
+          <div class="out-label">▶ このリサーチのアウトプット</div>
+          <p>「中央値の支払い意志額」と「それで成立するビジネスモデルの粗利試算」。1,000円/回以下なら要注意。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2>なぜ既存サービスで満たされていないか</h2>
+    </div>
+
+    <div class="q-card">
+      <div class="q-title">QUESTION C ／ 競合の実態</div>
+      <div class="q-body">
+        <div class="q-main">日本で展開しているペットケア代理サービスは何があり、なぜ広まっていないのか？</div>
+        <div class="q-why">競合が解決済みなら参入不要。解決できていない理由があるなら、そこが参入余地。</div>
+        <table class="method-table">
+          <tr>
+            <th>手法</th>
+            <th>具体的にやること</th>
+          </tr>
+          <tr>
+            <td><span class="tag tag-desk">デスク</span></td>
+            <td>DogHuggy・ペットのコンシェルジュ・PETOKOTO・Wanteなど主要5サービスを実際に使ってみる（登録まで）。価格・登録フロー・ケアラー数・口コミを記録する。</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-desk">デスク</span></td>
+            <td>各サービスのApp Storeレビュー・Googleレビュー・Xの不満投稿を100件収集。不満の分類（価格・信頼・使いにくさ・エリア・その他）を行う。</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-field">ヒアリング</span></td>
+            <td>既存サービスを使ったことがある人を3名以上探して話を聞く。「なぜやめたか」「何が足りなかったか」を掘る。Xで「ペットシッター やめた」などで探すと見つかりやすい。</td>
+          </tr>
+        </table>
+        <div class="output-box">
+          <div class="out-label">▶ このリサーチのアウトプット</div>
+          <p>「既存サービスが解決できていない具体的な不満トップ3」。これが空白地帯の地図になる。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-title">QUESTION D ／ 信頼障壁</div>
+      <div class="q-body">
+        <div class="q-main">「見知らぬ人にペットを預けたくない」という心理的障壁はどこまで本物か？</div>
+        <div class="q-why">日本市場固有の問題として、信頼障壁がビジネスの構造的な天井になっている可能性がある。</div>
+        <table class="method-table">
+          <tr>
+            <th>手法</th>
+            <th>具体的にやること</th>
+          </tr>
+          <tr>
+            <td><span class="tag tag-quant">定量</span></td>
+            <td>アンケートに「知らない人に頼むのに抵抗があるか」「何があれば頼めるか（身元確認／保険／レビュー数）」の設問を追加。</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-field">ヒアリング</span></td>
+            <td>「頼んだことがない」人に絞って理由を聞く。価格の問題か信頼の問題かを分離する。</td>
+          </tr>
+        </table>
+        <div class="output-box">
+          <div class="out-label">▶ このリサーチのアウトプット</div>
+          <p>「信頼障壁は価格で解決するか、仕組みで解決するか、そもそも解決不可能か」の判断材料。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DELIVERABLE -->
+  <div class="deliverable">
+    <div class="del-title">リサーチ完了時に揃うもの</div>
+    <div class="del-item">
+      <div class="del-check">[1]</div>
+      <div>潜在需要の推計人数と、そのうち金を払う意志がある人の割合（数字）</div>
+    </div>
+    <div class="del-item">
+      <div class="del-check">[2]</div>
+      <div>支払い意志額の中央値と、それで成立するかどうかの粗利試算</div>
+    </div>
+    <div class="del-item">
+      <div class="del-check">[3]</div>
+      <div>既存サービスが解決できていない不満トップ3（参入余地の地図）</div>
+    </div>
+    <div class="del-item">
+      <div class="del-check">[4]</div>
+      <div>信頼障壁の正体と、それが乗り越えられるかどうかの判断</div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="verdict-label">▶ GO / NO-GO 判断基準</div>
+    <p>
+      [1]〜[4]が揃った時点で、次の問いに答えられるはずだ。<br><br>
+      <strong>「お金を払う意志がある人が十分にいて、既存サービスに明確な空白があるか？」</strong><br><br>
+      YESなら話を続ける。NOなら撤退する。グレーなら何が足りないかを特定してから再判断する。感情で動かない。数字と声で動く。
+    </p>
+  </div>
+
+  <div class="footer">
+    <span>くじら舎 ／ Research Brief v1.0</span>
+    <span>2026.05.30</span>
+  </div>
+
+</div>
+</body>
+</html>
