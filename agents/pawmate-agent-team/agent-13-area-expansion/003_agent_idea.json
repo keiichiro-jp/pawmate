@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a13",
+    "agent_code": "A13",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A13｜Area Expansion Agent",
+      "priority_band": "Phase 3 candidate"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Area Expansion Agent",
+    "tagline": "供給ファーストで湘南5市へ広げる",
+    "mission": "藤沢、鎌倉、平塚、辻堂への展開。",
+    "main_tasks": [
+      "藤沢、鎌倉、平塚、辻堂への展開。"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Area Expansion Agentが、供給ファーストで湘南5市へ広げることでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "pawmate_stp.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

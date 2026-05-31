@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a18",
+    "agent_code": "A18",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A18｜Data Analyst Agent",
+      "priority_band": "Phase 3 candidate"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Data Analyst Agent",
+    "tagline": "リピート・GMV・稼働率を意思決定可能な数字にする",
+    "mission": "リピート率、GMV、LTV、稼働率、Sitter-to-Owner比率の分析。",
+    "main_tasks": [
+      "リピート率、GMV、LTV、稼働率、Sitter-to-Owner比率の分析。"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Data Analyst Agentが、リピート・GMV・稼働率を意思決定可能な数字にすることでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "pawmate_finance.md",
+      "pawmate_unit_economics.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

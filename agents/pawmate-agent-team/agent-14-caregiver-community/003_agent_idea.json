@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a14",
+    "agent_code": "A14",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A14｜Caregiver Community Agent",
+      "priority_band": "Phase 3 candidate"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Caregiver Community Agent",
+    "tagline": "ケアラーが続けたくなる学習と関係性を設計する",
+    "mission": "ケアラー勉強会、トップケアラー制度、離脱予防。",
+    "main_tasks": [
+      "ケアラー勉強会、トップケアラー制度、離脱予防。"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Caregiver Community Agentが、ケアラーが続けたくなる学習と関係性を設計することでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "pawmate_capabilities.md",
+      "pawmate_service_blueprint.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

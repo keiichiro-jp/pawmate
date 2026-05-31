@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a10",
+    "agent_code": "A10",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A10｜Research & Intelligence Agent",
+      "priority_band": "Priority 2"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Research & Intelligence Agent",
+    "tagline": "外部確認が必要な論点を出典付きで固める",
+    "mission": "市場、競合、行政窓口、保険会社、提携先、スマートロック、法人候補などの調査を担当する。",
+    "main_tasks": [
+      "神奈川県動物愛護センターの手続き確認",
+      "損保会社の問い合わせ先調査",
+      "Stripe Connect調査",
+      "Qrio Lock等のスマートロック調査",
+      "DogHuggy / ペットゴー調査",
+      "横浜・川崎・相模原の市場調査"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Research & Intelligence Agentが、外部確認が必要な論点を出典付きで固めることでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "pawmate_usa_research.md",
+      "petcare_research_report.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

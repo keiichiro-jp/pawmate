@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "project": "PawMate",
+    "agent_id": "pawmate_a16_enterprise_sales_v1",
+    "source": {
+      "document": "Pawmate/pawmate_agent_team.md",
+      "agent_ref": "A16",
+      "team_kind": "future"
+    }
+  },
+  "status": "warning",
+  "warnings": [
+    "追加候補エージェントのため、担当領域の情報が薄い。初版では既存ロードマップから仮定を置いている。"
+  ],
+  "errors": [],
+  "agent_idea": {
+    "name": "A16｜Enterprise Sales Agent",
+    "tagline": "法人向け仮説を福利厚生・オフィス文脈で検証する",
+    "mission": "ペット同伴オフィス、福利厚生、法人向けプラン。",
+    "primary_user": "Kei / PawMate founder",
+    "main_tasks": [
+      "担当領域の実行計画整理",
+      "関連チケットの前捌き",
+      "Keiへの判断材料作成"
+    ],
+    "tickets_to_watch": [
+      "PM-RM-P3-006"
+    ],
+    "standard_deliverables": [
+      "実行メモ",
+      "比較表またはチェックリスト",
+      "Keiへの判断依頼"
+    ],
+    "typical_scenarios": [
+      "関連チケット（PM-RM-P3-006）に着手する前に、目的・完了ライン・Kei確認事項を整理する。",
+      "実行メモ、比較表またはチェックリスト、Keiへの判断依頼を初稿として作り、A01またはKeiが次アクションを決められる状態にする。",
+      "Gate前または外部送信前に、未確定・Waiting・Blocked・リスクを分離して判断材料を出す。"
+    ],
+    "value_for_user": "Enterprise Sales領域の前捌き・下書き・論点整理を任せることで、Keiは意思決定と実行に集中できる。",
+    "confirmation_points_for_kei": [
+      "着手順",
+      "許容リスク",
+      "次にKeiが決めること"
+    ]
+  },
+  "review_summary": {
+    "focus": "PawMateのGate運用、1日5チケット運用、茅ヶ崎から深めて広げるロードマップに沿うよう、担当領域を単一主責務へ寄せた。",
+    "readiness": "004以降で、入力契約・出力契約・安全境界・Keiへの確認事項へ分解できる粒度になっている。"
+  }
+}

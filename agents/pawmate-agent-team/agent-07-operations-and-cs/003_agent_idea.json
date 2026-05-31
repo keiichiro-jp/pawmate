@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a07",
+    "agent_code": "A07",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A07｜Operations & CS Agent",
+      "priority_band": "Priority 2"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Operations & CS Agent",
+    "tagline": "初回取引を迷わず回せる運用に落とす",
+    "mission": "予約運用、初回取引、問い合わせ、トラブル対応、ケアラーサポートを担当する。",
+    "main_tasks": [
+      "初回取引の実行手順",
+      "Meet & Greet運用",
+      "当日連絡体制",
+      "ケアラー向けマニュアル",
+      "CSテンプレート",
+      "平日毎日対応への移行",
+      "問い合わせカテゴリ管理"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Operations & CS Agentが、初回取引を迷わず回せる運用に落とすことでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "pawmate_service_blueprint.md",
+      "pawmate_risk.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

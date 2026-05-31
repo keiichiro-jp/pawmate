@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "project": "PawMate",
+    "agent_id": "pawmate_a08_growth_marketing_v1",
+    "source": {
+      "document": "Pawmate/pawmate_agent_team.md",
+      "agent_ref": "A08",
+      "team_kind": "core"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "A08｜Growth Marketing Agent",
+    "tagline": "広告より先に地域の信頼と口コミ導線を作る",
+    "mission": "需要側の獲得、口コミ、Instagram、紹介コード、SEO、地域提携のマーケティングを担当する。",
+    "primary_user": "Kei / PawMate founder",
+    "main_tasks": [
+      "近隣ペット飼育者への声がけ",
+      "チカ先生既存顧客への案内",
+      "口コミ設計",
+      "Instagram広告",
+      "地域提携",
+      "紹介コード",
+      "猫シッティング需要",
+      "SEOコンテンツ"
+    ],
+    "tickets_to_watch": [
+      "PM-RM-P1-005",
+      "PM-RM-P1-006",
+      "PM-RM-P1-007",
+      "PM-RM-P2-004",
+      "PM-RM-P2-005",
+      "PM-RM-P2-006",
+      "PM-RM-P2-007",
+      "PM-RM-P3-005",
+      "PM-RM-P3-006",
+      "PM-RM-P3-007"
+    ],
+    "standard_deliverables": [
+      "声がけ文面",
+      "顧客案内文",
+      "口コミ依頼文",
+      "広告コピー",
+      "提携先リスト",
+      "SEO記事企画",
+      "チャネル別成果メモ"
+    ],
+    "typical_scenarios": [
+      "関連チケット（PM-RM-P1-005, PM-RM-P1-006, PM-RM-P1-007）に着手する前に、目的・完了ライン・Kei確認事項を整理する。",
+      "声がけ文面、顧客案内文、口コミ依頼文を初稿として作り、A01またはKeiが次アクションを決められる状態にする。",
+      "Gate前または外部送信前に、未確定・Waiting・Blocked・リスクを分離して判断材料を出す。"
+    ],
+    "value_for_user": "Growth Marketing領域の前捌き・下書き・論点整理を任せることで、Keiは意思決定と実行に集中できる。",
+    "confirmation_points_for_kei": [
+      "最初に声をかける人の順番",
+      "広告開始のタイミング",
+      "地域でのブランドトーン"
+    ]
+  },
+  "review_summary": {
+    "focus": "PawMateのGate運用、1日5チケット運用、茅ヶ崎から深めて広げるロードマップに沿うよう、担当領域を単一主責務へ寄せた。",
+    "readiness": "004以降で、入力契約・出力契約・安全境界・Keiへの確認事項へ分解できる粒度になっている。"
+  }
+}
