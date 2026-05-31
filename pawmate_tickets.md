@@ -30,7 +30,7 @@ Source: `pawmate_roadmap.md`
 | 項目 | 内容 |
 |---|---|
 | Priority | P0 |
-| Status | Todo |
+| Status | Doing |
 | Owner | Kei |
 | Due | 今週中 |
 | Dependencies | なし |
@@ -52,7 +52,7 @@ Acceptance Criteria:
 | 項目 | 内容 |
 |---|---|
 | Priority | P0 |
-| Status | Todo |
+| Status | Doing |
 | Owner | Kei |
 | Due | 2026年6月末 |
 | Dependencies | PM-RM-P0-001 |
@@ -78,7 +78,7 @@ Acceptance Criteria:
 | 項目 | 内容 |
 |---|---|
 | Priority | P1 |
-| Status | Todo |
+| Status | Doing |
 | Owner | Kei |
 | Due | 2026年6月末 |
 | Dependencies | なし |
@@ -100,7 +100,7 @@ Acceptance Criteria:
 | 項目 | 内容 |
 |---|---|
 | Priority | P0 |
-| Status | Todo |
+| Status | Doing |
 | Owner | Kei |
 | Due | 2026年6月末 |
 | Dependencies | なし |
@@ -150,7 +150,7 @@ Acceptance Criteria:
 | 項目 | 内容 |
 |---|---|
 | Priority | P0 |
-| Status | Todo |
+| Status | Doing |
 | Owner | Kei |
 | Due | 2026年6月末 |
 | Dependencies | なし |
@@ -1350,10 +1350,12 @@ Linked Ticket:
 
 ### PM-RM-NOW-003｜Stripe Connectの実装コストを把握する
 
+Status: Done
+
 Subtasks:
-- [ ] Stripe Connectドキュメントを確認する
-- [ ] PawMateに必要な決済・分配・返金要件を整理する
-- [ ] 実装難易度と概算工数をメモする
+- [x] Stripe Connectドキュメントを確認する
+- [x] PawMateに必要な決済・分配・返金要件を整理する
+- [x] 実装難易度と概算工数をメモする
 
 Linked Ticket:
 - PM-RM-P1-011
