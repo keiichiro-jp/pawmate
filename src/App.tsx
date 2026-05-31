@@ -180,7 +180,7 @@ function LandingPage({ goTo }: { goTo: (page: PageId) => void }) {
       <section className="hero-section">
         <div className="hero-inner">
           <div className="hero-copy">
-            <p className="eyebrow">第一種動物取扱業者のみ登録 · 湘南エリア先行</p>
+            <p className="eyebrow">登録情報確認型 · 湘南エリア先行</p>
             <h1>信頼できるプロが、<br />いつもの場所で、<br />いつものように。</h1>
             <p className="lead">
               湘南で暮らす有資格のケアラーが、ペットの日常をそっと支えます。
@@ -236,7 +236,7 @@ function LandingPage({ goTo }: { goTo: (page: PageId) => void }) {
           <h2>あなたはケアだけに集中していい。</h2>
           <p>
             集客、予約管理、決済、信頼担保をPawMateが肩代わりします。
-            第一種動物取扱業登録者が、正当に評価され、継続的に報われる場所を作ります。
+            登録情報を確認できるプロが、正当に評価され、継続的に報われる場所を作ります。
           </p>
           <ul className="check-list">
             <li>ケアラー側手数料18%、飼い主側7%のデュアルフィー制</li>
@@ -365,7 +365,7 @@ function CarersPage({ openCarer }: { openCarer: (carer: Carer) => void }) {
   );
 
   return (
-    <Stack title="ケアラーを探す" subtitle="有資格者バッジ、登録番号、リピート率で信頼できる方を選べます。">
+    <Stack title="ケアラーを探す" subtitle="登録情報、資格、リピート率で比較できます。">
       <div className="filter-bar">
         <TextField label="検索" placeholder="名前・サービスで検索" value={query} onChange={setQuery} />
         <label className="field">
@@ -437,7 +437,7 @@ function CarerDetailPage({ carer, notify, goTo }: { carer: Carer; notify: (messa
           <p>{carer.bio}</p>
           <div className="license-box prominent">
             <strong>{carer.license.type}</strong>
-            <span>登録番号: {carer.license.num} / 登録証原本確認済み</span>
+            <span>登録番号: {carer.license.num} / 確認ステータス: {carer.license.verified ? "確認済み" : "確認中"}</span>
           </div>
           <div className="pill-row">{carer.certs.map((cert) => <span key={cert}>{cert}</span>)}</div>
         </div>
@@ -588,10 +588,10 @@ function MessagesPage({ notify }: { notify: (message: string) => void }) {
 function CarerProfilePage({ notify }: { notify: (message: string) => void }) {
   return (
     <main className="standalone-page">
-      <Stack title="ケアラー登録" subtitle="PawMateは第一種動物取扱業（保管）登録者のみ参加できます。">
+      <Stack title="ケアラー登録" subtitle="参加条件は行政確認中です。初期は第一種動物取扱業の登録状況を確認します。">
         <div className="notice-card">
           <strong>登録要件</strong>
-          <p>登録証と本人確認書類の提出が必須です。審査は3営業日以内に完了します。</p>
+          <p>登録証と本人確認書類の提出をお願いする想定です。審査目安と表示ルールは行政確認後に確定します。</p>
         </div>
         <div className="card form-card">
           <TextField label="表示名" placeholder="さとう まりな" />
@@ -604,6 +604,15 @@ function CarerProfilePage({ notify }: { notify: (message: string) => void }) {
             <select>{areas.map((area) => <option key={area}>{area}</option>)}</select>
           </label>
           <TextField label="第一種動物取扱業 登録番号" placeholder="例：神奈川県茅ヶ崎市 第〇〇〇号" />
+          <label className="field">
+            <span>登録種別</span>
+            <select>
+              <option>保管</option>
+              <option>訓練</option>
+              <option>保管・訓練</option>
+              <option>確認中</option>
+            </select>
+          </label>
           <div className="checkbox-grid">
             {services.map((service) => (
               <label key={service.id}><input type="checkbox" /> {service.title}</label>
