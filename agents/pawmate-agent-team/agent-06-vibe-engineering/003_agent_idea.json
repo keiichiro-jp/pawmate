@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a06",
+    "agent_code": "A06",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A06｜Vibe Engineering Agent",
+      "priority_band": "Priority 1"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Vibe Engineering Agent",
+    "tagline": "小さく実装し、画面で確認できる状態まで運ぶ",
+    "mission": "実装、コード確認、テスト、デモ確認を担当する開発エージェント。",
+    "main_tasks": [
+      "プロトタイプ改修",
+      "データ構造更新",
+      "UI実装",
+      "Stripe Connect",
+      "報告カード",
+      "Meet & Greet",
+      "レビュー",
+      "紹介コード"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Vibe Engineering Agentが、小さく実装し、画面で確認できる状態まで運ぶことでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "src/data/pawmateData.ts",
+      "src/App.tsx",
+      "src/styles.css"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a03",
+    "agent_code": "A03",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A03｜Legal & Compliance Agent",
+      "priority_band": "Priority 1"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Legal & Compliance Agent",
+    "tagline": "行政・専門家に渡せる論点へ整理する",
+    "mission": "動物愛護法、動物取扱業、行政相談、利用規約、プライバシーポリシーの論点を整理する。",
+    "main_tasks": [
+      "神奈川県動物愛護センターへの事前相談準備",
+      "動物取扱業登録要件の確認",
+      "プラットフォーム責任範囲の整理",
+      "行政書士・弁護士へ渡す論点整理",
+      "利用規約・プライバシーポリシーの叩き台"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Legal & Compliance Agentが、行政・専門家に渡せる論点へ整理することでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "pawmate_animal_handling_scheme.md",
+      "pawmate_risk.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a12",
+    "agent_code": "A12",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A12｜Risk Review Agent",
+      "priority_band": "Priority 3"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Risk Review Agent",
+    "tagline": "進める前に事故・炎上・品質リスクを止める",
+    "mission": "Gate前、リリース前、外部送信前にリスクを洗い出すレビュー担当。",
+    "main_tasks": [
+      "法務リスク",
+      "事故リスク",
+      "炎上リスク",
+      "ケアラー品質リスク",
+      "個人情報リスク",
+      "決済/返金リスク",
+      "拡大しすぎリスク"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Risk Review Agentが、進める前に事故・炎上・品質リスクを止めることでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "pawmate_risk.md",
+      "pawmate_animal_handling_scheme.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

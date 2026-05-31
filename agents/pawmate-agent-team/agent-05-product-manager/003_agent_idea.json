@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a05",
+    "agent_code": "A05",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A05｜Product Manager Agent",
+      "priority_band": "Priority 1"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Product Manager Agent",
+    "tagline": "最初の1件に必要な体験だけを仕様化する",
+    "mission": "PawMateの体験設計、機能要件、優先順位、ユーザーフローを担当する。",
+    "main_tasks": [
+      "資格表示・登録番号表示",
+      "報告カード",
+      "リピート率表示",
+      "Meet & Greet",
+      "レビュー・評価",
+      "複数頭割引",
+      "定期契約",
+      "ケアラー向けアプリ"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Product Manager Agentが、最初の1件に必要な体験だけを仕様化することでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "pawmate_service_blueprint.md",
+      "pawmate_cjm.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

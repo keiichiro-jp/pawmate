@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a17",
+    "agent_code": "A17",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A17｜Fundraising Agent",
+      "priority_band": "Phase 3 candidate"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Fundraising Agent",
+    "tagline": "資金調達判断に必要な数字と物語を整える",
+    "mission": "資金調達資料、投資家向けUnit Economics、VCリスト。",
+    "main_tasks": [
+      "資金調達資料、投資家向けUnit Economics、VCリスト。"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Fundraising Agentが、資金調達判断に必要な数字と物語を整えることでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "pawmate_finance.md",
+      "pawmate_unit_economics.md",
+      "pawmate_business_plan.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

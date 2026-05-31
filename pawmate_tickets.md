@@ -14,7 +14,7 @@ Source: `pawmate_roadmap.md`
 | Subtask | 実作業として着手できる粒度 |
 | Gate | 次フェーズに進むための判定チケット |
 | Priority | P0: 進行条件 / P1: 必須 / P2: 重要 / P3: 選択肢 |
-| Status | Todo / Doing / Done / Blocked |
+| Status | Todo / Doing / Waiting / Done / Blocked |
 
 ---
 
