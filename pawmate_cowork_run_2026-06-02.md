@@ -57,6 +57,11 @@ Scope:
 - Hey!Dogsへの送信は、Keiが送信先とタイミングを判断する
 - 協力確定、品質保証、安全保証、保険適用を断定しない
 
+Hey!Dogs一次確認メモ:
+- 公式問い合わせフォームには「ドッグトレーナー養成学校について」の項目がある。返信目安は3〜4営業日
+- 公式ページ上では、愛犬ようちえん等の一部サービスは新規受付/問い合わせ停止と記載があるため、送信先は「スクール卒業生・経験者への相談可否」に限定する
+- ドッグトレーナー養成スクール自体は、現役ドッグトレーナーが指導する実践型スクールとして掲載されている
+
 #### PM-RM-P0-001｜チカ先生返信確認ログ
 
 | Check Date | Recipient | Channel | Sent At | Reply Status | Reply Summary | Next Action | Owner |
@@ -148,8 +153,9 @@ Scope:
 一次確認メモ:
 - 確認日: 2026-05-31
 - 主窓口候補: 神奈川県動物愛護センター
-- 連絡先候補: TEL 0463-58-3411、問い合わせフォームあり。急ぎの場合は電話優先
-- 管轄注意: 第一種・第二種動物取扱業等は、横浜市・川崎市・相模原市・横須賀市は各市窓口、それ以外の神奈川県内は神奈川県動物愛護センターが窓口とされている。動物愛護行政一般の管轄とは除外自治体が異なるため混同しない
+- 連絡先候補: TEL 0463-58-3411、問い合わせフォームあり。問い合わせページ上の電話受付は平日8:30-17:15、第一種動物取扱業の申請予約案内では平日8:30-12:00 / 13:00-17:00。急ぎの場合は電話優先
+- 管轄注意: 第一種・第二種動物取扱業等は、横浜市・川崎市・相模原市・横須賀市は各市窓口、それ以外の神奈川県内は神奈川県動物愛護センターが窓口とされている。茅ヶ崎を主対象にする初期相談は神奈川県動物愛護センターでよい可能性が高いが、事業所所在地・提供地が変わる場合は窓口確認が必要
+- 登録注意: 神奈川県の第一種動物取扱業ページでは、業種ごと・事業所ごとの登録、事前予約、登録申請手数料、飼養施設を有する場合の追加資料等が示されている。PawMate側はまだ登録要否を断定しない
 
 送信用短文ドラフト:
 
@@ -261,11 +267,11 @@ Kei
 
 | Candidate | Contact Path | Initial Scheme Hypothesis | Must Confirm | Answer Status | Phase1 Fit | Next Action |
 |---|---|---|---|---|---|---|
-| 損保ジャパン 法人向け商品/代理店 | 法人向け商品/賠償責任の保険 | 事業活動総合保険・企業総合賠償責任保険等の相談入口候補 | ペットケア、個人事業主ケアラー、PawMate経由予約限定、鍵・逃走・管理下ペットの扱い | 未送信/未確認 | 未判定。初回照会優先 | v2を送信し、適切な代理店/営業店への取次可否を確認 |
-| 東京海上日動 法人向け/代理店 | 法人向け賠償責任保険 | 施設・事業活動遂行事故、管理下財物等の相談入口候補 | ペット自体、訪問型/預かり型、プラットフォーム包括、ケアラーを対象者にできるか | 未送信/未確認 | 未判定 | 損保ジャパンと同一条件で照会 |
-| 三井住友海上/代理店 | 法人向け賠償責任保険 | CGL/事業者向け賠償責任保険の相談入口候補 | サービス業として扱えるか、PawMate契約者型、個人ケアラー対象化、事故対応費用 | 未送信/未確認 | 未判定 | 同一条件で照会 |
-| 日本ペット事業者支援協会 | ペットシッター・訓練士・トレーナー向け事業者保険 | ケアラー個別加入または協会加盟型の候補 | 加盟主体がPawMateか各ケアラーか、PawMate包括管理の可否、対象動物・限度額・免責・鍵・逃走 | 未送信/未確認 | 未判定。個別加入案の確認先 | 個別保険証明運用の候補として照会 |
-| ペット事業者保険に詳しい独立代理店 | TBD | 複数保険会社横断での比較相談候補 | ペットシッター専用商品、包括契約、個別加入証明運用、事故時証跡要件 | 未特定/未確認 | 未判定 | 上記3社で入口が曖昧な場合に候補追加 |
+| 損保ジャパン 法人向け商品/代理店 | 法人向け商品問い合わせ、賠償責任の保険、お見積り・お問い合わせ | 事業活動総合保険・企業総合賠償責任保険等の相談入口候補 | ペットケア、個人事業主ケアラー、PawMate経由予約限定、鍵・逃走・管理下ペットの扱い | 未送信/未確認 | 未判定。初回照会優先 | v2を送信し、適切な代理店/営業店への取次可否を確認 |
+| 東京海上日動 法人向け/代理店 | 法人向け賠償責任保険、問い合わせ、営業店、代理店相談予約 | 施設・事業活動遂行事故、管理下財物等の相談入口候補 | ペット自体、訪問型/預かり型、プラットフォーム包括、ケアラーを対象者にできるか | 未送信/未確認 | 未判定 | 損保ジャパンと同一条件で照会 |
+| 三井住友海上/代理店 | 法人向け賠償責任の保険、資料請求、代理店検索 | ビジネスプロテクター等の事業者向け賠償責任保険の相談入口候補 | サービス業として扱えるか、PawMate契約者型、個人ケアラー対象化、事故対応費用 | 未送信/未確認 | 未判定 | 同一条件で照会 |
+| 日本ペット事業者支援協会 | ペット事業者向け問い合わせフォーム、ペットシッター/訓練士/トレーナー項目 | ケアラー個別加入または協会加盟型の候補。公式ページ上は加盟付帯型事業者保険サービスとして掲載 | 加盟主体がPawMateか各ケアラーか、PawMate包括管理の可否、対象動物・限度額・免責・鍵・逃走、掲載情報の最新性 | 未送信/未確認 | 未判定。個別加入案の確認先 | 個別保険証明運用の候補として照会 |
+| ペット事業者保険に詳しい独立代理店 | TBD | 複数保険会社横断での比較相談候補 | ペットシッター専用商品、包括契約、個別加入証明運用、事故時証跡要件 | 未特定/未確認 | 未判定 | 上記候補で入口が曖昧な場合に候補追加 |
 
 返信別 次アクション:
 
@@ -300,24 +306,26 @@ Scope:
 
 公式確認ソース:
 - Stripe Connect pricing JP
-- Stripe Connect account types
+- Stripe Connect Accounts v2
+- Stripe connected account configuration
 - Connect charge types
 - Destination charges
 - Separate charges and transfers
 
 検討結論:
-- 初期フェーズは、`Express相当 + Stripe-hosted onboarding + Checkout/PaymentIntent + Destination charge` を第一候補にする
-- 1予約=1ケアラーの基本フローなら、実装・KYC・入金管理の重さが比較的低い
-- サービス完了後に分配したい場合は `Separate charges and transfers` も候補。ただし返金・キャンセル・残高不足・会計照合が重くなる
+- 新規プラットフォームは、まず `Accounts v2` と Interactive platform guide 前提で設計する。`Standard / Express / Custom` はレガシーaccount type名なので、このメモではUX/責任分担の説明用の短縮表現に留める
+- 初期フェーズは、`Accounts v2 + dashboard=express相当 + Stripe-hosted/embedded onboarding + Checkout/PaymentIntent + Destination charge` を第一候補にする
+- 1予約=1ケアラーの基本フローなら、決済と分配の実装が比較的軽い。ただし destination charge は返金・チャージバック・Stripe手数料がプラットフォーム残高に影響する前提で設計する
+- サービス完了後に分配したい場合は `Separate charges and transfers` も候補。ただし返金・キャンセル・残高不足・会計照合が重くなる。資金を保護状態で保持する `funds segregation` はprivate preview扱いのため、通常機能として前提にしない
 - Stripeは法的な意味でのエスクロー口座を提供するものとして扱わない。エスクロー相当の運用可否、保持期間、資金移動の合法性は公式確認待ち + A03/A12確認が必要
 
 実装方式メモ:
 
 | 方式 | PawMate適合 | メリット | 注意点 |
 |---|---|---|---|
-| Destination charge | 高 | 1予約1ケアラーに向く。プラットフォーム手数料を取りやすい | 返金・チャージバック時はプラットフォーム残高が影響を受ける前提で設計 |
-| Separate charges and transfers | 中〜高 | サービス完了後分配、複数ケアラー、分配保留に強い | 実装・会計・返金ロジックが重い。エスクローとは言わない |
-| Direct charge / Standard | 低〜中 | ケアラーがStripeと直接関係を持つ | PawMate側の統一UX・手数料設計・キャンセル統制が弱くなる可能性 |
+| Destination charge | 高 | 1予約1ケアラーに向く。プラットフォーム手数料を取りやすい | Stripe手数料、返金、チャージバックはプラットフォーム側負担になり得る。`on_behalf_of` と事業主体表示を要確認 |
+| Separate charges and transfers | 中〜高 | サービス完了後分配、複数ケアラー、分配保留に強い | 実装・会計・返金ロジックが重い。利用にはプラットフォーム残高管理が必要。エスクローとは言わない |
+| Direct charge / dashboard=full相当 | 低〜中 | ケアラーがStripeと直接関係を持つ設計に寄せやすい | PawMate側の統一UX・手数料設計・キャンセル統制が弱くなる可能性 |
 | Manual capture | 限定利用 | 直近予約の仮押さえには使える可能性 | 長期予約・継続利用の「保留金」用途には不向き。期間・対応決済手段は公式確認待ち |
 
 費用・手数料の見方:
@@ -329,7 +337,9 @@ Scope:
 本人確認/KYC:
 - Stripe ConnectのKYCは、Stripe上での本人確認・事業者確認・入金口座確認の話
 - PawMateが必要とするケアラー審査、資格確認、第一種動物取扱業登録状況、本人確認、反社/リスクチェックとは別物として扱う
-- Express/Stripe-hosted onboardingなら、KYC情報収集・入金口座登録の実装負荷は下がる見込み
+- Accounts v2では、`dashboard` と `defaults.responsibilities` の設定で、手数料負担、マイナス残高責任、KYC要件収集の責任分担が変わる
+- `dashboard=express` 相当ならケアラー側UXは軽くできるが、Stripe文書上は手数料・損失責任がプラットフォーム側に寄る条件があるため、A09/A12で損失リスクを別建て管理する
+- Stripe-hosted/embedded onboardingなら、KYC情報収集・入金口座登録の実装負荷は下がる見込み
 - 予約受付可能条件は `Stripe payouts_enabled/charges_enabled` だけでなく、PawMate審査ステータスも必須にする
 
 返金・キャンセル・分配:
@@ -348,7 +358,7 @@ A06 implementation estimate:
 
 後続タスク:
 - [ ] Stripe DashboardでPawMate本番アカウントのConnect利用可否と料金体系を確認する
-- [ ] Express相当 / Standard / Custom相当のどれで始めるかをA03/A12込みで決める
+- [ ] Accounts v2で `dashboard`、`fees_collector`、`losses_collector`、必要capabilityをどう設定するかをA03/A09/A12込みで決める
 - [ ] `Destination charge` と `Separate charges and transfers` の2案で資金フロー図を作る
 - [ ] 4,000円予約、25%テイクレート、返金あり/なしの手数料シミュレーション表を作る
 - [ ] `pawmate_finance.md` のStripe費用前提にConnect費用・返金予備費を追加検討する
@@ -371,7 +381,7 @@ Status: Completed
 | PM-RM-P0-003 | 条件付きOK | 低-中 | あり | Hey!Dogs向けは「周知可否・相談可否」の打診に留める。卒業生紹介や協力確定に読める表現は避ける |
 | PM-RM-P0-004 | OK | 低 | あり | 行政相談は法的結論を出さず、登録区分・必要資料・窓口確認の依頼に留まっている |
 | PM-RM-P0-006 | 条件付きOK | 中 | あり | 保険問い合わせは「対応可能か」の質問なら可。候補先比較では補償可否・Phase1適合を未回答のまま確定しない |
-| PM-RM-NOW-003 | 要注意 | 高 | 必須 | Stripe Connectを「エスクロー」と断定しない。公式確認前は「決済・分配・返金フロー案」「エスクロー相当の可否確認中」に留める |
+| PM-RM-NOW-003 | 要注意 | 高 | 必須 | Stripe Connectを「エスクロー」と断定しない。Accounts v2の責任分担、返金、チャージバック、マイナス残高リスクを未決論点に残す |
 
 送信前ガードレール:
 - 「安全」「安心保証」「品質保証」「必ず補償」「保険付き」「法的に問題ない」「協力決定」「エスクロー決済」と断定しない
@@ -387,12 +397,23 @@ Status: Completed
 ## References
 
 - 神奈川県動物愛護センター お問い合わせ: https://www.pref.kanagawa.jp/osirase/1594/awc/faq/inquiry.html
+- 神奈川県動物愛護センター 第一種動物取扱業: https://www.pref.kanagawa.jp/osirase/1594/awc/dealers/type1.html
+- Hey!Dogs お問い合わせ: https://www.heydogs.net/contact/
+- Hey!Dogs ドッグトレーナー養成スクール: https://www.heydogs.net/trschool/
+- 損保ジャパン 法人向け商品に関するお問い合わせ: https://www.sompo-japan.co.jp/contact/contact_06/
+- 損保ジャパン 賠償責任の保険: https://www.sompo-japan.co.jp/hinsurance/risk/liability/
+- 東京海上日動 法人のお客様: https://www.tokiomarine-nichido.co.jp/hojin/
+- 東京海上日動 法人向け賠償責任保険例: https://www.tokiomarine-nichido.co.jp/hojin/baiseki/ukeoi/
+- 三井住友海上 賠償責任の保険: https://www.ms-ins.com/business/indemnity/
+- 日本ペット事業者支援協会 問い合わせ: https://www.pet-b-s.jp/contact/
+- 日本ペット事業者支援協会 協会/保険概要: https://www.pet-b-s.jp/about/
 - Stripe Connect pricing JP: https://stripe.com/en-jp/connect/pricing
-- Stripe Connect account types: https://docs.stripe.com/connect/accounts
+- Stripe Connect Accounts v2: https://docs.stripe.com/connect/accounts-v2
+- Stripe connected account configuration: https://docs.stripe.com/connect/accounts-v2/connected-account-configuration
+- Stripe interactive platform guide: https://docs.stripe.com/connect/interactive-platform-guide
 - Stripe Connect charge types: https://docs.stripe.com/connect/charges
 - Stripe destination charges: https://docs.stripe.com/connect/destination-charges
 - Stripe separate charges and transfers: https://docs.stripe.com/connect/separate-charges-and-transfers
-- 損保ジャパン お問い合わせ: https://www.sompo-japan.co.jp/contact/
 
 ---
 
