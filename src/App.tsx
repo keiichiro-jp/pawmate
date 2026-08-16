@@ -4,11 +4,18 @@ import {
   areas,
   bookings,
   carers,
+  initialPets,
   requests,
   services,
+  speciesList,
+  speciesMeta,
   trustItems,
+  type Booking,
   type Carer,
   type PageId,
+  type Pet,
+  type PetSex,
+  type PetSpecies,
   type Role,
 } from "./data/pawmateData";
 
@@ -29,6 +36,7 @@ export default function App() {
   const [page, setPage] = useState<PageId>("landing");
   const [role, setRole] = useState<Role>("owner");
   const [selectedCarer, setSelectedCarer] = useState<Carer>(carers[0]);
+  const [pets, setPets] = useState<Pet[]>(initialPets);
   const [toast, setToast] = useState("");
 
   const isAppPage = appPages.includes(page) || page === "carer-detail";
@@ -46,6 +54,10 @@ export default function App() {
   function openCarer(carer: Carer) {
     setSelectedCarer(carer);
     goTo("carer-detail");
+  }
+
+  function addPet(pet: Omit<Pet, "id">) {
+    setPets((prev) => [...prev, { ...pet, id: Math.max(0, ...prev.map((p) => p.id)) + 1 }]);
   }
 
   return (
@@ -71,7 +83,7 @@ export default function App() {
       case "register":
         return <RegisterPage goTo={goTo} notify={notify} role={role} setRole={setRole} />;
       case "dashboard":
-        return <DashboardPage goTo={goTo} notify={notify} />;
+        return <DashboardPage goTo={goTo} pets={pets} />;
       case "carers":
         return <CarersPage openCarer={openCarer} />;
       case "carer-detail":
@@ -79,9 +91,9 @@ export default function App() {
       case "requests":
         return <RequestsPage notify={notify} />;
       case "my-pets":
-        return <MyPetsPage notify={notify} />;
+        return <MyPetsPage pets={pets} addPet={addPet} notify={notify} />;
       case "my-bookings":
-        return <BookingsPage goTo={goTo} notify={notify} />;
+        return <BookingsPage goTo={goTo} notify={notify} pets={pets} />;
       case "messages":
         return <MessagesPage notify={notify} />;
       case "carer-profile":
@@ -137,7 +149,7 @@ function AppShell({ page, goTo, children }: { page: PageId; goTo: (page: PageId)
   const items: Array<{ id: PageId; label: string; badge?: string }> = [
     { id: "dashboard", label: "ダッシュボード" },
     { id: "carers", label: "ケアラーを探す" },
-    { id: "requests", label: "依頼掲示板", badge: "3" },
+    { id: "requests", label: "依頼掲示板", badge: "5" },
     { id: "my-pets", label: "マイペット" },
     { id: "my-bookings", label: "予約管理" },
     { id: "messages", label: "メッセージ", badge: "2" },
@@ -183,8 +195,8 @@ function LandingPage({ goTo }: { goTo: (page: PageId) => void }) {
             <p className="eyebrow">登録情報確認型 · 湘南エリア先行</p>
             <h1>信頼できるプロが、<br />いつもの場所で、<br />いつものように。</h1>
             <p className="lead">
-              湘南で暮らす有資格のケアラーが、ペットの日常をそっと支えます。
-              旅行を諦めない。出張を諦めない。体調不良の日も罪悪感を持たない。
+              湘南で暮らす有資格のケアラーが、犬も猫も、その子の日常をそっと支えます。
+              旅行を諦めない。出張を諦めない。猫だけの留守番に不安を抱えない。
             </p>
             <div className="hero-actions">
               <button className="btn primary" type="button" onClick={() => goTo("carers")}>ケアラーを探す</button>
@@ -195,26 +207,31 @@ function LandingPage({ goTo }: { goTo: (page: PageId) => void }) {
             </div>
           </div>
           <div className="hero-panel">
-            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=900&q=80" alt="湘南で散歩する犬" />
+            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=900&q=80" alt="湘南でケアラーと過ごす犬" />
             <div className="floating-card top">
               <strong>Meet & Greet 必須</strong>
-              <span>初回は顔合わせから</span>
+              <span>初回は顔合わせから（猫はご自宅で）</span>
             </div>
             <div className="floating-card bottom">
-              <strong>リピート率 86%</strong>
-              <span>継続信頼をプロフィールで可視化</span>
+              <strong>猫の訪問ケアにも対応</strong>
+              <span>いつもの部屋で、いつものごはんを</span>
             </div>
           </div>
         </div>
       </section>
 
       <SectionHeader label="Services" title="すべて有資格プロによる自宅訪問型ケア" />
-      <section className="section grid-3">
+      <section className="section grid-4">
         {services.map((service) => (
           <article className="service-card" key={service.id}>
             <div className={cx("service-icon", service.icon)} />
             <h3>{service.title}</h3>
             <p>{service.text}</p>
+            <div className="pill-row">
+              {service.species.map((s) => (
+                <span key={s}>{speciesMeta[s].emoji} {speciesMeta[s].label}</span>
+              ))}
+            </div>
             <strong>{service.price}<span>/{service.unit}</span></strong>
           </article>
         ))}
@@ -237,6 +254,7 @@ function LandingPage({ goTo }: { goTo: (page: PageId) => void }) {
           <p>
             集客、予約管理、決済、信頼担保をPawMateが肩代わりします。
             登録情報を確認できるプロが、正当に評価され、継続的に報われる場所を作ります。
+            ドッグトレーナーも、キャットシッターも。
           </p>
           <ul className="check-list">
             <li>ケアラー側手数料18%、飼い主側7%のデュアルフィー制</li>
@@ -247,7 +265,7 @@ function LandingPage({ goTo }: { goTo: (page: PageId) => void }) {
         </div>
         <div className="quote-card">
           <p>「プロフェッショナルな愛情」</p>
-          <span>愛情だけでは足りない。技術だけでも足りない。資格を持ったプロが、ペットへの愛情を持ってケアする。</span>
+          <span>愛情だけでは足りない。技術だけでも足りない。資格を持ったプロが、ペットへの愛情を持ってケアする。猫は環境の変化が苦手。だから“いつもの自宅”への訪問型ケアを軸にします。</span>
         </div>
       </section>
 
@@ -311,6 +329,15 @@ function RegisterPage({
           {areas.map((area) => <option key={area}>{area}</option>)}
         </select>
       </label>
+      {role === "owner" && (
+        <label className="field">
+          <span>ペットの種類</span>
+          <select>
+            {speciesList.map((s) => <option key={s}>{speciesMeta[s].label}</option>)}
+            <option>これから迎える予定</option>
+          </select>
+        </label>
+      )}
       <button
         className="btn primary full"
         type="button"
@@ -325,7 +352,15 @@ function RegisterPage({
   );
 }
 
-function DashboardPage({ goTo, notify }: { goTo: (page: PageId) => void; notify: (message: string) => void }) {
+function PetAvatar({ species }: { species: PetSpecies }) {
+  return (
+    <span className={cx("pet-avatar species", species)} role="img" aria-label={speciesMeta[species].label}>
+      {speciesMeta[species].emoji}
+    </span>
+  );
+}
+
+function DashboardPage({ goTo, pets }: { goTo: (page: PageId) => void; pets: Pet[] }) {
   return (
     <Stack title="ダッシュボード" subtitle="おかえりなさい、美咲さん。次のケアとメッセージを確認できます。">
       <div className="stats-grid">
@@ -336,15 +371,17 @@ function DashboardPage({ goTo, notify }: { goTo: (page: PageId) => void; notify:
       </div>
       <div className="grid-2">
         <Card title="直近の予約" action={<button className="btn ghost small" type="button" onClick={() => goTo("my-bookings")}>すべて見る</button>}>
-          {bookings.slice(0, 2).map((booking) => <BookingRow key={booking.carer + booking.date} booking={booking} />)}
+          {bookings.slice(0, 2).map((booking) => <BookingRow key={booking.id} booking={booking} pets={pets} />)}
         </Card>
         <Card title="マイペット" action={<button className="btn ghost small" type="button" onClick={() => goTo("my-pets")}>管理する</button>}>
-          <div className="pet-card">
-            <span className="pet-avatar">P</span>
-            <strong>ポチ</strong>
-            <p>柴犬 · オス · 3歳</p>
-            <button className="btn ghost small" type="button" onClick={() => notify("ペット追加フォームを開きました")}>ペットを追加</button>
-          </div>
+          {pets.map((pet) => (
+            <div className="pet-card" key={pet.id}>
+              <PetAvatar species={pet.species} />
+              <strong>{pet.name}</strong>
+              <p>{pet.breed} · {pet.sex} · {pet.age}</p>
+            </div>
+          ))}
+          <button className="btn ghost small full" type="button" onClick={() => goTo("my-pets")}>ペットを追加</button>
         </Card>
       </div>
     </Stack>
@@ -354,18 +391,20 @@ function DashboardPage({ goTo, notify }: { goTo: (page: PageId) => void; notify:
 function CarersPage({ openCarer }: { openCarer: (carer: Carer) => void }) {
   const [query, setQuery] = useState("");
   const [area, setArea] = useState("すべて");
+  const [species, setSpecies] = useState<PetSpecies | "all">("all");
   const filtered = useMemo(
     () =>
       carers.filter((carer) => {
         const matchesArea = area === "すべて" || carer.area === area;
-        const matchesQuery = `${carer.name} ${carer.area} ${carer.services.join(" ")}`.includes(query);
-        return matchesArea && matchesQuery;
+        const matchesSpecies = species === "all" || carer.species.includes(species);
+        const matchesQuery = `${carer.name} ${carer.area} ${carer.services.join(" ")} ${carer.petTags.join(" ")}`.includes(query);
+        return matchesArea && matchesSpecies && matchesQuery;
       }),
-    [area, query],
+    [area, query, species],
   );
 
   return (
-    <Stack title="ケアラーを探す" subtitle="登録情報、資格、リピート率で比較できます。">
+    <Stack title="ケアラーを探す" subtitle="登録情報、資格、リピート率、対応ペットで比較できます。">
       <div className="filter-bar">
         <TextField label="検索" placeholder="名前・サービスで検索" value={query} onChange={setQuery} />
         <label className="field">
@@ -373,6 +412,18 @@ function CarersPage({ openCarer }: { openCarer: (carer: Carer) => void }) {
           <select value={area} onChange={(event) => setArea(event.target.value)}>
             <option>すべて</option>
             {areas.map((item) => <option key={item}>{item}</option>)}
+          </select>
+        </label>
+        <label className="field">
+          <span>対応ペット</span>
+          <select
+            value={species}
+            onChange={(event) => setSpecies(event.target.value as PetSpecies | "all")}
+          >
+            <option value="all">すべて</option>
+            {speciesList.map((s) => (
+              <option key={s} value={s}>{speciesMeta[s].label}</option>
+            ))}
           </select>
         </label>
         <label className="field">
@@ -405,6 +456,12 @@ function CarerCard({ carer, openCarer }: { carer: Carer; openCarer: (carer: Care
           <span>登録番号: {carer.license.num}</span>
         </div>
         <div className="pill-row">
+          {carer.species.map((s) => (
+            <span key={s}>{speciesMeta[s].emoji} {speciesMeta[s].label}</span>
+          ))}
+          {carer.petTags.map((tag) => <span key={tag}>{tag}</span>)}
+        </div>
+        <div className="pill-row">
           {carer.certs.map((cert) => <span key={cert}>{cert}</span>)}
         </div>
         <div className="carer-meta">
@@ -421,6 +478,15 @@ function CarerCard({ carer, openCarer }: { carer: Carer; openCarer: (carer: Care
 
 function CarerDetailPage({ carer, notify, goTo }: { carer: Carer; notify: (message: string) => void; goTo: (page: PageId) => void }) {
   const days = ["月", "火", "水", "木", "金", "土", "日"];
+  const infoRows: Array<[string, string]> = [
+    ["活動レポート", carer.reportStyle],
+    ["Meet & Greet", carer.meetAndGreet],
+    ["対応ペット", carer.species.map((s) => speciesMeta[s].label).join(" / ")],
+    ["対応サービス", carer.services.join(" / ")],
+  ];
+  if (carer.petTags.length > 0) {
+    infoRows.push(["得意分野", carer.petTags.join(" / ")]);
+  }
   return (
     <Stack title={carer.name} subtitle={`${carer.area} · 経験 ${carer.exp} · リピート率 ${carer.repeatRate}`}>
       <button className="btn ghost small back-button" type="button" onClick={() => goTo("carers")}>ケアラー一覧に戻る</button>
@@ -439,19 +505,17 @@ function CarerDetailPage({ carer, notify, goTo }: { carer: Carer; notify: (messa
             <strong>{carer.license.type}</strong>
             <span>登録番号: {carer.license.num} / 確認ステータス: {carer.license.verified ? "確認済み" : "確認中"}</span>
           </div>
-          <div className="pill-row">{carer.certs.map((cert) => <span key={cert}>{cert}</span>)}</div>
+          <div className="pill-row">
+            {carer.species.map((s) => (
+              <span key={s}>{speciesMeta[s].emoji} {speciesMeta[s].label}</span>
+            ))}
+            {carer.certs.map((cert) => <span key={cert}>{cert}</span>)}
+          </div>
         </div>
       </div>
       <div className="grid-2">
         <Card title="信頼情報">
-          <InfoList
-            rows={[
-              ["活動レポート", carer.reportStyle],
-              ["Meet & Greet", carer.meetAndGreet],
-              ["対応ペット", carer.pets.join(" / ")],
-              ["対応サービス", carer.services.join(" / ")],
-            ]}
-          />
+          <InfoList rows={infoRows} />
         </Card>
         <Card title="リクエスト">
           <div className="availability">
@@ -466,7 +530,7 @@ function CarerDetailPage({ carer, notify, goTo }: { carer: Carer; notify: (messa
           </label>
           <label className="field">
             <span>メッセージ</span>
-            <textarea placeholder="ペットの性格や面談希望日時を書いてください" />
+            <textarea placeholder="ペットの性格や面談希望日時を書いてください（猫の場合は隠れ場所もぜひ）" />
           </label>
           <button className="btn primary full" type="button" onClick={() => notify("Meet & Greetリクエストを送りました")}>
             Meet & Greetを依頼する
@@ -487,6 +551,7 @@ function RequestsPage({ notify }: { notify: (message: string) => void }) {
             <div className="request-top">
               <div>
                 <span className="pill warning">応募 {request.applies}件</span>
+                <span className="pill">{speciesMeta[request.species].emoji} {speciesMeta[request.species].label}</span>
                 <h3>{request.service} · {request.pet}</h3>
               </div>
               <strong>{request.price}</strong>
@@ -507,34 +572,116 @@ function RequestsPage({ notify }: { notify: (message: string) => void }) {
   );
 }
 
-function MyPetsPage({ notify }: { notify: (message: string) => void }) {
+const emptyPetForm = {
+  name: "",
+  species: "cat" as PetSpecies,
+  breed: "",
+  sex: "不明" as PetSex,
+  age: "",
+  notes: "",
+};
+
+function MyPetsPage({
+  pets,
+  addPet,
+  notify,
+}: {
+  pets: Pet[];
+  addPet: (pet: Omit<Pet, "id">) => void;
+  notify: (message: string) => void;
+}) {
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState(emptyPetForm);
+
+  function submit() {
+    if (!form.name.trim()) {
+      notify("ペットの名前を入力してください");
+      return;
+    }
+    addPet({
+      name: form.name.trim(),
+      species: form.species,
+      breed: form.breed.trim() || "ミックス",
+      sex: form.sex,
+      age: form.age.trim() || "不明",
+      notes: form.notes.trim(),
+    });
+    notify(`${form.name.trim()}を追加しました`);
+    setForm(emptyPetForm);
+    setShowForm(false);
+  }
+
   return (
     <Stack title="マイペット" subtitle="登録したペット情報は予約リクエストとMeet & Greetに自動で引き継がれます。">
       <div className="grid-3">
-        <article className="pet-card big">
-          <span className="pet-avatar">P</span>
-          <strong>ポチ</strong>
-          <p>柴犬 · オス · 3歳</p>
-          <span>アレルギーなし。散歩中は引っ張り癖あり。</span>
-          <button className="btn ghost small" type="button" onClick={() => notify("ペット情報を保存しました")}>編集</button>
-        </article>
-        <button className="add-card" type="button" onClick={() => notify("ペット追加フォームを開きました")}>
-          <strong>ペットを追加</strong>
-          <span>名前、写真、持病、ワクチン、緊急連絡先を登録</span>
+        {pets.map((pet) => (
+          <article className="pet-card big" key={pet.id}>
+            <PetAvatar species={pet.species} />
+            <strong>{pet.name}</strong>
+            <p>{speciesMeta[pet.species].label}（{pet.breed}） · {pet.sex} · {pet.age}</p>
+            <span>{pet.notes || "メモは未登録です。"}</span>
+            <button className="btn ghost small" type="button" onClick={() => notify("ペット情報を保存しました")}>編集</button>
+          </article>
+        ))}
+        <button className="add-card" type="button" onClick={() => setShowForm((v) => !v)}>
+          <strong>{showForm ? "フォームを閉じる" : "ペットを追加"}</strong>
+          <span>名前、種類（犬・猫・小動物）、品種、性別、年齢、メモを登録</span>
         </button>
       </div>
+      {showForm && (
+        <div className="card form-card">
+          <div className="form-row">
+            <TextField label="名前" placeholder="例：ムギ" value={form.name} onChange={(name) => setForm({ ...form, name })} />
+            <label className="field">
+              <span>種類</span>
+              <select
+                value={form.species}
+                onChange={(event) => setForm({ ...form, species: event.target.value as PetSpecies })}
+              >
+                {speciesList.map((s) => (
+                  <option key={s} value={s}>{speciesMeta[s].label}</option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="form-row">
+            <TextField label="品種" placeholder="例：キジトラ、柴犬" value={form.breed} onChange={(breed) => setForm({ ...form, breed })} />
+            <label className="field">
+              <span>性別</span>
+              <select
+                value={form.sex}
+                onChange={(event) => setForm({ ...form, sex: event.target.value as PetSex })}
+              >
+                <option>オス</option>
+                <option>メス</option>
+                <option>不明</option>
+              </select>
+            </label>
+          </div>
+          <TextField label="年齢" placeholder="例：2歳" value={form.age} onChange={(age) => setForm({ ...form, age })} />
+          <label className="field">
+            <span>メモ（性格・持病・隠れ場所など）</span>
+            <textarea
+              placeholder="例：人見知り。隠れ場所は押し入れ。朝夕2回のごはん。"
+              value={form.notes}
+              onChange={(event) => setForm({ ...form, notes: event.target.value })}
+            />
+          </label>
+          <button className="btn primary full" type="button" onClick={submit}>この内容で追加する</button>
+        </div>
+      )}
     </Stack>
   );
 }
 
-function BookingsPage({ goTo, notify }: { goTo: (page: PageId) => void; notify: (message: string) => void }) {
+function BookingsPage({ goTo, notify, pets }: { goTo: (page: PageId) => void; notify: (message: string) => void; pets: Pet[] }) {
   return (
     <Stack title="予約管理" subtitle="Meet & Greet、予約、支払い、レビューまで一箇所で確認できます。">
       <div className="tabs"><button className="active" type="button">進行中</button><button type="button">確定済み</button><button type="button">完了済み</button></div>
       <div className="booking-list">
         {bookings.map((booking) => (
-          <div className="booking-card" key={booking.carer + booking.date}>
-            <BookingRow booking={booking} />
+          <div className="booking-card" key={booking.id}>
+            <BookingRow booking={booking} pets={pets} />
             <div className="row-actions">
               <button className="btn primary small" type="button" onClick={() => goTo("messages")}>チャット</button>
               {booking.status === "支払い待ち" && <button className="btn ghost small" type="button" onClick={() => notify("Stripe Connect決済へ進みます")}>支払い</button>}
@@ -567,6 +714,7 @@ function MessagesPage({ notify }: { notify: (message: string) => void }) {
       <div className="message-layout">
         <aside>
           <button className="message-person active" type="button">さとう まりな<span>Meet & Greet調整中</span></button>
+          <button className="message-person" type="button">ほしの みお<span>ムギのキャットシッター相談</span></button>
           <button className="message-person" type="button">きむら あいこ<span>宿泊ケア相談</span></button>
         </aside>
         <section>
@@ -613,6 +761,13 @@ function CarerProfilePage({ notify }: { notify: (message: string) => void }) {
               <option>確認中</option>
             </select>
           </label>
+          <p className="sidebar-label">対応できる動物</p>
+          <div className="checkbox-grid">
+            {speciesList.map((s) => (
+              <label key={s}><input type="checkbox" /> {speciesMeta[s].emoji} {speciesMeta[s].label}</label>
+            ))}
+          </div>
+          <p className="sidebar-label">対応サービス</p>
           <div className="checkbox-grid">
             {services.map((service) => (
               <label key={service.id}><input type="checkbox" /> {service.title}</label>
@@ -624,7 +779,7 @@ function CarerProfilePage({ notify }: { notify: (message: string) => void }) {
           </div>
           <label className="field">
             <span>経験・資格</span>
-            <textarea placeholder="ペットシッター経験、飼育経験、保有資格など" />
+            <textarea placeholder="ペットシッター経験、飼育経験、保有資格（キャットシッター検定など）" />
           </label>
           <button className="btn primary full" type="button" onClick={() => notify("審査申請を受け付けました")}>
             審査を申請する
@@ -737,13 +892,17 @@ function Stat({ value, label }: { value: string; label: string }) {
   );
 }
 
-function BookingRow({ booking }: { booking: (typeof bookings)[number] }) {
+function BookingRow({ booking, pets }: { booking: Booking; pets: Pet[] }) {
+  const pet = pets.find((p) => p.id === booking.petId);
   return (
     <div className="booking-row">
       <span className="avatar small-avatar">{booking.carer.slice(0, 1)}</span>
       <div>
         <strong>{booking.carer}</strong>
-        <p>{booking.service} · {booking.date} · {booking.pet}</p>
+        <p>
+          {booking.service} · {booking.date}
+          {pet && <> · {speciesMeta[pet.species].emoji} {pet.name}</>}
+        </p>
       </div>
       <div>
         <span className="pill success">{booking.status}</span>
@@ -792,7 +951,7 @@ function Footer({ goTo }: { goTo: (page: PageId) => void }) {
     <footer className="footer">
       <div>
         <strong>PawMate</strong>
-        <p>湘南エリア発、有資格プロと飼い主をつなぐ信頼可視化型ペットケアプラットフォーム。</p>
+        <p>湘南エリア発、有資格プロと犬・猫の飼い主をつなぐ信頼可視化型ペットケアプラットフォーム。</p>
       </div>
       <div>
         <h4>サービス</h4>
