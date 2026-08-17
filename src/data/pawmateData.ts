@@ -281,7 +281,7 @@ export const carers: Carer[] = [
     price: "¥20,000〜",
     unit: "1泊",
     avatar: "YY",
-    image: "https://images.unsplash.com/photo-1601758174493-1fe38e518cc5?w=900&q=80",
+    image: "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=900&q=80",
     bio: "シニア犬・猫の在宅ケアを中心に活動。いつもの環境を変えずに、旅行や出張中の不安を軽くします。",
     reportStyle: "夜間の様子、食事、排泄、写真付き日報を共有",
     meetAndGreet: "ご自宅での泊まり込み導線確認を重視",
