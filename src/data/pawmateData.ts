@@ -1,5 +1,7 @@
 export type PageId =
   | "landing"
+  | "how-to-use"
+  | "lp"
   | "login"
   | "register"
   | "dashboard"
