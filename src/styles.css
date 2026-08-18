@@ -1,21 +1,44 @@
 :root {
-  --deep-ocean: #1b4f72;
-  --deep-ocean-2: #123b59;
-  --warm-sand: #f5e6c8;
-  --sand-soft: #fbf3e4;
-  --shonan-green: #2e8b57;
-  --green-soft: #e4f3ea;
-  --coral: #e8705a;
-  --white: #fafaf8;
-  --card: #ffffff;
-  --ink: #1a1a1a;
-  --muted: #6b7280;
-  --line: #e6e1d7;
-  --sky: #eaf4f8;
-  --shadow: 0 18px 50px rgba(27, 79, 114, 0.12);
-  --soft-shadow: 0 8px 26px rgba(27, 79, 114, 0.08);
-  --radius: 22px;
-  --radius-sm: 14px;
+  /* ---- 新デザイントークン: うちの子の滞在記 ---- */
+  --paper: #F6F1E7;        /* ベース背景。純白は使わない */
+  --paper-deep: #EAE1D1;   /* セクション切替・カード背景 */
+  --paper-card: #FBF7EE;   /* カード面（紙の白。#FFFは禁止） */
+  --kraft: #D9C9AC;        /* 台紙・ラベル */
+  --ink: #3B342A;          /* 本文・見出し */
+  --ink-soft: #6A6052;     /* 補足・キャプション */
+  --moss: #5C6B4F;         /* 主アクセント: CTA・リンク・タグ */
+  --moss-deep: #49573E;    /* ホバー時の深化 */
+  --moss-wash: #E6E8DE;    /* モスの淡い下地 */
+  --stamp-red: #B5493A;    /* 消印・スタンプ・認証印 専用 */
+  --tape: rgba(217, 201, 172, 0.55);   /* マスキングテープ */
+  --tape-red: rgba(181, 73, 58, 0.28); /* 退色した赤テープ（予備） */
+  --ochre: #9A7B3F;        /* 注意系ステータス（彩度低め） */
+  --clay: #A05A4E;         /* 警告系ステータス（彩度低め） */
+
+  /* ---- 旧トークンの別名（レイアウト互換のため残す） ---- */
+  --deep-ocean: var(--ink);
+  --deep-ocean-2: #2E2921;
+  --warm-sand: var(--paper-deep);
+  --sand-soft: var(--paper);
+  --shonan-green: var(--moss);
+  --green-soft: var(--moss-wash);
+  --coral: var(--clay);
+  --white: var(--paper);
+  --card: var(--paper-card);
+  --muted: var(--ink-soft);
+  --line: rgba(59, 52, 42, 0.2);
+  --sky: var(--paper-deep);
+  --shadow: 0 2px 8px rgba(59, 52, 42, 0.08);
+  --soft-shadow: 0 2px 8px rgba(59, 52, 42, 0.08);
+  --radius: 4px;
+  --radius-sm: 2px;
+
+  /* ---- 書体 ---- */
+  --font-serif: "Shippori Mincho", "Hiragino Mincho ProN", serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
+  --font-hand: "Klee One", cursive;
+  --font-label: "Cormorant Garamond", "Shippori Mincho", serif;
+  --font-memo: "Caveat", cursive;
 }
 
 * {
@@ -31,7 +54,7 @@ body {
   min-width: 320px;
   background: var(--white);
   color: var(--ink);
-  font-family: "Noto Sans JP", "Inter", system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 button,
@@ -60,7 +83,7 @@ img {
   gap: 24px;
   min-height: 68px;
   padding: 0 36px;
-  background: rgba(250, 250, 248, 0.94);
+  background: rgba(246, 241, 231, 0.92);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(16px);
 }
@@ -79,7 +102,7 @@ img {
   align-items: center;
   gap: 10px;
   color: var(--deep-ocean);
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-serif);
   font-size: 22px;
   font-weight: 700;
 }
@@ -89,10 +112,10 @@ img {
   width: 34px;
   height: 34px;
   place-items: center;
-  border-radius: 12px;
+  border-radius: 3px;
   background: var(--deep-ocean);
-  color: white;
-  font-family: "Inter", sans-serif;
+  color: var(--paper);
+  font-family: var(--font-body);
   font-size: 15px;
 }
 
@@ -127,8 +150,8 @@ img {
   min-height: 42px;
   padding: 0 22px;
   border: 1.5px solid transparent;
-  border-radius: 999px;
-  font-weight: 800;
+  border-radius: 3px;
+  font-weight: 700;
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
@@ -138,24 +161,24 @@ img {
 
 .btn.primary {
   background: var(--shonan-green);
-  color: #fff;
+  color: var(--paper);
 }
 
 .btn.ghost {
   background: transparent;
-  border-color: rgba(27, 79, 114, 0.28);
+  border-color: rgba(59, 52, 42, 0.28);
   color: var(--deep-ocean);
 }
 
 .btn.light {
-  background: #fff;
+  background: var(--paper-card);
   color: var(--deep-ocean);
 }
 
 .btn.outline-light {
   background: transparent;
-  border-color: rgba(255, 255, 255, 0.75);
-  color: #fff;
+  border-color: rgba(246, 241, 231, 0.75);
+  color: var(--paper);
 }
 
 .btn.small {
@@ -171,8 +194,7 @@ img {
 .hero-section {
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at top right, rgba(46, 139, 87, 0.12), transparent 32%),
-    linear-gradient(135deg, #f8fbfc 0%, var(--sand-soft) 100%);
+  background: var(--paper);
   padding: 92px 40px 96px;
 }
 
@@ -195,15 +217,16 @@ img {
 .section-header p {
   display: inline-flex;
   width: fit-content;
-  margin: 0 0 16px;
-  padding: 6px 12px;
-  border: 1px solid rgba(46, 139, 87, 0.26);
-  border-radius: 999px;
-  background: rgba(46, 139, 87, 0.08);
-  color: var(--shonan-green);
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.06em;
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-label);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
 }
 
 .hero-copy h1,
@@ -211,7 +234,7 @@ img {
 .auth-card h1 {
   margin: 0;
   color: var(--deep-ocean-2);
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-serif);
 }
 
 .hero-copy h1 {
@@ -243,11 +266,11 @@ img {
 .area-tags span,
 .pill-row span,
 .pill {
-  border-radius: 999px;
+  border-radius: 3px;
   background: var(--sky);
   color: var(--deep-ocean);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   padding: 6px 11px;
 }
 
@@ -257,8 +280,8 @@ img {
 }
 
 .pill.warning {
-  background: #fff1df;
-  color: #a86413;
+  background: #F0E6CF;
+  color: var(--ochre);
 }
 
 .hero-panel {
@@ -271,7 +294,7 @@ img {
   height: 360px;
   object-fit: cover;
   margin-left: auto;
-  border-radius: 28px;
+  border-radius: 4px;
   box-shadow: var(--shadow);
 }
 
@@ -280,7 +303,7 @@ img {
 .notice-card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(246, 241, 231, 0.9);
   box-shadow: var(--soft-shadow);
 }
 
@@ -381,24 +404,16 @@ img {
   width: 54px;
   height: 54px;
   margin-bottom: 18px;
-  border-radius: 18px;
+  border-radius: 4px;
 }
 
-.service-icon.walk {
-  background: linear-gradient(135deg, var(--sky), #d6ecf6);
-}
 
-.service-icon.home {
-  background: linear-gradient(135deg, var(--green-soft), #f2faf5);
-}
 
-.service-icon.moon {
-  background: linear-gradient(135deg, var(--warm-sand), #fff7e7);
-}
 
-.service-icon.cat {
-  background: linear-gradient(135deg, #f6dfe9, #fdf3f8);
-}
+
+
+
+
 
 .service-card h3,
 .trust-card h3,
@@ -458,25 +473,25 @@ img {
 .quote-card p {
   margin: 0 0 12px;
   color: var(--deep-ocean);
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-serif);
   font-size: 34px;
 }
 
 .cta-section {
   margin-top: 40px;
   padding: 86px 40px;
-  background: linear-gradient(135deg, var(--deep-ocean), var(--shonan-green));
-  color: #fff;
+  background: #2E2921;
+  color: var(--paper);
   text-align: center;
 }
 
 .cta-section h2 {
-  color: #fff;
+  color: var(--paper);
 }
 
 .cta-section p {
   margin: 16px 0 28px;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(246, 241, 231, 0.82);
 }
 
 .cta-section div {
@@ -490,28 +505,28 @@ img {
   grid-template-columns: 2fr 1fr 1fr;
   gap: 32px;
   padding: 52px max(40px, calc((100vw - 1160px) / 2));
-  background: #101820;
-  color: rgba(255, 255, 255, 0.76);
+  background: #2E2921;
+  color: rgba(246, 241, 231, 0.76);
 }
 
 .footer strong {
   display: block;
   margin-bottom: 10px;
-  color: #fff;
-  font-family: "Playfair Display", serif;
+  color: var(--paper);
+  font-family: var(--font-serif);
   font-size: 24px;
 }
 
 .footer h4 {
   margin: 0 0 14px;
-  color: #fff;
+  color: var(--paper);
 }
 
 .footer button,
 .footer span {
   display: block;
   padding: 4px 0;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(246, 241, 231, 0.72);
   text-align: left;
 }
 
@@ -519,7 +534,7 @@ img {
 .standalone-page {
   min-height: calc(100vh - 68px);
   padding: 54px 24px;
-  background: linear-gradient(135deg, #f8fbfc, var(--sand-soft));
+  background: var(--paper-deep);
 }
 
 .auth-card {
@@ -535,7 +550,7 @@ img {
 .auth-logo {
   margin-bottom: 12px;
   color: var(--deep-ocean);
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-serif);
   font-size: 26px;
   font-weight: 700;
   text-align: center;
@@ -557,7 +572,7 @@ img {
   margin-bottom: 16px;
   color: var(--deep-ocean-2);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.02em;
 }
 
@@ -568,7 +583,7 @@ img {
   min-height: 44px;
   border: 1.5px solid var(--line);
   border-radius: var(--radius-sm);
-  background: #fff;
+  background: var(--paper-card);
   color: var(--ink);
   font-size: 14px;
   font-weight: 500;
@@ -599,7 +614,7 @@ img {
   min-height: 96px;
   border: 1.5px solid var(--line);
   border-radius: var(--radius-sm);
-  background: #fff;
+  background: var(--paper-card);
   color: var(--deep-ocean);
 }
 
@@ -624,7 +639,7 @@ img {
   width: 100%;
   margin-top: 14px;
   color: var(--deep-ocean);
-  font-weight: 800;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -645,7 +660,7 @@ img {
   height: calc(100vh - 68px);
   padding: 18px 12px;
   border-right: 1px solid var(--line);
-  background: #fff;
+  background: var(--paper-card);
 }
 
 .sidebar-profile {
@@ -673,11 +688,12 @@ img {
   width: 52px;
   height: 52px;
   place-items: center;
-  border-radius: 50%;
+  border-radius: 2px;
+  border: 1px solid rgba(59, 52, 42, 0.2);
   background: var(--deep-ocean);
-  color: #fff;
-  font-family: "Inter", sans-serif;
-  font-weight: 900;
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-weight: 700;
 }
 
 .avatar.large {
@@ -699,7 +715,7 @@ img {
 }
 
 .pet-avatar.species.cat {
-  background: #f6dfe9;
+  background: #EDE2D9;
 }
 
 .pet-avatar.species.small_animal {
@@ -710,7 +726,7 @@ img {
   margin: 18px 10px 8px;
   color: var(--muted);
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.1em;
 }
 
@@ -722,11 +738,11 @@ img {
   margin-bottom: 3px;
   padding: 11px 12px;
   border: 0;
-  border-radius: 12px;
+  border-radius: 3px;
   background: transparent;
   color: var(--muted);
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   text-align: left;
 }
 
@@ -739,9 +755,9 @@ img {
 .sidebar-item b {
   min-width: 22px;
   padding: 2px 6px;
-  border-radius: 999px;
+  border-radius: 3px;
   background: var(--deep-ocean);
-  color: #fff;
+  color: var(--paper);
   font-size: 11px;
   text-align: center;
 }
@@ -781,14 +797,14 @@ img {
 .stat-card strong {
   display: block;
   color: var(--deep-ocean);
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
   font-size: 34px;
 }
 
 .stat-card span {
   color: var(--muted);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .card-header,
@@ -852,12 +868,12 @@ img {
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: #fff;
+  background: var(--paper-card);
 }
 
 .result-count {
   color: var(--muted);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .carer-grid {
@@ -898,7 +914,7 @@ img {
   gap: 4px;
   margin: 12px 0;
   padding: 12px;
-  border: 1px solid rgba(46, 139, 87, 0.22);
+  border: 1px solid rgba(92, 107, 79, 0.22);
   border-radius: var(--radius-sm);
   background: var(--green-soft);
   color: var(--shonan-green);
@@ -937,7 +953,7 @@ img {
   padding: 24px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: #fff;
+  background: var(--paper-card);
   box-shadow: var(--soft-shadow);
 }
 
@@ -946,7 +962,7 @@ img {
   height: 100%;
   min-height: 340px;
   object-fit: cover;
-  border-radius: 18px;
+  border-radius: 4px;
 }
 
 .profile-title {
@@ -978,7 +994,7 @@ img {
 .info-list dt {
   color: var(--deep-ocean);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .info-list dd {
@@ -998,11 +1014,11 @@ img {
   display: grid;
   height: 36px;
   place-items: center;
-  border-radius: 999px;
+  border-radius: 3px;
   background: var(--sky);
   color: var(--muted);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .availability span.open {
@@ -1023,14 +1039,14 @@ img {
   flex: 1;
   min-height: 38px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 3px;
   background: transparent;
   color: var(--muted);
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .tabs button.active {
-  background: #fff;
+  background: var(--paper-card);
   color: var(--deep-ocean);
 }
 
@@ -1063,7 +1079,7 @@ img {
   padding: 24px;
   border: 2px dashed var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.54);
+  background: rgba(246, 241, 231, 0.54);
   color: var(--deep-ocean);
   text-align: center;
 }
@@ -1080,7 +1096,7 @@ img {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: #fff;
+  background: var(--paper-card);
   box-shadow: var(--soft-shadow);
 }
 
@@ -1094,9 +1110,9 @@ img {
   padding: 18px;
   border: 0;
   border-bottom: 1px solid var(--line);
-  background: #fff;
+  background: var(--paper-card);
   color: var(--deep-ocean);
-  font-weight: 900;
+  font-weight: 700;
   text-align: left;
 }
 
@@ -1128,7 +1144,7 @@ img {
 .bubble {
   max-width: 70%;
   padding: 12px 16px;
-  border-radius: 18px;
+  border-radius: 4px;
   background: var(--sky);
   color: var(--ink);
   line-height: 1.65;
@@ -1137,7 +1153,7 @@ img {
 .bubble.mine {
   align-self: flex-end;
   background: var(--deep-ocean);
-  color: #fff;
+  color: var(--paper);
 }
 
 .chat-input {
@@ -1150,7 +1166,7 @@ img {
 .chat-input input {
   flex: 1;
   border: 1.5px solid var(--line);
-  border-radius: 999px;
+  border-radius: 3px;
   padding: 10px 16px;
   outline: none;
 }
@@ -1170,11 +1186,11 @@ img {
 
 .checkbox-grid label {
   padding: 8px 12px;
-  border-radius: 999px;
+  border-radius: 3px;
   background: var(--sky);
   color: var(--deep-ocean);
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .table-card {
@@ -1184,7 +1200,7 @@ img {
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: var(--paper-card);
 }
 
 th,
@@ -1198,7 +1214,7 @@ td {
 th {
   color: var(--muted);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 td small {
@@ -1220,8 +1236,8 @@ td .btn + .btn {
   padding: 14px 18px;
   border-radius: var(--radius-sm);
   background: var(--deep-ocean-2);
-  color: #fff;
-  font-weight: 800;
+  color: var(--paper);
+  font-weight: 700;
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -1320,5 +1336,620 @@ td .btn + .btn {
 
   .hero-panel {
     min-height: 0;
+  }
+}
+/* ═════════════════════════════════════════════════════════════
+   デザイン刷新レイヤー: 「うちの子の滞在記」
+   ベースはA（静かなリゾート）。B（手作り）はヒーローとお客様の声のみ。
+═════════════════════════════════════════════════════════════ */
+
+/* ---- 基礎タイポグラフィ ---- */
+body {
+  font-weight: 400;
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+}
+
+h1, h2, h3, h4,
+.section-header h2,
+.split-section h2,
+.cta-section h2,
+.page-header h1,
+.auth-card h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+}
+
+.hero-copy h1 {
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.45;
+  letter-spacing: 0.08em;
+}
+
+.lead {
+  line-height: 2.1;
+  letter-spacing: 0.04em;
+}
+
+.logo-button {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.logo-mark {
+  border-radius: 2px;
+  font-family: var(--font-label);
+  font-weight: 600;
+}
+
+/* ---- 紙テクスチャ（feTurbulenceノイズ、opacity 0.04） ---- */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- ボタン ---- */
+.btn {
+  border-radius: 2px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  transition: background-color 0.18s ease, transform 0.12s ease, border-color 0.18s ease;
+}
+
+.btn.primary {
+  background: var(--moss);
+  color: var(--paper);
+  border: 1px solid var(--moss);
+  box-shadow: none;
+}
+
+.btn.primary:hover {
+  background: var(--moss-deep);
+  border-color: var(--moss-deep);
+  transform: translateY(1px);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid rgba(59, 52, 42, 0.35);
+}
+
+.btn.ghost:hover {
+  border-color: var(--ink);
+  transform: translateY(1px);
+}
+
+.btn.light {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--paper);
+}
+
+.btn.light:hover {
+  background: var(--paper-deep);
+  transform: translateY(1px);
+}
+
+.btn.outline-light {
+  background: transparent;
+  color: var(--paper);
+  border: 1px solid rgba(246, 241, 231, 0.6);
+}
+
+/* ---- リンク: モス＋手書き風下線 ---- */
+.link-button {
+  color: var(--moss);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='6' viewBox='0 0 120 6'%3E%3Cpath d='M2 4 Q 20 2, 40 3.5 T 80 3 T 118 3.5' fill='none' stroke='%235C6B4F' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 5px;
+  padding-bottom: 3px;
+  text-decoration: none;
+}
+
+/* ---- セクション見出し: 明朝＋手書き下線1本 ---- */
+.section-header p {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 18px;
+}
+
+.section-header h2 {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='8' viewBox='0 0 260 8'%3E%3Cpath d='M4 5.5 Q 60 3, 120 4.5 T 256 4' fill='none' stroke='%233B342A' stroke-width='1.8' stroke-linecap='round' opacity='0.55'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center 100%;
+  background-size: min(260px, 80%) 8px;
+}
+
+/* ---- カード類（A領域）: 紙色＋細罫、影は最小限 ---- */
+.card,
+.service-card,
+.trust-card,
+.request-card,
+.carer-card,
+.auth-card,
+.form-card {
+  border: 1px solid rgba(59, 52, 42, 0.2);
+  border-radius: var(--radius);
+  background: var(--paper-card);
+  box-shadow: 0 2px 8px rgba(59, 52, 42, 0.08);
+}
+
+/* ---- サービスアイコン: 線画1.5px ---- */
+.service-icon {
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(59, 52, 42, 0.2);
+  border-radius: 2px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30px 30px;
+}
+
+.service-icon.walk {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%233B342A' stroke-width='1.5' stroke-linecap='round'%3E%3Cellipse cx='16' cy='20' rx='5' ry='4.2'/%3E%3Cellipse cx='8.5' cy='13' rx='2.3' ry='3'/%3E%3Cellipse cx='23.5' cy='13' rx='2.3' ry='3'/%3E%3Cellipse cx='13' cy='8.5' rx='2.2' ry='2.9'/%3E%3Cellipse cx='19' cy='8.5' rx='2.2' ry='2.9'/%3E%3C/svg%3E");
+}
+
+.service-icon.home {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%233B342A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 14 L16 5 L27 14'/%3E%3Cpath d='M8 12.5 V26 H24 V12.5'/%3E%3Cpath d='M13.5 26 V18 H18.5 V26'/%3E%3C/svg%3E");
+}
+
+.service-icon.moon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%233B342A' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M21 5.5 A 11.5 11.5 0 1 0 27.5 18.5 A 9 9 0 0 1 21 5.5 Z'/%3E%3Cpath d='M9 7 L9.6 8.8 L11.4 9.4 L9.6 10 L9 11.8 L8.4 10 L6.6 9.4 L8.4 8.8 Z' fill='%233B342A' stroke='none'/%3E%3C/svg%3E");
+}
+
+/* ---- ヒーロー（B寄り）: クラフト・コラージュ ---- */
+.hero-section {
+  background: #F1EAD9;
+  padding-bottom: 120px;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 26px;
+  background: var(--paper);
+  clip-path: polygon(0 62%, 3% 38%, 7% 66%, 11% 30%, 16% 58%, 21% 34%, 26% 70%, 31% 40%, 36% 62%, 42% 28%, 47% 60%, 52% 36%, 57% 68%, 62% 32%, 67% 58%, 72% 38%, 77% 66%, 82% 30%, 87% 60%, 92% 40%, 96% 64%, 100% 34%, 100% 100%, 0 100%);
+}
+
+.hero-collage {
+  position: relative;
+  min-height: 520px;
+}
+
+.polaroid {
+  position: absolute;
+  background: var(--paper-card);
+  border: 1px solid rgba(59, 52, 42, 0.14);
+  padding: 10px 10px 40px;
+  box-shadow: 0 2px 8px rgba(59, 52, 42, 0.12);
+  transition: transform 0.35s ease;
+}
+
+.polaroid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.polaroid .polaroid-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  color: var(--ink-soft);
+  font-family: var(--font-hand);
+  font-size: 14px;
+  text-align: center;
+}
+
+.polaroid.tilt-l { transform: rotate(-2.5deg); }
+.polaroid.tilt-r { transform: rotate(2deg); }
+
+.polaroid:hover { transform: rotate(0deg); }
+
+.hero-collage .polaroid.main {
+  top: 18px;
+  right: 8%;
+  width: min(340px, 70%);
+  height: 330px;
+}
+
+.hero-collage .polaroid.sub {
+  bottom: 0;
+  right: 38%;
+  width: min(220px, 46%);
+  height: 220px;
+  z-index: 2;
+}
+
+/* ---- マスキングテープ ---- */
+.tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  z-index: 3;
+  width: 92px;
+  height: 26px;
+  background: var(--tape);
+  transform: translateX(-50%) rotate(-2deg);
+  clip-path: polygon(2% 0, 98% 4%, 100% 92%, 96% 100%, 3% 96%, 0 10%);
+  box-shadow: 0 1px 2px rgba(59, 52, 42, 0.08);
+}
+
+.polaroid.tilt-r .tape { transform: translateX(-50%) rotate(2.5deg); }
+
+/* ---- 消印スタンプ ---- */
+.postmark {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 108px;
+  height: 108px;
+  pointer-events: none;
+  color: var(--stamp-red);
+  transform: rotate(-8deg);
+}
+
+.postmark svg { width: 100%; height: 100%; }
+
+.hero-postmark {
+  top: -30px;
+  left: 41%;
+  z-index: 6;
+  opacity: 0.9;
+}
+
+/* ---- Caveatメモ＋手書き矢印 ---- */
+.hero-memo {
+  position: absolute;
+  left: 1%;
+  bottom: -2px;
+  color: var(--ink-soft);
+  font-family: var(--font-memo);
+  font-size: 21px;
+  letter-spacing: 0.02em;
+  transform: rotate(-3deg);
+}
+
+.hero-memo::after {
+  content: "";
+  display: block;
+  width: 74px;
+  height: 26px;
+  margin: 2px auto 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 74 26' fill='none' stroke='%237A7060' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M4 6 Q 30 22, 62 14'/%3E%3Cpath d='M54 8 L 63 13.5 L 53 18'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* ---- 手書きアクセント（Klee One・短い語句のみ） ---- */
+.klee {
+  font-family: var(--font-hand);
+  font-weight: 400;
+}
+
+.hero-copy h1 .klee {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* ---- ヒーロー検索カード: 紙のカードに ---- */
+.hero-search-card {
+  border: 1px solid rgba(59, 52, 42, 0.2);
+  border-radius: var(--radius);
+  background: var(--paper-card);
+  box-shadow: 0 2px 8px rgba(59, 52, 42, 0.08);
+}
+
+/* ---- エリアタグ ---- */
+.area-tags span,
+.pill-row span,
+.pill {
+  border: 1px solid rgba(59, 52, 42, 0.18);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* ---- お客様の声（B寄り）: クラフト台紙の便箋カード ---- */
+.quote-card {
+  position: relative;
+  border: 1px solid rgba(59, 52, 42, 0.16);
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(
+      transparent,
+      transparent 35px,
+      rgba(59, 52, 42, 0.09) 35px,
+      rgba(59, 52, 42, 0.09) 36px
+    ),
+    var(--paper-card);
+  box-shadow: 0 2px 8px rgba(59, 52, 42, 0.1);
+  transform: rotate(1.4deg);
+  transition: transform 0.35s ease;
+  padding: 44px 34px 56px;
+}
+
+.quote-card:hover { transform: rotate(0deg); }
+
+.quote-card .tape { top: -13px; }
+
+.quote-card p {
+  font-family: var(--font-hand);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+}
+
+.quote-card span {
+  display: block;
+  line-height: 2;
+}
+
+.quote-postmark {
+  right: 10px;
+  bottom: -6px;
+  width: 92px;
+  height: 92px;
+  transform: rotate(7deg);
+  opacity: 0.85;
+}
+
+/* ---- 信頼セクション: 認証スタンプ ---- */
+.trust-grid { position: relative; }
+
+.trust-postmark {
+  top: -66px;
+  right: -8px;
+  width: 96px;
+  height: 96px;
+  transform: rotate(6deg);
+  opacity: 0.8;
+}
+
+/* ---- CTA・フッター: 濃いインクの紙 ---- */
+.cta-section {
+  position: relative;
+  margin-top: 96px;
+}
+
+.cta-section::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -25px;
+  height: 26px;
+  background: #2E2921;
+  clip-path: polygon(0 66%, 4% 34%, 9% 62%, 14% 28%, 19% 58%, 24% 36%, 29% 68%, 35% 30%, 40% 60%, 45% 34%, 51% 66%, 56% 32%, 61% 58%, 66% 38%, 71% 64%, 77% 30%, 82% 60%, 87% 36%, 92% 62%, 96% 32%, 100% 58%, 100% 100%, 0 100%);
+}
+
+.cta-section h2 { color: var(--paper); }
+
+.footer strong { font-family: var(--font-serif); }
+
+/* ---- ナビゲーション ---- */
+.nav { background: rgba(246, 241, 231, 0.94); }
+
+.nav-links button { font-weight: 500; letter-spacing: 0.04em; }
+
+/* ---- フォーム ---- */
+.field input,
+.field select,
+.field textarea {
+  border-width: 1px;
+  border-radius: 2px;
+  background: var(--paper-card);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--moss);
+  outline: none;
+}
+
+/* ---- A領域の写真: 直角＋細罫、傾けない ---- */
+.profile-hero img,
+.carer-card img {
+  border-radius: 2px;
+  border: 1px solid rgba(59, 52, 42, 0.16);
+  box-shadow: none;
+}
+
+/* ---- ステータス系（角を絞る） ---- */
+.verified-badge,
+.pending-badge,
+.admin-status-pill,
+.tag {
+  border-radius: 2px;
+}
+
+/* ---- モーション配慮 ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .polaroid,
+  .quote-card,
+  .btn {
+    transition: none;
+  }
+  .polaroid:hover { transform: inherit; }
+}
+
+/* ---- レスポンシブ調整（コラージュ） ---- */
+@media (max-width: 980px) {
+  .hero-collage {
+    min-height: 430px;
+    margin-top: 12px;
+  }
+
+  .hero-collage .polaroid.main {
+    right: 4%;
+    width: min(320px, 62%);
+    height: 290px;
+  }
+
+  .hero-collage .polaroid.sub {
+    right: auto;
+    left: 4%;
+    width: min(210px, 44%);
+    height: 200px;
+  }
+
+  .hero-memo { left: 6%; bottom: -8px; }
+
+  .hero-postmark {
+    top: -22px;
+    left: auto;
+    right: 36%;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-section { padding: 58px 20px 96px; }
+
+  .hero-collage { min-height: 400px; }
+
+  .hero-collage .polaroid.main {
+    right: 0;
+    width: 66%;
+    height: 250px;
+  }
+
+  .hero-collage .polaroid.sub {
+    left: 0;
+    bottom: 6px;
+    width: 46%;
+    height: 175px;
+  }
+
+  .hero-postmark {
+    width: 88px;
+    height: 88px;
+    top: -10px;
+    left: -6px;
+  }
+
+  .hero-memo {
+    left: auto;
+    right: 2%;
+    bottom: -26px;
+    font-size: 18px;
+  }
+
+  .quote-card { transform: rotate(0.8deg); }
+}
+
+
+/* ---- ヒーロー内の情報カード: クラフト紙のラベルに ---- */
+.floating-card {
+  z-index: 5;
+  width: 250px;
+  padding: 16px 18px;
+  border: 1px solid rgba(59, 52, 42, 0.22);
+  border-radius: 2px;
+  background: var(--paper-card);
+  box-shadow: 0 2px 8px rgba(59, 52, 42, 0.1);
+}
+
+.floating-card.top {
+  top: -6px;
+  left: -10px;
+}
+
+.floating-card.bottom {
+  bottom: 26px;
+  left: auto;
+  right: -6px;
+}
+
+.floating-card strong {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 980px) {
+  .floating-card.top { top: -14px; left: 0; }
+  .floating-card.bottom { bottom: -10px; right: 0; }
+}
+
+@media (max-width: 620px) {
+  .floating-card {
+    position: static;
+    width: auto;
+    margin-top: 12px;
+  }
+}
+
+/* ---- 猫アイコン: 線画1.5px ---- */
+.service-icon.cat {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%233B342A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 13 L7 6 L12 9.5'/%3E%3Cpath d='M24 13 L25 6 L20 9.5'/%3E%3Cpath d='M8 13 Q 8 8.8, 12 9.5 Q 16 7.5, 20 9.5 Q 24 8.8, 24 13 Q 25.5 18, 22 21 Q 16 24.5, 10 21 Q 6.5 18, 8 13 Z'/%3E%3Ccircle cx='12.5' cy='15' r='0.6' fill='%233B342A' stroke='none'/%3E%3Ccircle cx='19.5' cy='15' r='0.6' fill='%233B342A' stroke='none'/%3E%3Cpath d='M14.8 18.2 Q 16 19.2, 17.2 18.2'/%3E%3Cpath d='M4.5 16.5 L8.5 17'/%3E%3Cpath d='M27.5 16.5 L23.5 17'/%3E%3C/svg%3E");
+}
+
+/* ---- モバイル: コラージュを静的な縦積みに（情報カードとの重なり回避） ---- */
+@media (max-width: 620px) {
+  .hero-collage {
+    min-height: 0;
+    margin-top: 20px;
+  }
+
+  .hero-collage .polaroid.main {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 78%;
+    height: 240px;
+    margin-left: auto;
+  }
+
+  .hero-collage .polaroid.sub {
+    position: relative;
+    top: auto;
+    left: 2%;
+    bottom: auto;
+    width: 52%;
+    height: 180px;
+    margin-top: -64px;
+  }
+
+  .hero-postmark {
+    top: -26px;
+    left: 2%;
+    right: auto;
+  }
+
+  .hero-memo {
+    position: static;
+    display: block;
+    margin: 10px 10px 0 auto;
+    width: fit-content;
+    transform: rotate(-2deg);
+  }
+
+  .hero-collage .floating-card {
+    position: static;
+    width: auto;
+    margin-top: 14px;
   }
 }
