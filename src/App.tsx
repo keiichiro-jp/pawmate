@@ -243,8 +243,8 @@ function LandingPage({
       <section className="hero-section hero-full">
         <img
           className="hero-bg"
-          src="https://images.unsplash.com/photo-1727419780738-8b9e85ab9ca6?w=1800&q=80"
-          alt="見つめ合う犬と子猫"
+          src="https://images.unsplash.com/photo-1509205477838-a534e43a849f?w=1800&q=80"
+          alt="並んで座る犬と猫"
         />
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
@@ -262,16 +262,16 @@ function LandingPage({
               {areas.map((area) => <span key={area}>{area}</span>)}
             </div>
           </div>
-          <Postmark className="hero-postmark" ring="PAWMATE · SHONAN · KANAGAWA · JAPAN ·" line1="SHONAN" line2="2026. 8. 18" />
-          <span className="hero-memo">a good day by the sea</span>
-          <div className="floating-card top">
-            <strong>Meet & Greet 必須</strong>
-            <span>初回は顔合わせから（猫はご自宅で）</span>
-          </div>
-          <div className="floating-card bottom">
-            <strong>猫の訪問ケアにも対応</strong>
-            <span>いつもの部屋で、いつものごはんを</span>
-          </div>
+        </div>
+        <Postmark className="hero-postmark" ring="PAWMATE · SHONAN · KANAGAWA · JAPAN ·" line1="SHONAN" line2="2026. 8. 18" />
+        <span className="hero-memo">a good day by the sea</span>
+        <div className="floating-card top">
+          <strong>Meet & Greet 必須</strong>
+          <span>初回は顔合わせから（猫はご自宅で）</span>
+        </div>
+        <div className="floating-card bottom">
+          <strong>猫の訪問ケアにも対応</strong>
+          <span>いつもの部屋で、いつものごはんを</span>
         </div>
       </section>
 
