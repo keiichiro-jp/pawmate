@@ -2517,3 +2517,178 @@ body::after {
     padding: 32px 0 16px;
   }
 }
+
+/* ---- マーケLP: 認知・理解・興味喚起 ---- */
+.lp-pains {
+  max-width: 880px;
+}
+
+.lp-intro {
+  width: min(640px, calc(100% - 48px));
+  margin: -6px auto 36px;
+  color: var(--ink-soft);
+  text-align: center;
+  line-height: 2.1;
+}
+
+.lp-feature {
+  padding: 30px 26px;
+  border: 1px solid rgba(59, 52, 42, 0.2);
+  border-radius: var(--radius);
+  background: var(--paper-card);
+  box-shadow: 0 2px 8px rgba(59, 52, 42, 0.08);
+  text-align: center;
+}
+
+.lp-feature .howto-num {
+  margin: 0 auto 14px;
+}
+
+.lp-feature h3 {
+  margin: 0 0 10px;
+}
+
+.lp-feature p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.9;
+}
+
+/* 世界観ストーリー（便箋・B寄り: テープ1+消印1のみ） */
+.lp-story-section {
+  width: min(1160px, calc(100% - 48px));
+  margin: 96px auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.lp-story-card {
+  position: relative;
+  max-width: 620px;
+  padding: 48px 42px 60px;
+  border: 1px solid rgba(59, 52, 42, 0.16);
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(
+      transparent,
+      transparent 35px,
+      rgba(59, 52, 42, 0.09) 35px,
+      rgba(59, 52, 42, 0.09) 36px
+    ),
+    var(--paper-card);
+  box-shadow: 0 2px 8px rgba(59, 52, 42, 0.1);
+  transform: rotate(-1.2deg);
+  transition: transform 0.35s ease;
+}
+
+.lp-story-card:hover {
+  transform: rotate(0deg);
+}
+
+.lp-story-title {
+  margin: 0 0 18px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.lp-story-body {
+  margin: 0 0 14px;
+  color: var(--ink);
+  line-height: 2.1;
+}
+
+.lp-story-note {
+  margin: 20px 0 0;
+  color: var(--ink-soft);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+/* 3ステップ（横並び） */
+.lp-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 760px;
+}
+
+.lp-step {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 26px 18px;
+  border: 1px solid rgba(59, 52, 42, 0.2);
+  border-radius: var(--radius);
+  background: var(--paper-card);
+  text-align: center;
+}
+
+.lp-step strong {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  letter-spacing: 0.05em;
+}
+
+.lp-step > span:last-child {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.lp-more {
+  margin: 26px auto 0;
+  text-align: center;
+}
+
+/* 料金表（最もクリーンに: 細罫と余白のみ） */
+.lp-price {
+  max-width: 560px;
+}
+
+.lp-price-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.lp-price-table th,
+.lp-price-table td {
+  padding: 16px 8px;
+  border-bottom: 1px solid rgba(59, 52, 42, 0.2);
+}
+
+.lp-price-table th {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+
+.lp-price-table td {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.lp-price-table td span {
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.lp-price-note {
+  margin: 14px 0 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 620px) {
+  .lp-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .lp-story-card {
+    padding: 36px 24px 56px;
+    transform: rotate(-0.8deg);
+  }
+}

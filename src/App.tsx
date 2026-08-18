@@ -1162,27 +1162,30 @@ function HowToUsePage({ goTo }: { goTo: (page: PageId) => void }) {
   );
 }
 
-/** 先行登録用ランディングページ（/lp） */
+/** マーケティングLP（/lp）: 認知・理解・興味喚起 → 本体サイトへ誘導 */
 function PrelaunchLPPage({ notify, goTo }: { notify: (message: string) => void; goTo: (page: PageId) => void }) {
-  const [submitted, setSubmitted] = useState(false);
-
-  function submit() {
-    setSubmitted(true);
-    notify("先行登録を受け付けました");
-  }
-
-  const scenes = [
-    { title: "急な出張", text: "犬の散歩ができない日も、いつものコースをプロが歩きます。" },
-    { title: "家族旅行", text: "旅行中も、うちの子は住み慣れた家でいつも通りに過ごせます。" },
-    { title: "体調不良", text: "世話が難しい日は、罪悪感を持たずに頼っていい日です。" },
-    { title: "毎日の訪問ケア", text: "留守がちな平日も、決まった時間のケアを継続できます。" },
-    { title: "ホテルが苦手な子に", text: "環境の変化が苦手な猫も、自宅ケアなら負担がありません。" },
+  void notify;
+  const pains = [
+    { title: "旅行を、諦めていませんか", text: "この子がいるから、と家族旅行を見送ったことはありませんか。預け先が信頼できないなら、諦める方を選んでしまう。" },
+    { title: "出張のたびに、罪悪感", text: "仕事は断れない。でも留守番させるたびに胸が痛む。知り合いに頼むのも、毎回は申し訳ない。" },
+    { title: "ペットホテルが苦手な子", text: "環境が変わると食べない、鳴き続ける。特に猫は、住み慣れた家を離れること自体が大きなストレスです。" },
+    { title: "「誰でもいい」わけじゃない", text: "大切な家族を任せるのに、資格も経験もわからない相手には頼めない。安さより、確かめられる信頼が欲しい。" },
   ];
-  const merits = [
-    "エリアにいる有資格ケアラーをいち早く確認できる",
-    "サービス開始時に優先的にご案内",
-    "初回利用クーポンの対象（準備中）",
-    "ケアラーへの要望を事前に伝えられる",
+  const features = [
+    { title: "有資格のプロだけ", text: "登録できるのは、動物取扱業の登録などを確認できたプロのケアラーのみ。「誰でもできる」仕事にしません。" },
+    { title: "信頼が、目で見える", text: "登録番号・保有資格・リピート率をプロフィールで公開。「信頼してください」ではなく、確かめられる形で示します。" },
+    { title: "いつもの場所で", text: "ケアの基本は自宅への訪問型。環境の変化が苦手な猫も、散歩コースにこだわる犬も、いつもの毎日のまま。" },
+  ];
+  const steps = [
+    { title: "ケアラーを選ぶ", text: "資格・リピート率を見て比較" },
+    { title: "顔合わせ", text: "初回は必ずMeet & Greetから" },
+    { title: "ケア当日", text: "写真つき活動レポートが届く" },
+  ];
+  const prices = [
+    { title: "散歩代行", price: "¥3,000〜", unit: "30分" },
+    { title: "訪問ケア", price: "¥4,500〜", unit: "60分" },
+    { title: "キャットシッター", price: "¥4,000〜", unit: "60分" },
+    { title: "宿泊お預かり", price: "¥20,000〜", unit: "1泊" },
   ];
 
   return (
@@ -1196,95 +1199,109 @@ function PrelaunchLPPage({ notify, goTo }: { notify: (message: string) => void; 
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-copy">
-            <p className="eyebrow">湘南エリア先行 · 有資格ケアラーのみ登録</p>
-            <h1>近くに、頼れる<br />プロが、いる安心。</h1>
+            <p className="eyebrow">Shonan · Pet Care Service</p>
+            <h1>ペットと暮らす人が、<br />もっと自由に。</h1>
             <p className="lead">
-              湘南エリアで使えるか、まず確認してみませんか。
-              旅行・出張・体調不良のとき、信頼できる有資格ケアラーがそばにいる安心を。
-              先行登録で、エリアに合ったケアラーをご紹介します。
+              PawMateは、湘南で暮らす飼い主と、資格を持ったプロのケアラーをつなぐ
+              ペットケアサービスです。旅行も、出張も、体調不良の日も。
+              いつもの場所で、いつものように、大切な家族を支えます。
             </p>
+            <div className="hero-actions">
+              <button className="btn primary" type="button" onClick={() => goTo("landing")}>サービスサイトを見る</button>
+              <button className="btn ghost" type="button" onClick={() => goTo("how-to-use")}>使い方を知る</button>
+            </div>
           </div>
         </div>
         <Postmark className="hero-postmark" ring="PAWMATE · SHONAN · KANAGAWA · JAPAN ·" line1="SHONAN" line2="2026. 8. 18" />
       </section>
 
-      <section className="lp-form-section">
-        <div className="lp-form-card">
-          {submitted ? (
-            <div className="lp-form-done">
-              <strong>登録を受け付けました。</strong>
-              <p>エリアの状況をメールでご連絡します。いつもの毎日に、頼れる選択肢が増えますように。</p>
-            </div>
-          ) : (
-            <>
-              <p className="lp-form-title">近くで使えるか、確認してみる</p>
-              <div className="lp-form-grid">
-                <label className="field">
-                  <span>お住まいのエリア</span>
-                  <select>
-                    {areas.map((area) => <option key={area}>{area}</option>)}
-                    <option>その他</option>
-                  </select>
-                </label>
-                <label className="field">
-                  <span>ペット種別</span>
-                  <select>
-                    <option>犬</option>
-                    <option>猫</option>
-                    <option>その他</option>
-                  </select>
-                </label>
-                <label className="field">
-                  <span>希望サービス</span>
-                  <select>
-                    {services.map((service) => <option key={service.id}>{service.title}</option>)}
-                  </select>
-                </label>
-                <label className="field">
-                  <span>メールアドレス</span>
-                  <input type="email" placeholder="you@example.com" />
-                </label>
-              </div>
-              <button className="btn primary full" type="button" onClick={submit}>
-                エリアのケアラーを確認する
-              </button>
-              <p className="lp-form-note">先行登録は無料です。準備が整ったエリアから順にご案内します。</p>
-            </>
-          )}
-        </div>
-      </section>
-
-      <SectionHeader label="Scenes" title="こんな時に使えます" />
-      <section className="section grid-3 lp-scenes">
-        {scenes.map((scene) => (
-          <article className="trust-card" key={scene.title}>
-            <h3>{scene.title}</h3>
-            <p>{scene.text}</p>
+      <SectionHeader label="Sound Familiar?" title="こんな思い、していませんか" />
+      <section className="section grid-2 lp-pains">
+        {pains.map((pain) => (
+          <article className="trust-card" key={pain.title}>
+            <h3>{pain.title}</h3>
+            <p>{pain.text}</p>
           </article>
         ))}
       </section>
 
-      <SectionHeader label="Benefits" title="先行登録するとできること" />
-      <section className="section lp-merits">
-        <ul className="check-list">
-          {merits.map((merit) => <li key={merit}>{merit}</li>)}
-        </ul>
+      <SectionHeader label="What is PawMate" title="PawMateは「信頼が見える」ペットケアです" />
+      <p className="lp-intro">
+        ペットシッターに頼みたくても、「どんな人が来るのかわからない」が一番の不安。
+        PawMateはその不安を、仕組みで解消します。
+      </p>
+      <section className="section grid-3 lp-features">
+        {features.map((feature, index) => (
+          <article className="lp-feature" key={feature.title}>
+            <span className="howto-num" aria-hidden="true">{index + 1}</span>
+            <h3>{feature.title}</h3>
+            <p>{feature.text}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="lp-story-section">
+        <div className="lp-story-card">
+          <span className="tape" />
+          <p className="lp-story-title klee">ある木曜日の朝、8時半。</p>
+          <p className="lp-story-body">
+            茅ヶ崎の住宅街。ケアラーがインターフォンを押すと、ポチはもう玄関で尻尾を振っている。
+            飼い主の田中さんは今日も残業の予定。でもスマホにひと言、「今日もよろしくお願いします」。
+          </p>
+          <p className="lp-story-body">
+            10分後、通知が届く。海岸沿いを走るポチの写真。「今日も元気ですよ。砂浜に行きます」。
+            田中さんはスマホを見て、小さく笑って、仕事に戻る。
+          </p>
+          <p className="lp-story-note">— PawMateが湘南中に届けたい、なんでもない木曜日。</p>
+          <Postmark className="quote-postmark" ring="PAWMATE · STAY RECORD · SHONAN ·" line1="滞在記" line2="THU. 8:30 AM" />
+        </div>
+      </section>
+
+      <SectionHeader label="How it works" title="使い方は、3ステップ" />
+      <section className="section lp-steps">
+        {steps.map((step, index) => (
+          <div className="lp-step" key={step.title}>
+            <span className="howto-num" aria-hidden="true">{index + 1}</span>
+            <strong>{step.title}</strong>
+            <span>{step.text}</span>
+          </div>
+        ))}
+      </section>
+      <p className="lp-more">
+        <button className="link-button" type="button" onClick={() => goTo("how-to-use")}>
+          くわしい流れとよくある質問を見る
+        </button>
+      </p>
+
+      <SectionHeader label="Price" title="料金の目安" />
+      <section className="section lp-price">
+        <table className="lp-price-table">
+          <tbody>
+            {prices.map((row) => (
+              <tr key={row.title}>
+                <th>{row.title}</th>
+                <td>{row.price}<span> /{row.unit}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="lp-price-note">価格は目安です。内容・頭数により見積もりで事前に確定します。</p>
       </section>
 
       <section className="lp-trust-band">
         <Postmark className="lp-trust-stamp" ring="PAWMATE · TRUST · VERIFIED ·" line1="確認済" line2="SHONAN OFFICE" />
         <p>
-          登録できるのは、動物取扱業の登録などを確認できたプロのケアラーのみ。
-          登録番号・保有資格・リピート率をプロフィールで明示します。
+          全ケアラーの動物取扱業の登録を確認し、初回は必ず顔合わせから。
+          ケアのたびに写真つきの活動レポートが届くので、任せたあとも様子が見えます。
         </p>
       </section>
 
       <section className="cta-section">
-        <h2>ペットと暮らす人が、もっと自由に。</h2>
+        <h2>まずは、どんなケアラーがいるか見てみませんか。</h2>
         <p>茅ヶ崎・藤沢・鎌倉・平塚・辻堂で先行展開中。</p>
         <div>
-          <button className="btn light" type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>先行登録する（無料）</button>
-          <button className="btn outline-light" type="button" onClick={() => goTo("landing")}>サービスを詳しく見る</button>
+          <button className="btn light" type="button" onClick={() => goTo("landing")}>サービスサイトを見る</button>
+          <button className="btn outline-light" type="button" onClick={() => goTo("carers")}>ケアラーを見る</button>
         </div>
       </section>
       <Footer goTo={goTo} />
@@ -1304,7 +1321,7 @@ function Footer({ goTo }: { goTo: (page: PageId) => void }) {
         <button type="button" onClick={() => goTo("carers")}>ケアラーを探す</button>
         <button type="button" onClick={() => goTo("requests")}>依頼を探す</button>
         <button type="button" onClick={() => goTo("carer-profile")}>プロとして参加</button>
-        <button type="button" onClick={() => goTo("lp")}>先行登録（無料）</button>
+        <button type="button" onClick={() => goTo("lp")}>PawMateとは</button>
       </div>
       <div>
         <h4>サポート</h4>
