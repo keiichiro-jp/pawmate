@@ -1,4 +1,4 @@
-import { useId, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 import {
   adminApplicants,
   areas,
@@ -66,8 +66,21 @@ function Postmark({ ring, line1, line2, className }: { ring: string; line1: stri
 
 type OwnerSpecies = "dog" | "cat" | null;
 
+/** 直URLでアクセスできる公開ページ */
+const publicPaths: Partial<Record<PageId, string>> = {
+  landing: "/",
+  "how-to-use": "/how-to-use",
+  lp: "/lp",
+};
+
+function pageFromLocation(): PageId {
+  const path = window.location.pathname;
+  const entry = Object.entries(publicPaths).find(([, p]) => p === path);
+  return entry ? (entry[0] as PageId) : "landing";
+}
+
 export default function App() {
-  const [page, setPage] = useState<PageId>("landing");
+  const [page, setPage] = useState<PageId>(() => pageFromLocation());
   const [role, setRole] = useState<Role>("owner");
   const [ownerSpecies, setOwnerSpecies] = useState<OwnerSpecies>(null);
   const [selectedCarer, setSelectedCarer] = useState<Carer>(carers[0]);
@@ -83,8 +96,18 @@ export default function App() {
 
   function goTo(nextPage: PageId) {
     setPage(nextPage);
+    const path = publicPaths[nextPage];
+    if (path && window.location.pathname !== path) {
+      window.history.pushState({}, "", path);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  useEffect(() => {
+    const onPop = () => setPage(pageFromLocation());
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
 
   function openCarer(carer: Carer) {
     setSelectedCarer(carer);
@@ -113,6 +136,10 @@ export default function App() {
     switch (page) {
       case "landing":
         return <LandingPage goTo={goTo} ownerSpecies={ownerSpecies} chooseSpecies={setOwnerSpecies} />;
+      case "how-to-use":
+        return <HowToUsePage goTo={goTo} />;
+      case "lp":
+        return <PrelaunchLPPage notify={notify} goTo={goTo} />;
       case "login":
         return <LoginPage goTo={goTo} notify={notify} />;
       case "register":
@@ -159,7 +186,7 @@ function Nav({
       <nav className="nav-links" aria-label="主要ナビゲーション">
         <button type="button" onClick={() => goTo("carers")}>ケアラーを探す</button>
         <button type="button" onClick={() => goTo("requests")}>依頼を探す</button>
-        <button type="button" onClick={() => goTo("landing")}>ご利用方法</button>
+        <button type="button" onClick={() => goTo("how-to-use")}>ご利用方法</button>
       </nav>
       <div className="nav-actions">
         {isAppPage ? (
@@ -1049,6 +1076,222 @@ function TextField({
   );
 }
 
+/** 初めての人向け: ご利用方法ページ */
+function HowToUsePage({ goTo }: { goTo: (page: PageId) => void }) {
+  const steps = [
+    {
+      title: "無料登録",
+      text: "メールアドレスで登録し、うちの子の名前・種別・性格・持病などを入力します。犬も猫も、その子に合わせた情報がケアの土台になります。",
+    },
+    {
+      title: "ケアラーを探す",
+      text: "種別・エリア・サービスで絞り込み。登録番号・保有資格・リピート率をプロフィールで確認しながら比較できます。",
+    },
+    {
+      title: "Meet & Greet（顔合わせ）",
+      text: "初回のケア前に、必ず顔合わせを行います。性格・持病・鍵の受け渡し・緊急連絡先を書面で確認。猫はご自宅で行うので、環境を変えずに済みます。",
+    },
+    {
+      title: "見積もり確認・予約",
+      text: "料金の内訳を確認してから予約を確定します。多頭割引などもこの時点で反映されるので、当日に金額が変わる心配はありません。",
+    },
+    {
+      title: "ケア当日・活動レポート",
+      text: "いつもの場所で、いつものようにケア。終了後には写真つきの活動レポートが届き、散歩ルートや食事量、気づいた変化まで共有されます。",
+    },
+  ];
+  const faqs = [
+    {
+      q: "初めてで不安です。いきなり預けることになりますか？",
+      a: "なりません。初回は必ずMeet & Greet（顔合わせ）から始まります。相性を確かめてから、予約に進むかどうかを決められます。",
+    },
+    {
+      q: "鍵の受け渡しはどうなりますか？",
+      a: "Meet & Greetの際に、受け渡し方法と保管ルールを書面で取り決めます。取り決めた内容は予約情報に記録されます。",
+    },
+    {
+      q: "料金はいつ、どうやって支払いますか？",
+      a: "予約確定前に見積もりで総額を確認できます。お支払いはオンライン決済で、現金のやり取りは不要です。",
+    },
+    {
+      q: "保険や補償はありますか？",
+      a: "現在、補償範囲を保険会社と協議しながら整えている段階です。事故時の連絡・記録・証跡を残す運用を先に整備しており、決まり次第プロフィール等で明示します。",
+    },
+  ];
+  return (
+    <main>
+      <section className="page-stack howto-page">
+        <div className="section-header">
+          <p>How to use</p>
+          <h2>はじめてのPawMate</h2>
+        </div>
+        <p className="howto-lead">
+          登録からケア当日まで、流れは5つだけ。
+          初回は必ず顔合わせから始まるので、初めてでも安心して進められます。
+        </p>
+        <ol className="howto-steps">
+          {steps.map((step, index) => (
+            <li className="howto-step" key={step.title}>
+              <span className="howto-num" aria-hidden="true">{index + 1}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div className="section-header">
+          <p>FAQ</p>
+          <h2>よくある質問</h2>
+        </div>
+        <dl className="howto-faq">
+          {faqs.map((faq) => (
+            <div className="howto-faq-item" key={faq.q}>
+              <dt>{faq.q}</dt>
+              <dd>{faq.a}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className="howto-cta">
+          <button className="btn primary" type="button" onClick={() => goTo("register")}>無料で始める</button>
+          <button className="btn ghost" type="button" onClick={() => goTo("carers")}>ケアラーを見てみる</button>
+        </div>
+      </section>
+      <Footer goTo={goTo} />
+    </main>
+  );
+}
+
+/** 先行登録用ランディングページ（/lp） */
+function PrelaunchLPPage({ notify, goTo }: { notify: (message: string) => void; goTo: (page: PageId) => void }) {
+  const [submitted, setSubmitted] = useState(false);
+
+  function submit() {
+    setSubmitted(true);
+    notify("先行登録を受け付けました");
+  }
+
+  const scenes = [
+    { title: "急な出張", text: "犬の散歩ができない日も、いつものコースをプロが歩きます。" },
+    { title: "家族旅行", text: "旅行中も、うちの子は住み慣れた家でいつも通りに過ごせます。" },
+    { title: "体調不良", text: "世話が難しい日は、罪悪感を持たずに頼っていい日です。" },
+    { title: "毎日の訪問ケア", text: "留守がちな平日も、決まった時間のケアを継続できます。" },
+    { title: "ホテルが苦手な子に", text: "環境の変化が苦手な猫も、自宅ケアなら負担がありません。" },
+  ];
+  const merits = [
+    "エリアにいる有資格ケアラーをいち早く確認できる",
+    "サービス開始時に優先的にご案内",
+    "初回利用クーポンの対象（準備中）",
+    "ケアラーへの要望を事前に伝えられる",
+  ];
+
+  return (
+    <main className="lp-page">
+      <section className="hero-section hero-full lp-hero">
+        <img
+          className="hero-bg"
+          src="https://images.unsplash.com/photo-1509205477838-a534e43a849f?w=1800&q=80"
+          alt="並んで座る犬と猫"
+        />
+        <div className="hero-scrim" aria-hidden="true" />
+        <div className="hero-inner">
+          <div className="hero-copy">
+            <p className="eyebrow">湘南エリア先行 · 有資格ケアラーのみ登録</p>
+            <h1>近くに、頼れる<br />プロが、いる安心。</h1>
+            <p className="lead">
+              湘南エリアで使えるか、まず確認してみませんか。
+              旅行・出張・体調不良のとき、信頼できる有資格ケアラーがそばにいる安心を。
+              先行登録で、エリアに合ったケアラーをご紹介します。
+            </p>
+          </div>
+        </div>
+        <Postmark className="hero-postmark" ring="PAWMATE · SHONAN · KANAGAWA · JAPAN ·" line1="SHONAN" line2="2026. 8. 18" />
+      </section>
+
+      <section className="lp-form-section">
+        <div className="lp-form-card">
+          {submitted ? (
+            <div className="lp-form-done">
+              <strong>登録を受け付けました。</strong>
+              <p>エリアの状況をメールでご連絡します。いつもの毎日に、頼れる選択肢が増えますように。</p>
+            </div>
+          ) : (
+            <>
+              <p className="lp-form-title">近くで使えるか、確認してみる</p>
+              <div className="lp-form-grid">
+                <label className="field">
+                  <span>お住まいのエリア</span>
+                  <select>
+                    {areas.map((area) => <option key={area}>{area}</option>)}
+                    <option>その他</option>
+                  </select>
+                </label>
+                <label className="field">
+                  <span>ペット種別</span>
+                  <select>
+                    <option>犬</option>
+                    <option>猫</option>
+                    <option>その他</option>
+                  </select>
+                </label>
+                <label className="field">
+                  <span>希望サービス</span>
+                  <select>
+                    {services.map((service) => <option key={service.id}>{service.title}</option>)}
+                  </select>
+                </label>
+                <label className="field">
+                  <span>メールアドレス</span>
+                  <input type="email" placeholder="you@example.com" />
+                </label>
+              </div>
+              <button className="btn primary full" type="button" onClick={submit}>
+                エリアのケアラーを確認する
+              </button>
+              <p className="lp-form-note">先行登録は無料です。準備が整ったエリアから順にご案内します。</p>
+            </>
+          )}
+        </div>
+      </section>
+
+      <SectionHeader label="Scenes" title="こんな時に使えます" />
+      <section className="section grid-3 lp-scenes">
+        {scenes.map((scene) => (
+          <article className="trust-card" key={scene.title}>
+            <h3>{scene.title}</h3>
+            <p>{scene.text}</p>
+          </article>
+        ))}
+      </section>
+
+      <SectionHeader label="Benefits" title="先行登録するとできること" />
+      <section className="section lp-merits">
+        <ul className="check-list">
+          {merits.map((merit) => <li key={merit}>{merit}</li>)}
+        </ul>
+      </section>
+
+      <section className="lp-trust-band">
+        <Postmark className="lp-trust-stamp" ring="PAWMATE · TRUST · VERIFIED ·" line1="確認済" line2="SHONAN OFFICE" />
+        <p>
+          登録できるのは、動物取扱業の登録などを確認できたプロのケアラーのみ。
+          登録番号・保有資格・リピート率をプロフィールで明示します。
+        </p>
+      </section>
+
+      <section className="cta-section">
+        <h2>ペットと暮らす人が、もっと自由に。</h2>
+        <p>茅ヶ崎・藤沢・鎌倉・平塚・辻堂で先行展開中。</p>
+        <div>
+          <button className="btn light" type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>先行登録する（無料）</button>
+          <button className="btn outline-light" type="button" onClick={() => goTo("landing")}>サービスを詳しく見る</button>
+        </div>
+      </section>
+      <Footer goTo={goTo} />
+    </main>
+  );
+}
+
 function Footer({ goTo }: { goTo: (page: PageId) => void }) {
   return (
     <footer className="footer">
@@ -1061,10 +1304,11 @@ function Footer({ goTo }: { goTo: (page: PageId) => void }) {
         <button type="button" onClick={() => goTo("carers")}>ケアラーを探す</button>
         <button type="button" onClick={() => goTo("requests")}>依頼を探す</button>
         <button type="button" onClick={() => goTo("carer-profile")}>プロとして参加</button>
+        <button type="button" onClick={() => goTo("lp")}>先行登録（無料）</button>
       </div>
       <div>
         <h4>サポート</h4>
-        <span>よくある質問</span>
+        <button type="button" onClick={() => goTo("how-to-use")}>よくある質問</button>
         <span>お問い合わせ</span>
         <span>プライバシーポリシー</span>
       </div>
