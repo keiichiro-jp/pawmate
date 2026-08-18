@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a15",
+    "agent_code": "A15",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A15｜SEO Content Agent",
+      "priority_band": "Phase 3 candidate"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "SEO Content Agent",
+    "tagline": "地域検索からPawMateへつながる記事導線を作る",
+    "mission": "湘南ペット情報メディア、記事企画、検索流入。",
+    "main_tasks": [
+      "湘南ペット情報メディア、記事企画、検索流入。"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "SEO Content Agentが、地域検索からPawMateへつながる記事導線を作ることでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md",
+      "pawmate_stp.md",
+      "pawmate_4p.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

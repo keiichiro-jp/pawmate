@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "project": "PawMate",
+    "agent_id": "pawmate_a10_research_and_intelligence_v1",
+    "source": {
+      "document": "Pawmate/pawmate_agent_team.md",
+      "agent_ref": "A10",
+      "team_kind": "specialist"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "A10｜Research & Intelligence Agent",
+    "tagline": "最新情報を調べ、比較可能な判断材料へ変換する",
+    "mission": "市場、競合、行政窓口、保険会社、提携先、スマートロック、法人候補などの調査を担当する。",
+    "primary_user": "Kei / PawMate founder",
+    "main_tasks": [
+      "神奈川県動物愛護センターの手続き確認",
+      "損保会社の問い合わせ先調査",
+      "Stripe Connect調査",
+      "Qrio Lock等のスマートロック調査",
+      "DogHuggy / ペットゴー調査",
+      "横浜・川崎・相模原の市場調査"
+    ],
+    "tickets_to_watch": [
+      "PM-RM-NOW-002",
+      "PM-RM-NOW-003",
+      "PM-RM-NOW-004",
+      "PM-RM-P3-008",
+      "PM-RM-P4-001",
+      "PM-RM-P4-002"
+    ],
+    "standard_deliverables": [
+      "調査メモ",
+      "比較表",
+      "問い合わせ先リスト",
+      "参考リンク一覧"
+    ],
+    "typical_scenarios": [
+      "関連チケット（PM-RM-NOW-002, PM-RM-NOW-003, PM-RM-NOW-004）に着手する前に、目的・完了ライン・Kei確認事項を整理する。",
+      "最新情報が必要な項目をWeb確認し、出典リンク付きの比較表や問い合わせ先リストにする。",
+      "Gate前または外部送信前に、未確定・Waiting・Blocked・リスクを分離して判断材料を出す。"
+    ],
+    "value_for_user": "Research & Intelligence領域の前捌き・下書き・論点整理を任せることで、Keiは意思決定と実行に集中できる。",
+    "confirmation_points_for_kei": [
+      "着手順",
+      "許容リスク",
+      "次にKeiが決めること"
+    ]
+  },
+  "review_summary": {
+    "focus": "PawMateのGate運用、1日5チケット運用、茅ヶ崎から深めて広げるロードマップに沿うよう、担当領域を単一主責務へ寄せた。",
+    "readiness": "004以降で、入力契約・出力契約・安全境界・Keiへの確認事項へ分解できる粒度になっている。"
+  }
+}

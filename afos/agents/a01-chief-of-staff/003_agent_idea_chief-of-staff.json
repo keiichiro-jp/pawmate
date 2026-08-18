@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "project": "PawMate",
+    "agent_id": "pawmate_a01_chief_of_staff_v1",
+    "source": {
+      "document": "Pawmate/pawmate_agent_team.md",
+      "agent_ref": "A01",
+      "team_kind": "core"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "A01｜Chief of Staff Agent",
+    "tagline": "今日の5チケットを迷わず動かす進行管理エージェント",
+    "mission": "PawMate全体の秘書・PMO。日次5チケット運用、ブロッカー管理、Gate判定、Keiへの意思決定依頼を担う。",
+    "primary_user": "Kei / PawMate founder",
+    "main_tasks": [
+      "`pawmate_daily_calendar_fast.md` の毎朝チェック",
+      "`pawmate_tickets.md` のStatus更新案",
+      "1日5チケットの優先順位調整",
+      "Waiting / Blocked / Done の棚卸し",
+      "Gate条件との差分管理"
+    ],
+    "tickets_to_watch": [
+      "PM-RM-P0-GATE",
+      "PM-RM-P1-GATE",
+      "PM-RM-P2-GATE",
+      "PM-RM-P3-GATE",
+      "PM-RM-P4-GATE"
+    ],
+    "standard_deliverables": [
+      "今日の5チケット",
+      "今日の最小完了ライン",
+      "Waitingへ送るもの",
+      "Keiが判断すべきこと"
+    ],
+    "typical_scenarios": [
+      "関連チケット（PM-RM-P0-GATE, PM-RM-P1-GATE, PM-RM-P2-GATE）に着手する前に、目的・完了ライン・Kei確認事項を整理する。",
+      "今日の5チケット、今日の最小完了ライン、Waitingへ送るものを初稿として作り、A01またはKeiが次アクションを決められる状態にする。",
+      "Gate前または外部送信前に、未確定・Waiting・Blocked・リスクを分離して判断材料を出す。"
+    ],
+    "value_for_user": "Keiが毎朝、何から進めるべきかと何を待ちに送るべきかを即判断できる。",
+    "confirmation_points_for_kei": [
+      "着手順",
+      "許容リスク",
+      "次にKeiが決めること"
+    ]
+  },
+  "review_summary": {
+    "focus": "PawMateのGate運用、1日5チケット運用、茅ヶ崎から深めて広げるロードマップに沿うよう、担当領域を単一主責務へ寄せた。",
+    "readiness": "004以降で、入力契約・出力契約・安全境界・Keiへの確認事項へ分解できる粒度になっている。"
+  }
+}

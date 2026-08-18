@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PawMate — ペットケアマッチング</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--white:#FAFCFF;--sky:#E8F4FD;--blue-light:#C5E3F7;--blue-mid:#5BAFD6;--blue-deep:#2A7FAF;--green-soft:#D4EDD9;--green-mid:#6BBD85;--green-deep:#3A9A58;--slate:#4A5568;--slate-light:#718096;--charcoal:#1A2533;--danger:#E53E3E;--sc:0 4px 24px rgba(42,127,175,.10),0 1px 4px rgba(42,127,175,.06);--sh:0 12px 40px rgba(42,127,175,.18),0 2px 8px rgba(42,127,175,.10);--r:18px;--rs:10px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--white);color:var(--charcoal);overflow-x:hidden;}
+.page{display:none;min-height:100vh;}.page.active{display:block;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:rgba(250,252,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(197,227,247,.5);}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:22px;color:var(--blue-deep);cursor:pointer;}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+.nav-links a{font-size:13px;font-weight:700;color:var(--slate);cursor:pointer;text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--blue-deep);}
+.nav-cta{display:flex;gap:10px;}
+
+/* BUTTONS */
+.btn{padding:9px 22px;border-radius:40px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .22s;display:inline-flex;align-items:center;gap:6px;}
+.btn-ghost{background:transparent;border:1.5px solid var(--blue-mid);color:var(--blue-deep);}
+.btn-ghost:hover{background:var(--sky);}
+.btn-primary{background:linear-gradient(135deg,var(--blue-mid),var(--blue-deep));color:#fff;box-shadow:0 4px 14px rgba(42,127,175,.35);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 7px 20px rgba(42,127,175,.45);}
+.btn-green{background:linear-gradient(135deg,var(--green-mid),var(--green-deep));color:#fff;}
+.btn-green:hover{transform:translateY(-1px);}
+.btn-danger{background:var(--danger);color:#fff;}
+.btn-sm{padding:6px 14px;font-size:12px;border-radius:20px;}
+.btn-lg{padding:14px 34px;font-size:15px;border-radius:50px;}
+.btn-cta-white{padding:15px 36px;border-radius:50px;background:#fff;color:var(--blue-deep);font-size:15px;font-weight:900;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.20);transition:all .3s;font-family:inherit;}
+.btn-cta-white:hover{transform:translateY(-2px);}
+.btn-cta-outline{padding:14px 34px;border-radius:50px;background:transparent;color:#fff;font-size:15px;font-weight:900;border:2px solid rgba(255,255,255,.5);cursor:pointer;transition:all .25s;font-family:inherit;}
+.btn-cta-outline:hover{border-color:#fff;}
+
+/* FORMS */
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--slate);margin-bottom:6px;text-transform:uppercase;}
+.form-control{width:100%;padding:11px 14px;border-radius:var(--rs);border:1.5px solid var(--blue-light);background:#fff;font-size:14px;color:var(--charcoal);font-family:inherit;transition:border-color .2s;outline:none;}
+.form-control:focus{border-color:var(--blue-mid);box-shadow:0 0 0 3px rgba(91,175,214,.12);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-hint{font-size:11px;color:var(--slate-light);margin-top:4px;}
+textarea.form-control{resize:vertical;min-height:90px;}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.badge-blue{background:rgba(91,175,214,.15);color:var(--blue-deep);}
+.badge-green{background:rgba(107,189,133,.18);color:var(--green-deep);}
+.badge-orange{background:rgba(245,166,35,.15);color:#B7801A;}
+.badge-gray{background:rgba(113,128,150,.12);color:var(--slate);}
+.stars{color:#F5A623;font-size:13px;letter-spacing:1px;}
+
+/* LAYOUT */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+
+/* APP SHELL */
+.app-layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh;padding-top:64px;}
+.sidebar{background:#fff;border-right:1px solid rgba(197,227,247,.6);padding:16px 0;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto;}
+.sidebar-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-light);padding:12px 16px 6px;}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:var(--rs);margin:0 8px 2px;font-size:13px;font-weight:700;color:var(--slate);cursor:pointer;transition:all .18s;}
+.sidebar-item:hover{background:var(--sky);color:var(--blue-deep);}
+.sidebar-item.active{background:linear-gradient(135deg,rgba(91,175,214,.15),rgba(91,175,214,.08));color:var(--blue-deep);}
+.sidebar-item .icon{font-size:16px;width:20px;text-align:center;}
+.sidebar-badge{margin-left:auto;background:var(--blue-deep);color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;}
+.main-content{padding:32px;background:var(--white);}
+.page-header{margin-bottom:28px;}
+.page-header h1{font-family:'Playfair Display',serif;font-size:28px;color:var(--charcoal);margin-bottom:4px;}
+.page-header p{font-size:14px;color:var(--slate-light);}
+
+/* STAT CARD */
+.stat-card{background:#fff;border-radius:var(--r);padding:20px 24px;box-shadow:var(--sc);}
+.stat-num{font-family:'Playfair Display',serif;font-size:32px;color:var(--blue-deep);font-weight:700;}
+.stat-label{font-size:12px;font-weight:700;color:var(--slate-light);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;}
+.stat-delta{font-size:11px;color:var(--green-deep);font-weight:700;margin-top:4px;}
+
+/* CARD */
+.card{background:#fff;border-radius:var(--r);box-shadow:var(--sc);}
+.card-body{padding:24px;}
+
+/* CARER CARD */
+.carer-card{background:#fff;border-radius:var(--r);box-shadow:var(--sc);padding:20px;cursor:pointer;border:1.5px solid transparent;transition:all .25s;}
+.carer-card:hover{transform:translateY(-4px);box-shadow:var(--sh);border-color:var(--blue-light);}
+.carer-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--blue-light),var(--sky));display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.carer-name{font-size:15px;font-weight:900;margin-bottom:2px;}
+.carer-area{font-size:12px;color:var(--slate-light);margin-bottom:6px;}
+.carer-price{font-family:'Playfair Display',serif;font-size:18px;color:var(--blue-deep);}
+.carer-price span{font-size:11px;font-family:'Zen Kaku Gothic New';color:var(--slate-light);}
+
+/* REQUEST CARD */
+.request-card{background:#fff;border-radius:var(--r);box-shadow:var(--sc);padding:20px;border-left:4px solid var(--blue-mid);}
+
+/* BOOKING CARD */
+.booking-card{background:#fff;border-radius:var(--r);box-shadow:var(--sc);padding:20px;}
+
+/* MESSAGES */
+.msg-layout{display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 64px - 130px);background:#fff;border-radius:var(--r);box-shadow:var(--sc);overflow:hidden;}
+.msg-list{border-right:1px solid var(--sky);overflow-y:auto;}
+.msg-list-item{padding:14px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--sky);}
+.msg-list-item:hover,.msg-list-item.active{background:var(--sky);}
+.msg-chat{display:flex;flex-direction:column;}
+.msg-chat-header{padding:16px 20px;border-bottom:1px solid var(--sky);}
+.msg-chat-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;}
+.msg-bubble{max-width:68%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.65;}
+.msg-bubble.mine{background:linear-gradient(135deg,var(--blue-mid),var(--blue-deep));color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.msg-bubble.theirs{background:var(--sky);color:var(--charcoal);align-self:flex-start;border-bottom-left-radius:4px;}
+.msg-bubble .time{font-size:10px;opacity:.65;margin-top:4px;}
+.msg-input-area{padding:14px 16px;border-top:1px solid var(--sky);display:flex;gap:10px;}
+.msg-input{flex:1;padding:10px 14px;border-radius:24px;border:1.5px solid var(--blue-light);font-family:inherit;font-size:14px;outline:none;}
+.msg-input:focus{border-color:var(--blue-mid);}
+
+/* PET CARD */
+.pet-card{background:#fff;border-radius:var(--r);box-shadow:var(--sc);padding:22px;text-align:center;}
+
+/* ADMIN TABLE */
+.table{width:100%;border-collapse:collapse;}
+.table th{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate-light);padding:10px 14px;text-align:left;border-bottom:2px solid var(--sky);}
+.table td{padding:14px;border-bottom:1px solid rgba(232,244,253,.8);font-size:13px;vertical-align:middle;}
+.table tr:last-child td{border-bottom:none;}
+.table tr:hover td{background:rgba(232,244,253,.3);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(26,37,51,.5);z-index:500;display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);}
+.modal-overlay.hidden{display:none;}
+.modal{background:#fff;border-radius:var(--r);width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(42,127,175,.20);}
+.modal-header{padding:24px 24px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--sky);}
+.modal-header h3{font-family:'Playfair Display',serif;font-size:20px;}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--slate-light);}
+.modal-body{padding:24px;}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--sky);display:flex;gap:10px;justify-content:flex-end;}
+
+/* TABS */
+.tabs{display:flex;gap:4px;background:var(--sky);border-radius:var(--rs);padding:4px;margin-bottom:24px;}
+.tab{flex:1;padding:8px;text-align:center;font-size:13px;font-weight:700;border-radius:7px;cursor:pointer;transition:all .2s;color:var(--slate);}
+.tab.active{background:#fff;color:var(--blue-deep);box-shadow:0 2px 8px rgba(42,127,175,.12);}
+
+/* FILTER BAR */
+.filter-bar{background:#fff;border-radius:var(--r);padding:16px 20px;box-shadow:var(--sc);display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:24px;}
+.filter-field{display:flex;flex-direction:column;flex:1;min-width:130px;}
+.filter-field label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--blue-mid);text-transform:uppercase;margin-bottom:4px;}
+.filter-field select,.filter-field input{font-size:14px;font-weight:700;color:var(--charcoal);border:none;outline:none;background:transparent;font-family:inherit;}
+.filter-divider{width:1px;height:32px;background:var(--blue-light);flex-shrink:0;}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;right:32px;z-index:999;background:var(--charcoal);color:#fff;padding:14px 22px;border-radius:var(--rs);font-size:14px;font-weight:700;box-shadow:0 8px 32px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:var(--green-deep);}
+
+/* AUTH */
+.auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#FAFCFF 0%,#EBF6FD 45%,#E2F4E8 100%);padding:24px;}
+.auth-card{background:#fff;border-radius:var(--r);box-shadow:var(--sh);width:100%;max-width:440px;padding:40px;}
+.auth-logo{text-align:center;font-family:'Playfair Display',serif;font-size:24px;color:var(--blue-deep);margin-bottom:8px;}
+.auth-subtitle{text-align:center;font-size:13px;color:var(--slate-light);margin-bottom:32px;}
+.auth-switch{text-align:center;font-size:13px;color:var(--slate-light);margin-top:20px;}
+.auth-switch a{color:var(--blue-deep);font-weight:700;cursor:pointer;}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--blue-light);}
+.divider span{font-size:11px;color:var(--slate-light);font-weight:700;}
+.role-selector{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.role-option{border:2px solid var(--blue-light);border-radius:var(--rs);padding:14px;text-align:center;cursor:pointer;transition:all .2s;}
+.role-option:hover,.role-option.selected{border-color:var(--blue-mid);background:var(--sky);}
+.role-option .ri{font-size:24px;margin-bottom:6px;}
+.role-option .rl{font-size:13px;font-weight:900;}
+.role-option .rd{font-size:11px;color:var(--slate-light);}
+
+/* LANDING */
+.hero{min-height:100vh;display:flex;align-items:center;padding:100px 40px 60px;position:relative;overflow:hidden;background:linear-gradient(160deg,#FAFCFF 0%,#EBF6FD 45%,#E2F4E8 100%);}
+.hbg{position:absolute;border-radius:50%;pointer-events:none;}
+.hbg.c1{width:600px;height:600px;background:radial-gradient(circle,rgba(91,175,214,.12) 0%,transparent 70%);top:-100px;right:-100px;}
+.hbg.c2{width:400px;height:400px;background:radial-gradient(circle,rgba(107,189,133,.10) 0%,transparent 70%);bottom:0;left:10%;}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;width:100%;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px 5px 10px;background:rgba(107,189,133,.15);border:1px solid rgba(107,189,133,.4);border-radius:40px;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--green-deep);text-transform:uppercase;margin-bottom:20px;}
+.hdot{width:6px;height:6px;border-radius:50%;background:var(--green-mid);animation:pdot 2s infinite;}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,58px);line-height:1.15;color:var(--charcoal);margin-bottom:10px;}
+.hero-title em{font-style:italic;color:var(--blue-deep);}
+.hero-sub{font-size:clamp(17px,2.5vw,22px);font-weight:900;letter-spacing:-.02em;color:var(--charcoal);margin-bottom:18px;line-height:1.4;}
+.hero-desc{font-size:15px;line-height:1.8;color:var(--slate-light);margin-bottom:28px;max-width:460px;}
+.hero-visual{display:grid;grid-template-columns:1fr 1fr;gap:14px;animation:fup .8s ease both;}
+@keyframes fup{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-card{background:#fff;border-radius:var(--r);padding:20px;box-shadow:var(--sc);transition:transform .3s,box-shadow .3s;}
+.hero-card:hover{transform:translateY(-4px);box-shadow:var(--sh);}
+.hero-card.large{grid-column:1/3;}
+.hero-card.ag{background:linear-gradient(135deg,#F0FAF3,#E2F4E8);}
+.hero-card.ab{background:linear-gradient(135deg,#EBF6FD,#D6EEFA);}
+.hsearch{background:#fff;border-radius:14px;padding:16px 20px;box-shadow:0 8px 32px rgba(42,127,175,.15);display:flex;gap:12px;align-items:center;margin-bottom:24px;border:1.5px solid var(--blue-light);flex-wrap:wrap;}
+.sf{display:flex;flex-direction:column;flex:1;min-width:120px;}
+.sf label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--blue-mid);text-transform:uppercase;margin-bottom:4px;}
+.sf input,.sf select{font-size:14px;font-weight:700;color:var(--charcoal);border:none;outline:none;background:transparent;font-family:inherit;}
+.sf input::placeholder{color:var(--slate-light);font-weight:400;}
+.sdiv{width:1px;height:36px;background:var(--blue-light);flex-shrink:0;}
+.sbtn{padding:10px 24px;border-radius:10px;background:linear-gradient(135deg,var(--blue-mid),var(--blue-deep));color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0;transition:all .2s;}
+.sbtn:hover{transform:scale(1.03);}
+.area-tag{padding:4px 12px;border-radius:20px;background:rgba(91,175,214,.12);border:1px solid rgba(91,175,214,.3);font-size:11px;font-weight:700;color:var(--blue-deep);}
+.sl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:10px;}
+.st{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,42px);line-height:1.25;color:var(--charcoal);margin-bottom:14px;}
+.st em{font-style:italic;color:var(--blue-deep);}
+.sd{font-size:15px;line-height:1.8;color:var(--slate-light);max-width:520px;}
+.svc-card{background:#fff;border-radius:var(--r);padding:32px 28px;box-shadow:var(--sc);border:1.5px solid transparent;transition:all .3s;}
+.svc-card:hover{transform:translateY(-6px);box-shadow:var(--sh);border-color:var(--blue-light);}
+.svc-icon{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:18px;}
+.svc-icon.walk{background:linear-gradient(135deg,#C5E3F7,#EBF6FD);}
+.svc-icon.day{background:linear-gradient(135deg,#D4EDD9,#E8F8EC);}
+.svc-icon.stay{background:linear-gradient(135deg,#E8DCFF,#F4EEFF);}
+.svc-title{font-size:18px;font-weight:900;margin-bottom:8px;}
+.svc-desc{font-size:13px;color:var(--slate-light);line-height:1.7;margin-bottom:16px;}
+.svc-price{font-family:'Playfair Display',serif;font-size:20px;color:var(--blue-deep);font-weight:700;}
+.svc-price span{font-size:12px;font-family:'Zen Kaku Gothic New';color:var(--slate-light);font-weight:400;}
+.trust-card{border-radius:var(--r);padding:28px;background:linear-gradient(135deg,var(--sky),#fff);border:1px solid rgba(197,227,247,.6);}
+.trust-icon{font-size:32px;margin-bottom:14px;}
+.trust-title{font-size:16px;font-weight:900;margin-bottom:8px;}
+.trust-text{font-size:13px;color:var(--slate-light);line-height:1.7;}
+.rev-card{background:#fff;border-radius:var(--r);padding:24px;box-shadow:var(--sc);}
+.rev-hdr{display:flex;gap:12px;align-items:center;margin-bottom:14px;}
+.rev-av{width:42px;height:42px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:18px;}
+.how-step{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;}
+.step-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;}
+.step-num.blue{background:linear-gradient(135deg,var(--blue-mid),var(--blue-deep));color:#fff;}
+.step-num.green{background:linear-gradient(135deg,var(--green-mid),var(--green-deep));color:#fff;}
+.rlbl{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;padding:5px 12px;border-radius:20px;}
+.rlbl.owner{background:rgba(91,175,214,.15);color:var(--blue-deep);}
+.rlbl.carer{background:rgba(107,189,133,.15);color:var(--green-deep);}
+.cta-s{background:linear-gradient(135deg,var(--blue-deep) 0%,#1A5C8A 100%);padding:96px 40px;text-align:center;position:relative;overflow:hidden;}
+.cta-t{font-family:'Playfair Display',serif;font-size:clamp(30px,4vw,48px);color:#fff;margin-bottom:14px;}
+footer{background:var(--charcoal);padding:60px 40px 36px;color:rgba(255,255,255,.6);}
+.fi{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+.fb .logo{font-family:'Playfair Display',serif;font-size:20px;color:#fff;margin-bottom:12px;display:block;}
+.fb p{font-size:13px;line-height:1.75;}
+.fc h4{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:16px;}
+.fc ul{list-style:none;}
+.fc ul li{margin-bottom:10px;}
+.fc ul li a{font-size:13px;color:rgba(255,255,255,.55);text-decoration:none;cursor:pointer;}
+.fc ul li a:hover{color:#fff;}
+.fb-bot{max-width:1200px;margin:0 auto;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font-size:12px;}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+.profile-hero{background:linear-gradient(135deg,var(--sky),var(--green-soft));border-radius:var(--r);padding:32px;margin-bottom:24px;display:flex;gap:24px;align-items:flex-start;}
+.profile-av-lg{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--blue-mid),var(--blue-deep));display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;}
+.avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+.avail-day{text-align:center;}
+.avail-day .dn{font-size:10px;font-weight:700;color:var(--slate-light);text-transform:uppercase;margin-bottom:4px;}
+.avail-day .dd{width:28px;height:28px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.avail-day .dd.on{background:var(--green-soft);color:var(--green-deep);}
+.avail-day .dd.off{background:var(--sky);color:var(--slate-light);}
+.star-in{display:flex;gap:4px;}
+.star-in span{font-size:28px;cursor:pointer;color:#ddd;transition:color .1s;}
+.star-in span.lit{color:#F5A623;}
+
+@media(max-width:900px){
+  nav{padding:0 20px;}.nav-links{display:none;}
+  .hero-inner,.grid-2,.grid-3,.grid-4,.app-layout,.msg-layout,.fi{grid-template-columns:1fr;}
+  .hero{padding:90px 20px 48px;}.hero-visual{display:none;}
+  .main-content{padding:20px;}.sidebar{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST & MODAL -->
+<div class="toast" id="toast"></div>
+<div class="modal-overlay hidden" id="modalOverlay">
+  <div class="modal"><div class="modal-header"><h3 id="mTitle"></h3><button class="modal-close" onclick="closeModal()">✕</button></div><div class="modal-body" id="mBody"></div><div class="modal-footer" id="mFooter"></div></div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-logo" onclick="goTo('landing')">🐾 PawMate</div>
+  <ul class="nav-links">
+    <li><a onclick="goTo('landing')">ホーム</a></li>
+    <li><a onclick="goTo('carers')">ケアラーを探す</a></li>
+    <li><a onclick="goTo('requests')">依頼掲示板</a></li>
+    <li><a onclick="goTo('how')">使い方</a></li>
+    <li><a onclick="goTo('how')" style="color:var(--green-deep);">🏛️ 資格について</a></li>
+  </ul>
+  <div class="nav-cta" id="navCta">
+    <button class="btn btn-ghost" onclick="goTo('login')">ログイン</button>
+    <button class="btn btn-primary" onclick="goTo('register')">無料登録</button>
+  </div>
+</nav>
+
+<!-- ========== LANDING ========== -->
+<div class="page active" id="page-landing">
+  <section class="hero">
+    <div class="hbg c1"></div><div class="hbg c2"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge"><span class="hdot"></span>神奈川・湘南エリア 先行サービス開始</div>
+        <h1 class="hero-title">Your pet's<br><em>trusted friend,</em><br>nearby.</h1>
+        <p class="hero-sub">信頼できるペットシッターを、<br>あなたの近くで。</p>
+        <p class="hero-desc">PawMateは、ペットの飼い主とケアラーをつなぐマッチングプラットフォームです。散歩・日中お預かり・宿泊まで、大切なペットを安心して任せられる人を見つけましょう。</p>
+        <div class="hsearch">
+          <div class="sf"><label>サービス</label><select><option>🦮 散歩・運動</option><option>🏠 日中お預かり</option><option>🌙 宿泊・泊がけ</option></select></div>
+          <div class="sdiv"></div>
+          <div class="sf"><label>エリア</label><input type="text" placeholder="茅ヶ崎・藤沢・鎌倉..."></div>
+          <div class="sdiv"></div>
+          <div class="sf"><label>日付</label><input type="text" placeholder="いつでも"></div>
+          <button class="sbtn" onclick="goTo('carers')">ケアラーを探す</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <span style="font-size:11px;color:var(--slate-light);">対応エリア：</span>
+          <span class="area-tag">茅ヶ崎</span><span class="area-tag">藤沢</span><span class="area-tag">鎌倉</span><span class="area-tag">平塚</span><span class="area-tag">辻堂</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card large">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:20px;">🧑‍🦱</div>
+            <div style="flex:1;"><div style="font-size:13px;font-weight:700;margin-bottom:2px;">さとう まりな</div><div style="font-size:11px;color:var(--slate-light);">🏡 茅ヶ崎 · 経験3年</div><div class="stars" style="font-size:12px;">★★★★★ <span style="color:var(--slate-light);font-size:11px;">4.97（128件）</span></div></div>
+            <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--blue-deep);">¥800<span style="font-size:11px;font-family:'Zen Kaku Gothic New';color:var(--slate-light);">/30分</span></div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;"><span class="badge badge-blue">🦮 散歩</span><span class="badge badge-blue">🏠 お預かり</span><span class="badge badge-green">✓ 審査済み</span></div>
+        </div>
+        <div class="hero-card ab"><div style="font-size:24px;margin-bottom:8px;">📋</div><div style="font-size:13px;font-weight:700;margin-bottom:4px;">依頼を投稿</div><div style="font-size:11px;color:var(--slate-light);margin-bottom:8px;">ケアラーから応募が届きます</div><span class="badge badge-orange">🔔 新着応募 3件</span></div>
+        <div class="hero-card ag"><div style="font-size:24px;margin-bottom:8px;">🌙</div><div style="font-size:13px;font-weight:700;margin-bottom:4px;">宿泊・泊がけ</div><div style="font-size:11px;color:var(--slate-light);margin-bottom:8px;">旅行中も安心</div><div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--blue-deep);">¥3,500〜</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <div style="background:linear-gradient(180deg,var(--white) 0%,var(--sky) 100%);padding:96px 40px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="sl fade-in">Services</div>
+      <h2 class="st fade-in">3つのサービスで、<br><em>あらゆるシーンに対応</em></h2>
+      <div class="grid-3" style="margin-top:52px;">
+        <div class="svc-card fade-in"><div class="svc-icon walk">🦮</div><div class="svc-title">散歩・運動</div><p class="svc-desc">仕事や急用で時間が取れない日の代わりの散歩。ケアラーが責任を持って安全にお散歩します。</p><div class="svc-price">¥800〜<span>/30分</span></div></div>
+        <div class="svc-card fade-in"><div class="svc-icon day">🏠</div><div class="svc-title">日中お預かり・訪問ケア</div><p class="svc-desc">出勤中や外出中の日中、ケアラーの自宅でお預かり、または飼い主の自宅への訪問ケア。</p><div class="svc-price">¥2,000〜<span>/日</span></div></div>
+        <div class="svc-card fade-in"><div class="svc-icon stay">🌙</div><div class="svc-title">宿泊・泊がけ</div><p class="svc-desc">旅行や出張中もペットが寂しくないよう、ケアラーの自宅で一緒に過ごします。写真レポートも。</p><div class="svc-price">¥3,500〜<span>/泊</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div style="padding:96px 40px;background:var(--white);" id="how">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="sl fade-in">How It Works</div>
+      <h2 class="st fade-in">かんたん<em>4ステップ</em>ではじまる</h2>
+      <div class="grid-2" style="margin-top:48px;gap:60px;">
+        <div class="fade-in">
+          <div class="rlbl owner">👤 飼い主（オーナー）</div>
+          <div class="how-step"><div class="step-num blue">1</div><div><div style="font-size:14px;font-weight:900;margin-bottom:4px;">アカウント作成・ペット登録</div><div style="font-size:13px;color:var(--slate-light);line-height:1.65;">名前・種類・写真・注意事項をプロフィールに登録。</div></div></div>
+          <div class="how-step"><div class="step-num blue">2</div><div><div style="font-size:14px;font-weight:900;margin-bottom:4px;">依頼を投稿 or ケアラーを検索</div><div style="font-size:13px;color:var(--slate-light);line-height:1.65;">掲示板に依頼を投稿するか、エリア・日時でケアラーを直接検索。</div></div></div>
+          <div class="how-step"><div class="step-num blue">3</div><div><div style="font-size:14px;font-weight:900;margin-bottom:4px;">ケアラーを選んで事前支払い</div><div style="font-size:13px;color:var(--slate-light);line-height:1.65;">プロフィール・レビューを確認し、Stripe経由で安全に支払い。</div></div></div>
+          <div class="how-step"><div class="step-num blue">4</div><div><div style="font-size:14px;font-weight:900;margin-bottom:4px;">レビューを書いて完了</div><div style="font-size:13px;color:var(--slate-light);line-height:1.65;">サービス完了後、5段階＋コメントでレビュー。</div></div></div>
+        </div>
+        <div class="fade-in">
+          <div class="rlbl carer">🌿 ケアラー</div>
+          <div class="how-step"><div class="step-num green">1</div><div><div style="font-size:14px;font-weight:900;margin-bottom:4px;">プロフィールを作成・申請</div><div style="font-size:13px;color:var(--slate-light);line-height:1.65;">自己紹介・対応サービス・エリア・空き時間・写真を登録。</div></div></div>
+          <div class="how-step"><div class="step-num green">2</div><div><div style="font-size:14px;font-weight:900;margin-bottom:4px;">管理者による審査・承認</div><div style="font-size:13px;color:var(--slate-light);line-height:1.65;">管理チームが確認。承認後、プロフィールが公開されます。</div></div></div>
+          <div class="how-step"><div class="step-num green">3</div><div><div style="font-size:14px;font-weight:900;margin-bottom:4px;">依頼に応募 or リクエストを承認</div><div style="font-size:13px;color:var(--slate-light);line-height:1.65;">掲示板の依頼に応募、または直接リクエストに返答。</div></div></div>
+          <div class="how-step"><div class="step-num green">4</div><div><div style="font-size:14px;font-weight:900;margin-bottom:4px;">サービス完了・報酬受け取り</div><div style="font-size:13px;color:var(--slate-light);line-height:1.65;">完了後、手数料を差し引いた報酬が振り込まれます。</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRUST -->
+  <div style="padding:96px 40px;background:linear-gradient(180deg,var(--white) 0%,var(--sky) 100%);">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="sl fade-in">Safety & Trust</div>
+      <h2 class="st fade-in">安心して任せられる<br><em>信頼の仕組み</em></h2>
+      <div class="grid-3" style="margin-top:52px;">
+        <div class="trust-card fade-in" style="border:1.5px solid rgba(58,154,88,.3);background:linear-gradient(135deg,rgba(58,154,88,.06),#fff);"><div class="trust-icon">🏛️</div><div class="trust-title">有資格者のみ登録可能</div><p class="trust-text">「第一種動物取扱業」登録者のみ活動可。登録番号・登録証の原本確認を全員に実施します。</p></div>
+        <div class="trust-card fade-in"><div class="trust-icon">🎖️</div><div class="trust-title">資格バッジで一目でわかる</div><p class="trust-text">JKC公認訓練士・認定動物看護士など、ケアラーごとの保有資格をプロフィールに明示します。</p></div>
+        <div class="trust-card fade-in"><div class="trust-icon">💳</div><div class="trust-title">プラットフォーム内決済</div><p class="trust-text">Stripe経由の安全な事前決済。現金のやり取りなし。</p></div>
+        <div class="trust-card fade-in"><div class="trust-icon">⭐</div><div class="trust-title">5段階レビュー制度</div><p class="trust-text">サービス完了後の評価で信頼できるケアラーが一目でわかります。</p></div>
+        <div class="trust-card fade-in"><div class="trust-icon">💬</div><div class="trust-title">プラットフォーム内チャット</div><p class="trust-text">予約確定後は専用チャットで詳細を調整できます。</p></div>
+        <div class="trust-card fade-in"><div class="trust-icon">🐾</div><div class="trust-title">ペット情報の一元管理</div><p class="trust-text">種類・名前・写真・注意事項を登録しておけば毎回の入力不要。</p></div>
+        <div class="trust-card fade-in"><div class="trust-icon">📍</div><div class="trust-title">エリア絞り込み</div><p class="trust-text">神奈川・湘南エリアから先行スタート。地域密着型のサービス。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div style="padding:96px 40px;background:linear-gradient(180deg,var(--white) 0%,#F0FAF3 100%);">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="sl fade-in">Reviews</div>
+      <h2 class="st fade-in">飼い主さんの<em>声</em></h2>
+      <div class="grid-3" style="margin-top:52px;">
+        <div class="rev-card fade-in"><div class="rev-hdr"><div class="rev-av">🐕</div><div><div style="font-size:13px;font-weight:900;">田中 美咲さん</div><div style="font-size:11px;color:var(--slate-light);">🦮 散歩 · 茅ヶ崎</div></div></div><div class="stars" style="margin-bottom:8px;">★★★★★</div><p style="font-size:13px;color:var(--slate);line-height:1.75;">急な残業が続いていた時期、毎日お散歩をお願いしました。帰宅後に写真レポートが届いて安心でした。</p></div>
+        <div class="rev-card fade-in"><div class="rev-hdr"><div class="rev-av">🐈</div><div><div style="font-size:13px;font-weight:900;">山口 健太さん</div><div style="font-size:11px;color:var(--slate-light);">🌙 宿泊 · 鎌倉</div></div></div><div class="stars" style="margin-bottom:8px;">★★★★★</div><p style="font-size:13px;color:var(--slate);line-height:1.75;">家族旅行で3泊お願いしました。毎日ビデオ通話もさせてもらえて感動。帰宅後も全くストレスなし。</p></div>
+        <div class="rev-card fade-in"><div class="rev-hdr"><div class="rev-av">🐩</div><div><div style="font-size:13px;font-weight:900;">鈴木 あかりさん</div><div style="font-size:11px;color:var(--slate-light);">🏠 お預かり · 藤沢</div></div></div><div class="stars" style="margin-bottom:8px;">★★★★☆</div><p style="font-size:13px;color:var(--slate);line-height:1.75;">高齢犬なので投薬も必要なのですが、丁寧に対応いただいています。チャットでの連絡もスムーズ。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-s">
+    <h2 class="cta-t">さあ、はじめましょう。<br><em style="font-style:italic;color:rgba(255,255,255,.85);">Your pet deserves the best.</em></h2>
+    <p style="font-size:16px;color:rgba(255,255,255,.75);margin-bottom:40px;">飼い主として依頼する方も、ケアラーとして参加したい方も。無料登録から始められます。</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-cta-white" onclick="goTo('register')">🐾 飼い主として登録する</button>
+      <button class="btn-cta-outline" onclick="goTo('register')">🌿 ケアラーに応募する</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="fi">
+      <div class="fb"><span class="logo">🐾 PawMate</span><p>ペットの飼い主とケアラーをつなぐ、信頼のマッチングプラットフォーム。神奈川・湘南エリアより先行サービス開始。</p></div>
+      <div class="fc"><h4>サービス</h4><ul><li><a>散歩・運動</a></li><li><a>日中お預かり</a></li><li><a>宿泊・泊がけ</a></li></ul></div>
+      <div class="fc"><h4>PawMate</h4><ul><li><a>サービスについて</a></li><li><a>ケアラー審査基準</a></li><li><a onclick="goTo('how')">使い方</a></li><li><a>よくある質問</a></li></ul></div>
+      <div class="fc"><h4>法的情報</h4><ul><li><a>利用規約</a></li><li><a>プライバシーポリシー</a></li><li><a>特定商取引法</a></li><li><a>お問い合わせ</a></li></ul></div>
+    </div>
+    <div class="fb-bot"><span>© 2026 PawMate. All rights reserved.</span><span>Made with 🐾 in Shonan, Kanagawa</span></div>
+  </footer>
+</div>
+
+<!-- ========== LOGIN ========== -->
+<div class="page" id="page-login">
+  <div class="auth-page"><div class="auth-card">
+    <div class="auth-logo">🐾 PawMate</div>
+    <div class="auth-subtitle">アカウントにログインする</div>
+    <div class="form-group"><label>メールアドレス</label><input class="form-control" type="email" placeholder="hello@example.com"></div>
+    <div class="form-group"><label>パスワード</label><input class="form-control" type="password" placeholder="••••••••"></div>
+    <div style="text-align:right;margin-bottom:20px;"><a style="font-size:12px;color:var(--blue-deep);cursor:pointer;" onclick="goTo('forgot')">パスワードを忘れた方</a></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;" onclick="doLogin()">ログイン</button>
+    <div class="divider"><span>または</span></div>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center;padding:12px;">Googleでログイン</button>
+    <div class="auth-switch">アカウントをお持ちでない方は<a onclick="goTo('register')">無料登録</a></div>
+    <div style="text-align:center;margin-top:12px;"><a style="font-size:12px;color:var(--slate-light);cursor:pointer;" onclick="goTo('admin')">管理者ログイン →</a></div>
+  </div></div>
+</div>
+
+<!-- ========== REGISTER ========== -->
+<div class="page" id="page-register">
+  <div class="auth-page"><div class="auth-card">
+    <div class="auth-logo">🐾 PawMate</div>
+    <div class="auth-subtitle">アカウントを作成する</div>
+    <div class="role-selector">
+      <div class="role-option selected" id="role-owner" onclick="selectRole('owner')"><div class="ri">🐾</div><div class="rl">飼い主</div><div class="rd">ケアを依頼する</div></div>
+      <div class="role-option" id="role-carer" onclick="selectRole('carer')"><div class="ri">🌿</div><div class="rl">ケアラー</div><div class="rd">ケアを提供する</div></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>姓</label><input class="form-control" placeholder="山田"></div>
+      <div class="form-group"><label>名</label><input class="form-control" placeholder="太郎"></div>
+    </div>
+    <div class="form-group"><label>メールアドレス</label><input class="form-control" type="email" placeholder="hello@example.com"></div>
+    <div class="form-group"><label>パスワード</label><input class="form-control" type="password" placeholder="8文字以上"><div class="form-hint">英字・数字を含む8文字以上</div></div>
+    <div class="form-group"><label>居住エリア</label><select class="form-control"><option>茅ヶ崎市</option><option>藤沢市</option><option>鎌倉市</option><option>平塚市</option><option>辻堂</option></select></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;" onclick="doRegister()">無料登録する</button>
+    <div class="auth-switch">すでにアカウントをお持ちの方は<a onclick="goTo('login')">ログイン</a></div>
+  </div></div>
+</div>
+
+<!-- ========== FORGOT ========== -->
+<div class="page" id="page-forgot">
+  <div class="auth-page"><div class="auth-card">
+    <div class="auth-logo">🐾 PawMate</div>
+    <div class="auth-subtitle">パスワードのリセット</div>
+    <p style="font-size:13px;color:var(--slate-light);margin-bottom:24px;line-height:1.7;">登録したメールアドレスを入力してください。パスワードリセットのリンクをお送りします。</p>
+    <div class="form-group"><label>メールアドレス</label><input class="form-control" type="email" placeholder="hello@example.com"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;" onclick="showToast('リセットメールを送信しました','success')">リセットメールを送る</button>
+    <div class="auth-switch"><a onclick="goTo('login')">← ログインに戻る</a></div>
+  </div></div>
+</div>
+
+<!-- ========== DASHBOARD ========== -->
+<div class="page" id="page-dashboard">
+  <div class="app-layout">
+    <div class="sidebar" id="sb-dashboard"></div>
+    <div class="main-content">
+      <div class="page-header"><h1>ダッシュボード</h1><p>おかえりなさい、美咲さん 🐾</p></div>
+      <div class="grid-4" style="margin-bottom:28px;">
+        <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">進行中の予約</div></div>
+        <div class="stat-card"><div class="stat-num">12</div><div class="stat-label">総依頼回数</div></div>
+        <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">未読メッセージ</div><div class="stat-delta">↑ 新着</div></div>
+        <div class="stat-card"><div class="stat-num">4.8</div><div class="stat-label">平均評価</div></div>
+      </div>
+      <div class="grid-2" style="align-items:start;gap:24px;">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><h3 style="font-size:16px;font-weight:900;">直近の予約</h3><button class="btn btn-ghost btn-sm" onclick="goTo('my-bookings')">すべて見る</button></div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="booking-card" style="display:flex;gap:14px;align-items:flex-start;"><div style="width:40px;height:40px;border-radius:50%;background:var(--sky);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🧑‍🦱</div><div style="flex:1;"><div style="font-size:13px;font-weight:900;margin-bottom:2px;">さとう まりな</div><div style="font-size:12px;color:var(--slate-light);">🦮 散歩 · 6月3日 10:00〜</div><span class="badge badge-green" style="margin-top:6px;">確定済み</span></div><div style="font-size:13px;font-weight:700;color:var(--blue-deep);">¥800</div></div>
+            <div class="booking-card" style="display:flex;gap:14px;align-items:flex-start;"><div style="width:40px;height:40px;border-radius:50%;background:var(--green-soft);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👩</div><div style="flex:1;"><div style="font-size:13px;font-weight:900;margin-bottom:2px;">きむら あいこ</div><div style="font-size:12px;color:var(--slate-light);">🌙 宿泊 · 6月10〜12日</div><span class="badge badge-orange" style="margin-top:6px;">支払い待ち</span></div><div style="font-size:13px;font-weight:700;color:var(--blue-deep);">¥7,000</div></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><h3 style="font-size:16px;font-weight:900;">マイペット</h3><button class="btn btn-ghost btn-sm" onclick="goTo('my-pets')">管理する</button></div>
+          <div class="grid-2">
+            <div class="pet-card"><div style="font-size:40px;margin-bottom:10px;">🐕</div><div style="font-size:16px;font-weight:900;margin-bottom:4px;">ポチ</div><div style="font-size:12px;color:var(--slate-light);margin-bottom:10px;">柴犬 · 3歳</div><span class="badge badge-blue">オス</span></div>
+            <div style="background:#fff;border-radius:var(--r);box-shadow:var(--sc);padding:22px;text-align:center;cursor:pointer;border:2px dashed var(--blue-light);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:150px;" onclick="openAddPetModal()"><div style="font-size:32px;color:var(--blue-light);margin-bottom:8px;">+</div><div style="font-size:13px;color:var(--slate-light);">ペットを追加</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CARERS LIST ========== -->
+<div class="page" id="page-carers">
+  <div class="app-layout">
+    <div class="sidebar" id="sb-carers"></div>
+    <div class="main-content">
+      <div class="page-header"><h1>ケアラーを探す</h1><p>エリア・サービス・日時で絞り込めます</p></div>
+      <div class="filter-bar">
+        <div class="filter-field"><label>サービス</label><select><option>すべて</option><option>🦮 散歩</option><option>🏠 お預かり</option><option>🌙 宿泊</option></select></div>
+        <div class="filter-divider"></div>
+        <div class="filter-field"><label>エリア</label><select><option>すべて</option><option>茅ヶ崎</option><option>藤沢</option><option>鎌倉</option><option>平塚</option></select></div>
+        <div class="filter-divider"></div>
+        <div class="filter-field"><label>日付</label><input type="date" style="font-size:13px;font-weight:700;border:none;outline:none;background:transparent;font-family:inherit;color:var(--charcoal);"></div>
+        <div class="filter-divider"></div>
+        <div class="filter-field"><label>評価</label><select><option>すべて</option><option>★4以上</option><option>★4.5以上</option></select></div>
+        <button class="btn btn-primary btn-sm">検索</button>
+      </div>
+      <div style="font-size:13px;color:var(--slate-light);margin-bottom:16px;">6件のケアラーが見つかりました</div>
+      <div class="grid-3" id="carersGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CARER DETAIL ========== -->
+<div class="page" id="page-carer-detail">
+  <div class="app-layout">
+    <div class="sidebar" id="sb-carer-detail"></div>
+    <div class="main-content">
+      <div style="margin-bottom:16px;"><button class="btn btn-ghost btn-sm" onclick="goTo('carers')">← ケアラー一覧に戻る</button></div>
+      <div id="carerDetailContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== REQUESTS ========== -->
+<div class="page" id="page-requests">
+  <div class="app-layout">
+    <div class="sidebar" id="sb-requests"></div>
+    <div class="main-content">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;">
+        <div><h1 style="font-family:'Playfair Display',serif;font-size:28px;margin-bottom:4px;">依頼掲示板</h1><p style="font-size:14px;color:var(--slate-light);">飼い主からの依頼を閲覧・応募できます</p></div>
+        <button class="btn btn-primary" onclick="openPostRequestModal()">+ 依頼を投稿する</button>
+      </div>
+      <div class="tabs"><div class="tab active" onclick="activateTab(this)">すべての依頼</div><div class="tab" onclick="activateTab(this)">マイ依頼</div><div class="tab" onclick="activateTab(this)">応募済み</div></div>
+      <div id="requestsList" style="display:flex;flex-direction:column;gap:14px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MY PETS ========== -->
+<div class="page" id="page-my-pets">
+  <div class="app-layout">
+    <div class="sidebar" id="sb-my-pets"></div>
+    <div class="main-content">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;">
+        <div><h1 style="font-family:'Playfair Display',serif;font-size:28px;margin-bottom:4px;">マイペット</h1><p style="font-size:14px;color:var(--slate-light);">登録したペットの情報を管理します</p></div>
+        <button class="btn btn-primary" onclick="openAddPetModal()">+ ペットを追加</button>
+      </div>
+      <div class="grid-3">
+        <div class="pet-card"><div style="font-size:40px;margin-bottom:10px;">🐕</div><div style="font-size:16px;font-weight:900;margin-bottom:4px;">ポチ</div><div style="font-size:12px;color:var(--slate-light);margin-bottom:8px;">柴犬 · オス · 3歳</div><p style="font-size:12px;color:var(--slate-light);line-height:1.6;margin-bottom:12px;">アレルギーなし。散歩中は引っ張り癖あり。</p><div style="display:flex;gap:6px;justify-content:center;"><button class="btn btn-ghost btn-sm" onclick="openEditPetModal()">編集</button></div></div>
+        <div style="background:#fff;border-radius:var(--r);box-shadow:var(--sc);padding:22px;text-align:center;cursor:pointer;border:2px dashed var(--blue-light);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;" onclick="openAddPetModal()"><div style="font-size:40px;color:var(--blue-light);margin-bottom:8px;">+</div><div style="font-size:14px;font-weight:700;color:var(--slate-light);">ペットを追加する</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MY BOOKINGS ========== -->
+<div class="page" id="page-my-bookings">
+  <div class="app-layout">
+    <div class="sidebar" id="sb-my-bookings"></div>
+    <div class="main-content">
+      <div class="page-header"><h1>予約管理</h1><p>現在の予約・過去の履歴を確認できます</p></div>
+      <div class="tabs"><div class="tab active" onclick="activateTab(this)">進行中</div><div class="tab" onclick="activateTab(this)">確定済み</div><div class="tab" onclick="activateTab(this)">完了済み</div></div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="booking-card"><div style="display:flex;gap:16px;align-items:flex-start;"><div style="width:48px;height:48px;border-radius:50%;background:var(--sky);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🧑‍🦱</div><div style="flex:1;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div><div style="font-size:15px;font-weight:900;">さとう まりな</div><div style="font-size:12px;color:var(--slate-light);">🦮 散歩 · 茅ヶ崎</div></div><span class="badge badge-green">確定済み</span></div><div style="display:flex;gap:20px;font-size:12px;color:var(--slate-light);margin-bottom:12px;flex-wrap:wrap;"><span>📅 6月3日（火）10:00〜11:00</span><span>🐕 ポチ</span><span>💰 ¥800</span></div><div style="display:flex;gap:8px;"><button class="btn btn-primary btn-sm" onclick="goTo('messages')">💬 チャット</button><button class="btn btn-ghost btn-sm">キャンセル</button></div></div></div></div>
+        <div class="booking-card"><div style="display:flex;gap:16px;align-items:flex-start;"><div style="width:48px;height:48px;border-radius:50%;background:var(--green-soft);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">👩</div><div style="flex:1;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div><div style="font-size:15px;font-weight:900;">きむら あいこ</div><div style="font-size:12px;color:var(--slate-light);">🌙 宿泊 · 藤沢</div></div><span class="badge badge-orange">支払い待ち</span></div><div style="display:flex;gap:20px;font-size:12px;color:var(--slate-light);margin-bottom:12px;flex-wrap:wrap;"><span>📅 6月10〜12日</span><span>🐕 ポチ</span><span>💰 ¥7,000</span></div><div style="display:flex;gap:8px;"><button class="btn btn-primary btn-sm" onclick="showToast('Stripe決済画面へ遷移します','success')">💳 支払いを完了する</button><button class="btn btn-ghost btn-sm">キャンセル</button></div></div></div></div>
+        <div class="booking-card" style="opacity:.75;"><div style="display:flex;gap:16px;align-items:flex-start;"><div style="width:48px;height:48px;border-radius:50%;background:var(--sky);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🧑‍🦱</div><div style="flex:1;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div><div style="font-size:15px;font-weight:900;">さとう まりな</div><div style="font-size:12px;color:var(--slate-light);">🦮 散歩 · 茅ヶ崎</div></div><span class="badge badge-gray">完了</span></div><div style="font-size:12px;color:var(--slate-light);margin-bottom:12px;">📅 5月20日</div><div style="display:flex;gap:8px;"><button class="btn btn-primary btn-sm" onclick="openReviewModal()">⭐ レビューを書く</button><button class="btn btn-ghost btn-sm">再度依頼する</button></div></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MESSAGES ========== -->
+<div class="page" id="page-messages">
+  <div class="app-layout">
+    <div class="sidebar" id="sb-messages"></div>
+    <div class="main-content" style="padding:24px;">
+      <div style="margin-bottom:16px;"><h1 style="font-family:'Playfair Display',serif;font-size:28px;">メッセージ</h1></div>
+      <div class="msg-layout">
+        <div class="msg-list">
+          <div class="msg-list-item active"><div style="display:flex;gap:10px;align-items:center;"><div style="width:36px;height:36px;border-radius:50%;background:var(--sky);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🧑‍🦱</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;margin-bottom:2px;">さとう まりな</div><div style="font-size:12px;color:var(--slate-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">了解です！では当日10時に...</div></div><div style="font-size:10px;color:var(--slate-light);">14:32</div></div></div>
+          <div class="msg-list-item"><div style="display:flex;gap:10px;align-items:center;"><div style="width:36px;height:36px;border-radius:50%;background:var(--green-soft);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">👩</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;margin-bottom:2px;">きむら あいこ</div><div style="font-size:12px;color:var(--slate-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">ポチちゃん、今日もとっても良い子でし...</div></div><div style="font-size:10px;color:var(--slate-light);">昨日</div></div></div>
+        </div>
+        <div class="msg-chat">
+          <div class="msg-chat-header"><div style="display:flex;align-items:center;gap:10px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--sky);display:flex;align-items:center;justify-content:center;font-size:14px;">🧑‍🦱</div><div><div style="font-size:14px;font-weight:900;">さとう まりな</div><div style="font-size:11px;color:var(--green-deep);font-weight:700;">🦮 散歩 · 6月3日</div></div></div></div>
+          <div class="msg-chat-body" id="chatBody">
+            <div class="msg-bubble theirs">はじめまして！ポチちゃんの散歩をご依頼いただきありがとうございます。<div class="time">14:10</div></div>
+            <div class="msg-bubble mine">よろしくお願いします！当日は10時に公園前でお願いできますか？<div class="time">14:25</div></div>
+            <div class="msg-bubble theirs">了解です！では当日10時に公園前に伺います。ポチちゃんのリードはお持ちでしょうか？<div class="time">14:32</div></div>
+            <div class="msg-bubble mine">はい、持参します。首輪とダブルリードで大丈夫ですか？<div class="time">14:35</div></div>
+            <div class="msg-bubble theirs">もちろんです！楽しい散歩にしますね 🐾<div class="time">14:36</div></div>
+          </div>
+          <div class="msg-input-area"><input class="msg-input" id="msgInput" placeholder="メッセージを入力..."><button class="btn btn-primary btn-sm" onclick="sendMsg()">送信</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CARER PROFILE SETUP ========== -->
+<div class="page" id="page-carer-profile">
+  <div class="app-layout">
+    <div class="sidebar" style="background:#fff;border-right:1px solid rgba(197,227,247,.6);padding:16px 0;position:sticky;top:64px;height:calc(100vh - 64px);">
+      <div class="sidebar-label">ケアラーメニュー</div>
+      <div class="sidebar-item active"><span class="icon">👤</span>プロフィール設定</div>
+      <div class="sidebar-item" onclick="goTo('requests')"><span class="icon">📋</span>依頼掲示板</div>
+      <div class="sidebar-item" onclick="goTo('messages')"><span class="icon">💬</span>メッセージ</div>
+      <div class="sidebar-item" onclick="goTo('my-bookings')"><span class="icon">📅</span>予約管理</div>
+      <div class="sidebar-item" style="margin-top:auto;" onclick="goTo('landing')"><span class="icon">🚪</span>ログアウト</div>
+    </div>
+    <div class="main-content">
+      <div class="page-header"><h1>ケアラープロフィール設定</h1><p>プロフィール情報を入力して審査を申請します</p></div>
+      <div class="card" style="margin-bottom:20px;"><div class="card-body"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--blue-mid),var(--blue-deep));display:flex;align-items:center;justify-content:center;font-size:22px;">🌿</div><div><div style="font-size:15px;font-weight:900;margin-bottom:4px;">審査ステータス</div><span class="badge badge-orange">審査中</span></div></div><p style="font-size:13px;color:var(--slate-light);line-height:1.7;">プロフィールの内容を管理チームが確認しています。通常2〜3営業日以内にご連絡します。</p></div></div>
+      <div class="card"><div class="card-body">
+        <h3 style="font-size:16px;font-weight:900;margin-bottom:20px;">基本情報</h3>
+        <div class="form-row"><div class="form-group"><label>姓</label><input class="form-control" value="佐藤"></div><div class="form-group"><label>名</label><input class="form-control" value="まりな"></div></div>
+        <div class="form-group"><label>自己紹介</label><textarea class="form-control">ペットが大好きで、自宅でも柴犬を飼っています。3年以上のシッター経験があり、散歩・お預かりが得意です。お散歩後の写真レポートもお送りします！</textarea></div>
+        <h3 style="font-size:16px;font-weight:900;margin:20px 0 16px;">対応サービス・料金</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+          <label style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;cursor:pointer;"><input type="checkbox" checked> 🦮 散歩・運動<span style="margin-left:auto;display:flex;align-items:center;gap:6px;"><input type="number" class="form-control" value="800" style="width:90px;display:inline-block;"><span style="font-size:11px;color:var(--slate-light);">¥/30分</span></span></label>
+          <label style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;cursor:pointer;"><input type="checkbox" checked> 🏠 日中お預かり<span style="margin-left:auto;display:flex;align-items:center;gap:6px;"><input type="number" class="form-control" value="2500" style="width:90px;display:inline-block;"><span style="font-size:11px;color:var(--slate-light);">¥/日</span></span></label>
+          <label style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;cursor:pointer;"><input type="checkbox"> 🌙 宿泊・泊がけ<span style="margin-left:auto;display:flex;align-items:center;gap:6px;"><input type="number" class="form-control" placeholder="3500" style="width:90px;display:inline-block;"><span style="font-size:11px;color:var(--slate-light);">¥/泊</span></span></label>
+        </div>
+        <h3 style="font-size:16px;font-weight:900;margin:20px 0 16px;">📋 資格・登録証（必須）</h3>
+        <div style="background:linear-gradient(135deg,rgba(58,154,88,.06),rgba(42,127,175,.04));border:1.5px solid rgba(58,154,88,.25);border-radius:12px;padding:16px;margin-bottom:20px;">
+          <div style="font-size:12px;font-weight:900;color:var(--green-deep);margin-bottom:12px;">🏛️ 第一種動物取扱業 登録情報</div>
+          <div class="form-row">
+            <div class="form-group"><label>登録番号</label><input class="form-control" placeholder="神奈川県 第12-XXXX号"></div>
+            <div class="form-group"><label>業の種別</label><select class="form-control"><option>保管</option><option>訓練</option><option>保管・訓練</option></select></div>
+          </div>
+          <div class="form-group"><label>登録証（写真・PDF）</label>
+            <div style="border:2px dashed var(--blue-light);border-radius:var(--rs);padding:20px;text-align:center;cursor:pointer;" onclick="showToast('ファイルアップロード機能（実装予定）','')">
+              <div style="font-size:24px;margin-bottom:6px;">📄</div>
+              <div style="font-size:13px;font-weight:700;color:var(--slate-light);">クリックしてアップロード</div>
+              <div style="font-size:11px;color:var(--slate-light);margin-top:4px;">JPG・PNG・PDF / 最大10MB</div>
+            </div>
+            <div style="margin-top:8px;padding:8px 12px;background:rgba(58,154,88,.08);border-radius:var(--rs);display:flex;align-items:center;gap:8px;">
+              <span style="color:var(--green-deep);">✓</span><span style="font-size:12px;font-weight:700;color:var(--green-deep);">登録証_佐藤まりな.pdf — 確認済み</span>
+            </div>
+          </div>
+        </div>
+        <div style="margin-bottom:20px;">
+          <div style="font-size:12px;font-weight:900;color:var(--slate);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;">🎖️ 保有資格（任意・複数可）</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;cursor:pointer;padding:6px 10px;border-radius:20px;background:var(--sky);"><input type="checkbox" checked> JKC公認訓練士</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;cursor:pointer;padding:6px 10px;border-radius:20px;background:var(--sky);"><input type="checkbox"> 日本警察犬協会 公認訓練士</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;cursor:pointer;padding:6px 10px;border-radius:20px;background:var(--sky);"><input type="checkbox"> 愛玩動物飼養管理士 1級</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;cursor:pointer;padding:6px 10px;border-radius:20px;background:var(--sky);"><input type="checkbox"> 愛玩動物飼養管理士 2級</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;cursor:pointer;padding:6px 10px;border-radius:20px;background:var(--sky);"><input type="checkbox"> 認定動物看護士</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;cursor:pointer;padding:6px 10px;border-radius:20px;background:var(--sky);"><input type="checkbox"> ペット救急救命士</label>
+          </div>
+        </div>
+        <h3 style="font-size:16px;font-weight:900;margin:0 0 16px;">対応エリア</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;"><span class="badge badge-blue">茅ヶ崎 ✕</span><span class="badge badge-blue">藤沢 ✕</span><button class="btn btn-ghost btn-sm">+ エリア追加</button></div>
+        <div style="display:flex;gap:10px;"><button class="btn btn-primary" onclick="showToast('プロフィールを保存しました','success')">保存する</button><button class="btn btn-ghost">プレビュー</button></div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ADMIN ========== -->
+<div class="page" id="page-admin">
+  <div class="app-layout">
+    <div class="sidebar" style="background:#fff;border-right:1px solid rgba(197,227,247,.6);padding:16px 0;position:sticky;top:64px;height:calc(100vh - 64px);">
+      <div class="sidebar-label">管理メニュー</div>
+      <div class="sidebar-item active"><span class="icon">🛡️</span>ケアラー審査</div>
+      <div class="sidebar-item"><span class="icon">👥</span>ユーザー管理</div>
+      <div class="sidebar-item"><span class="icon">📊</span>統計・レポート</div>
+      <div class="sidebar-item"><span class="icon">⚙️</span>設定</div>
+      <div class="sidebar-item" onclick="goTo('landing')"><span class="icon">🚪</span>ログアウト</div>
+    </div>
+    <div class="main-content">
+      <div class="page-header"><h1>管理パネル</h1><p>ケアラー審査・承認を管理します</p></div>
+      <div class="grid-4" style="margin-bottom:28px;">
+        <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">審査待ち</div></div>
+        <div class="stat-card"><div class="stat-num">48</div><div class="stat-label">承認済みケアラー</div></div>
+        <div class="stat-card"><div class="stat-num">132</div><div class="stat-label">総ユーザー</div></div>
+        <div class="stat-card"><div class="stat-num">89</div><div class="stat-label">今月の予約</div></div>
+      </div>
+      <div class="card"><div class="card-body">
+        <h3 style="font-size:16px;font-weight:900;margin-bottom:16px;">審査待ちケアラー</h3>
+        <table class="table">
+          <thead><tr><th>名前</th><th>エリア</th><th>対応サービス</th><th>資格・登録番号</th><th>登録証</th><th>申請日</th><th>ステータス</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td><div style="font-weight:700;">田村 ゆかり</div><div style="font-size:11px;color:var(--slate-light);">経験 2年</div></td><td>茅ヶ崎・藤沢</td><td><span class="badge badge-blue">散歩</span> <span class="badge badge-blue">お預かり</span></td><td><div style="font-size:11px;font-weight:700;color:var(--green-deep);">第一種動物取扱業</div><div style="font-size:10px;color:var(--slate-light);">神奈川県 第12-4421号</div><div style="margin-top:4px;"><span style="font-size:10px;font-weight:700;background:rgba(91,175,214,.15);color:var(--blue-deep);padding:2px 6px;border-radius:10px;">愛玩動物飼養管理士 2級</span></div></td><td><span style="font-size:11px;font-weight:700;color:var(--green-deep);">✓ 確認済み</span></td><td style="font-size:12px;">2026/05/28</td><td><span class="badge badge-orange">審査中</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-green btn-sm" onclick="adminApprove(this)">承認</button><button class="btn btn-sm" style="background:var(--sky);border:none;cursor:pointer;color:var(--slate);" onclick="openAdminRejectModal()">却下</button></div></td></tr>
+            <tr><td><div style="font-weight:700;">中村 しんじ</div><div style="font-size:11px;color:var(--slate-light);">経験 1年</div></td><td>鎌倉・逗子</td><td><span class="badge badge-blue">散歩</span> <span class="badge badge-blue">宿泊</span></td><td><div style="font-size:11px;font-weight:700;color:var(--green-deep);">第一種動物取扱業</div><div style="font-size:10px;color:var(--slate-light);">神奈川県 第12-5102号</div><div style="margin-top:4px;"><span style="font-size:10px;font-weight:700;background:rgba(91,175,214,.15);color:var(--blue-deep);padding:2px 6px;border-radius:10px;">日本警察犬協会 公認訓練士</span></div></td><td><span style="font-size:11px;font-weight:700;color:var(--warning);">⏳ 書類確認中</span></td><td style="font-size:12px;">2026/05/27</td><td><span class="badge badge-orange">審査中</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-green btn-sm" onclick="adminApprove(this)">承認</button><button class="btn btn-sm" style="background:var(--sky);border:none;cursor:pointer;color:var(--slate);">却下</button></div></td></tr>
+            <tr><td><div style="font-weight:700;">林 えみこ</div><div style="font-size:11px;color:var(--slate-light);">経験 5年</div></td><td>平塚・茅ヶ崎</td><td><span class="badge badge-blue">散歩</span> <span class="badge badge-blue">お預かり</span> <span class="badge badge-blue">宿泊</span></td><td><div style="font-size:11px;font-weight:700;color:var(--green-deep);">第一種動物取扱業</div><div style="font-size:10px;color:var(--slate-light);">神奈川県 第12-0931号</div><div style="margin-top:4px;"><span style="font-size:10px;font-weight:700;background:rgba(91,175,214,.15);color:var(--blue-deep);padding:2px 6px;border-radius:10px;">認定動物看護士</span></div></td><td><span style="font-size:11px;font-weight:700;color:var(--danger);">✗ 書類未提出</span></td><td style="font-size:12px;">2026/05/25</td><td><span class="badge badge-orange">審査中</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-green btn-sm" onclick="adminApprove(this)">承認</button><button class="btn btn-sm" style="background:var(--sky);border:none;cursor:pointer;color:var(--slate);">却下</button></div></td></tr>
+          </tbody>
+        </table>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const S={role:'owner'};
+const carers=[
+  {id:1,name:'さとう まりな',area:'茅ヶ崎',exp:'3年',rating:4.97,reviews:128,services:['🦮 散歩','🏠 お預かり'],price:'¥800〜',unit:'30分',icon:'🧑‍🦱',
+   bio:'ペットが大好きで、自宅でも柴犬を飼っています。3年以上のシッター経験があります。お散歩後は写真レポートをお送りします！',
+   avail:[true,true,false,true,true,false,true],
+   license:{num:'神奈川県 第12-0847号',type:'第一種動物取扱業（保管）',verified:true},
+   certs:['JKC公認訓練士','ペット救急救命士'],
+  },
+  {id:2,name:'きむら あいこ',area:'藤沢',exp:'5年',rating:4.92,reviews:203,services:['🏠 お預かり','🌙 宿泊'],price:'¥2,500〜',unit:'日',icon:'👩',
+   bio:'自宅は広い庭付き。宿泊・長期お預かりが得意です。猫・犬どちらも対応可能です。',
+   avail:[true,false,true,false,true,true,true],
+   license:{num:'神奈川県 第12-1203号',type:'第一種動物取扱業（保管）',verified:true},
+   certs:['愛玩動物飼養管理士 1級','動物介護士'],
+  },
+  {id:3,name:'おかだ こうじ',area:'鎌倉',exp:'2年',rating:4.85,reviews:56,services:['🦮 散歩'],price:'¥700〜',unit:'30分',icon:'👨',
+   bio:'元トリマー。犬の扱いに慣れています。鎌倉周辺での散歩は地理も熟知しています。',
+   avail:[true,true,true,false,false,true,true],
+   license:{num:'神奈川県 第12-2091号',type:'第一種動物取扱業（訓練）',verified:true},
+   certs:['日本警察犬協会 公認訓練士','JKC公認トリマー'],
+  },
+  {id:4,name:'やまだ ゆうこ',area:'平塚',exp:'4年',rating:4.78,reviews:91,services:['🦮 散歩','🌙 宿泊'],price:'¥3,000〜',unit:'泊',icon:'👩‍🦰',
+   bio:'動物看護士の資格あり。病気・高齢ペットのケアも安心してお任せください。',
+   avail:[false,true,true,true,false,true,false],
+   license:{num:'神奈川県 第12-0634号',type:'第一種動物取扱業（保管）',verified:true},
+   certs:['認定動物看護士','ペット終活ケアアドバイザー'],
+  },
+  {id:5,name:'いしかわ なお',area:'辻堂',exp:'1年',rating:4.60,reviews:24,services:['🦮 散歩','🏠 お預かり'],price:'¥750〜',unit:'30分',icon:'🧑',
+   bio:'ペット大好きな大学生。空き時間が多いので急なご依頼にも対応できます！',
+   avail:[true,true,true,true,true,false,false],
+   license:{num:'神奈川県 第12-3301号',type:'第一種動物取扱業（保管）',verified:true},
+   certs:['愛玩動物飼養管理士 2級'],
+  },
+  {id:6,name:'すずき はるか',area:'茅ヶ崎',exp:'6年',rating:4.99,reviews:312,services:['🦮 散歩','🏠 お預かり','🌙 宿泊'],price:'¥900〜',unit:'30分',icon:'👩‍🦳',
+   bio:'専業シッターとして6年のキャリア。様々な犬種・猫の経験があります。',
+   avail:[true,true,true,true,true,true,true],
+   license:{num:'神奈川県 第12-0188号',type:'第一種動物取扱業（保管・訓練）',verified:true},
+   certs:['JKC公認訓練士','愛玩動物飼養管理士 1級','ペット救急救命士'],
+  },
+];
+const requests=[
+  {id:1,owner:'山口 健太',pet:'🐈 ムギ（猫・2歳）',service:'🏠 日中お預かり',date:'6月5日（木）',time:'9:00〜18:00',area:'鎌倉',price:'¥2,000',note:'人慣れしています。ご飯は缶詰×2回です。',applies:3},
+  {id:2,owner:'田中 美咲',pet:'🐕 ポチ（柴犬・3歳）',service:'🦮 散歩',date:'6月8日（日）',time:'10:00〜11:00',area:'茅ヶ崎',price:'¥800',note:'散歩中は引っ張り癖あり。公園まで徒歩5分です。',applies:7},
+  {id:3,owner:'佐々木 みゆき',pet:'🐩 ルル（トイプードル・5歳）',service:'🌙 宿泊',date:'6月20〜22日',time:'2泊',area:'藤沢',price:'¥7,000',note:'シニア犬で薬あり。投薬方法はお伝えします。',applies:1},
+  {id:4,owner:'加藤 りょうた',pet:'🐕 クロ（ラブラドール・2歳）',service:'🦮 散歩',date:'毎週月・水・金',time:'8:00〜9:00',area:'平塚',price:'¥2,500/週',note:'大型犬です。パワーに負けない方歓迎！',applies:5},
+];
+
+// ===== SIDEBAR =====
+const sidebarItems=[
+  {id:'dashboard',icon:'🏠',label:'ダッシュボード'},
+  {id:'carers',icon:'🔍',label:'ケアラーを探す'},
+  {id:'requests',icon:'📋',label:'依頼掲示板',badge:3},
+  {id:'my-pets',icon:'🐾',label:'マイペット'},
+  {id:'my-bookings',icon:'📅',label:'予約管理'},
+  {id:'messages',icon:'💬',label:'メッセージ',badge:2},
+];
+function buildSidebar(activeId){
+  return `<div style="padding:12px 16px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--sky);margin-bottom:8px;"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blue-mid),var(--blue-deep));display:flex;align-items:center;justify-content:center;font-size:16px;">🐾</div><div><div style="font-size:13px;font-weight:900;">田中 美咲</div><div style="font-size:11px;color:var(--slate-light);">飼い主</div></div></div>
+  <div class="sidebar-label">メニュー</div>`+
+  sidebarItems.map(i=>`<div class="sidebar-item${i.id===activeId?' active':''}" onclick="goTo('${i.id}')"><span class="icon">${i.icon}</span>${i.label}${i.badge?`<span class="sidebar-badge">${i.badge}</span>`:''}</div>`).join('')+
+  `<div style="border-top:1px solid var(--sky);margin:16px 8px 0;padding-top:8px;"><div class="sidebar-item" onclick="goTo('landing')"><span class="icon">🚪</span>ログアウト</div></div>`;
+}
+const sbMap={'dashboard':'dashboard','carers':'carers','carer-detail':'carers','requests':'requests','my-pets':'my-pets','my-bookings':'my-bookings','messages':'messages'};
+
+// ===== NAVIGATION =====
+function goTo(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const t=document.getElementById('page-'+page);
+  if(!t)return;
+  t.classList.add('active');
+  window.scrollTo(0,0);
+  const appPages=Object.keys(sbMap);
+  const navCta=document.getElementById('navCta');
+  if(appPages.includes(page)){
+    navCta.innerHTML=`<button class="btn btn-ghost btn-sm" onclick="goTo('dashboard')">🏠 ダッシュボード</button><button class="btn btn-ghost btn-sm" onclick="goTo('landing')">ログアウト</button>`;
+    const sbEl=document.getElementById('sb-'+page);
+    if(sbEl)sbEl.innerHTML=buildSidebar(sbMap[page]);
+  } else if(!['login','register','forgot','carer-profile','admin'].includes(page)){
+    navCta.innerHTML=`<button class="btn btn-ghost" onclick="goTo('login')">ログイン</button><button class="btn btn-primary" onclick="goTo('register')">無料登録</button>`;
+  }
+  if(page==='carers')renderCarers();
+  if(page==='requests')renderRequests();
+}
+
+// ===== AUTH =====
+function selectRole(r){
+  S.role=r;
+  document.getElementById('role-owner').classList.toggle('selected',r==='owner');
+  document.getElementById('role-carer').classList.toggle('selected',r==='carer');
+}
+function doLogin(){showToast('ログインしました！','success');setTimeout(()=>goTo('dashboard'),600);}
+function doRegister(){showToast('登録完了！ようこそ PawMate へ','success');setTimeout(()=>goTo(S.role==='carer'?'carer-profile':'dashboard'),700);}
+
+// ===== CARERS =====
+function renderCarers(){
+  const g=document.getElementById('carersGrid');if(!g)return;
+  g.innerHTML=carers.map(c=>`
+    <div class="carer-card" onclick="openCarerDetail(${c.id})">
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
+        <div class="carer-avatar">${c.icon}</div>
+        <div style="flex:1;">
+          <div class="carer-name">${c.name}</div>
+          <div class="carer-area">📍 ${c.area} · 経験 ${c.exp}</div>
+          <div class="stars" style="font-size:12px;">★ ${c.rating} <span style="color:var(--slate-light);font-size:11px;">(${c.reviews}件)</span></div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(58,154,88,.08),rgba(91,175,214,.06));border:1px solid rgba(58,154,88,.25);border-radius:10px;padding:8px 10px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="font-size:13px;">🏛️</span>
+          <span style="font-size:11px;font-weight:900;color:var(--green-deep);">第一種動物取扱業 登録済み</span>
+          <span style="font-size:10px;background:var(--green-deep);color:#fff;padding:1px 6px;border-radius:10px;margin-left:auto;">登録証確認済</span>
+        </div>
+        <div style="font-size:10px;color:var(--slate-light);">${c.license.num}</div>
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;">${c.certs.map(cert=>`<span style="display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;background:rgba(91,175,214,.12);color:var(--blue-deep);">🎖️ ${cert}</span>`).join('')}</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;">${c.services.map(s=>`<span class="badge badge-blue">${s}</span>`).join('')}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;"><div class="carer-price">${c.price}<span>/${c.unit}</span></div><button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openCarerDetail(${c.id})">詳細を見る</button></div>
+    </div>`).join('');
+}
+
+function openCarerDetail(id){
+  const c=carers.find(x=>x.id===id);if(!c)return;
+  const days=['月','火','水','木','金','土','日'];
+  document.getElementById('carerDetailContent').innerHTML=`
+    <div class="profile-hero">
+      <div class="profile-av-lg">${c.icon}</div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+          <div><h2 style="font-family:'Playfair Display',serif;font-size:26px;margin-bottom:4px;">${c.name}</h2><div style="font-size:13px;color:var(--slate-light);">📍 ${c.area} · 経験 ${c.exp}</div></div>
+          <div style="text-align:right;"><div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--blue-deep);">${c.price}/${c.unit}</div><div class="stars">★ ${c.rating} <span style="color:var(--slate-light);font-size:12px;">(${c.reviews}件)</span></div></div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">${c.services.map(s=>`<span class="badge badge-blue">${s}</span>`).join('')}<span class="badge badge-green">✓ PawMate認定プロケアラー</span></div>
+        <p style="font-size:14px;color:var(--slate);line-height:1.75;margin-bottom:16px;">${c.bio}</p>
+        <div style="background:linear-gradient(135deg,rgba(58,154,88,.10),rgba(42,127,175,.06));border:1.5px solid rgba(58,154,88,.30);border-radius:12px;padding:14px 16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:18px;">🏛️</span>
+            <div>
+              <div style="font-size:12px;font-weight:900;color:var(--green-deep);">${c.license.type}</div>
+              <div style="font-size:11px;color:var(--slate-light);">登録番号：${c.license.num}</div>
+            </div>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:4px;background:var(--green-deep);color:#fff;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;">✓ 登録証原本確認済み</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            ${c.certs.map(cert=>`<span style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(255,255,255,.8);color:var(--blue-deep);border:1px solid rgba(91,175,214,.3);">🎖️ ${cert}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2" style="align-items:start;">
+      <div>
+        <div style="background:#fff;border-radius:var(--r);box-shadow:var(--sc);padding:24px;margin-bottom:16px;">
+          <h4 style="font-weight:900;margin-bottom:16px;">空き状況</h4>
+          <div class="avail-grid">${days.map((d,i)=>`<div class="avail-day"><div class="dn">${d}</div><div class="dd ${c.avail[i]?'on':'off'}">${c.avail[i]?'○':'－'}</div></div>`).join('')}</div>
+        </div>
+        <div style="background:#fff;border-radius:var(--r);box-shadow:var(--sc);padding:24px;">
+          <h4 style="font-weight:900;margin-bottom:14px;">レビュー（${c.reviews}件）</h4>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div><div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;"><span class="stars" style="font-size:12px;">★★★★★</span><span style="font-size:12px;color:var(--slate-light);">飼い主A · ${c.area}</span></div><p style="font-size:13px;color:var(--slate);line-height:1.7;">とても丁寧で、毎回写真レポートが嬉しいです。</p></div>
+            <div><div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;"><span class="stars" style="font-size:12px;">★★★★★</span><span style="font-size:12px;color:var(--slate-light);">飼い主B · 藤沢</span></div><p style="font-size:13px;color:var(--slate);line-height:1.7;">ペットが安心して懐いていました。また依頼します！</p></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background:#fff;border-radius:var(--r);box-shadow:var(--sc);padding:24px;">
+          <h4 style="font-weight:900;margin-bottom:16px;">リクエストを送る</h4>
+          <div class="form-group"><label>サービス</label><select class="form-control">${c.services.map(s=>`<option>${s}</option>`).join('')}</select></div>
+          <div class="form-group"><label>日付</label><input type="date" class="form-control"></div>
+          <div class="form-group"><label>ペット</label><select class="form-control"><option>🐕 ポチ（柴犬）</option></select></div>
+          <div class="form-group"><label>メッセージ（任意）</label><textarea class="form-control" placeholder="気になることがあればお気軽にどうぞ"></textarea></div>
+          <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="showToast('リクエストを送りました！返答をお待ちください','success')">リクエストを送る</button>
+        </div>
+      </div>
+    </div>`;
+  goTo('carer-detail');
+}
+
+// ===== REQUESTS =====
+function renderRequests(){
+  const l=document.getElementById('requestsList');if(!l)return;
+  l.innerHTML=requests.map(r=>`
+    <div class="request-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+        <div style="font-size:15px;font-weight:900;">${r.service} · ${r.pet}</div>
+        <span class="badge badge-orange">応募 ${r.applies}件</span>
+      </div>
+      <div style="display:flex;gap:16px;font-size:12px;color:var(--slate-light);margin-bottom:10px;flex-wrap:wrap;">
+        <span>📅 ${r.date} ${r.time}</span><span>📍 ${r.area}</span><span>💰 ${r.price}</span><span>👤 ${r.owner}</span>
+      </div>
+      <p style="font-size:13px;color:var(--slate);margin-bottom:14px;line-height:1.65;">${r.note}</p>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary btn-sm" onclick="showToast('${r.service}に応募しました！','success')">この依頼に応募する</button>
+        <button class="btn btn-ghost btn-sm">詳細を見る</button>
+      </div>
+    </div>`).join('');
+}
+
+// ===== TABS =====
+function activateTab(el){el.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+
+// ===== MODAL =====
+function openModal(title,body,footer=''){
+  document.getElementById('mTitle').textContent=title;
+  document.getElementById('mBody').innerHTML=body;
+  document.getElementById('mFooter').innerHTML=footer;
+  document.getElementById('modalOverlay').classList.remove('hidden');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.add('hidden');}
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+
+function openAddPetModal(){
+  openModal('ペットを追加',
+    `<div class="form-group"><label>名前</label><input class="form-control" placeholder="例：ポチ"></div>
+    <div class="form-row"><div class="form-group"><label>種類</label><select class="form-control"><option>犬</option><option>猫</option><option>その他</option></select></div><div class="form-group"><label>品種</label><input class="form-control" placeholder="例：柴犬"></div></div>
+    <div class="form-row"><div class="form-group"><label>年齢</label><input class="form-control" type="number" placeholder="3"></div><div class="form-group"><label>性別</label><select class="form-control"><option>オス</option><option>メス</option></select></div></div>
+    <div class="form-group"><label>注意事項・特記事項</label><textarea class="form-control" placeholder="アレルギー・持病・性格など"></textarea></div>`,
+    `<button class="btn btn-ghost" onclick="closeModal()">キャンセル</button><button class="btn btn-primary" onclick="closeModal();showToast('ペットを登録しました！','success')">追加する</button>`);
+}
+function openEditPetModal(){
+  openModal('ペットを編集',
+    `<div class="form-group"><label>名前</label><input class="form-control" value="ポチ"></div>
+    <div class="form-row"><div class="form-group"><label>種類</label><select class="form-control"><option selected>犬</option><option>猫</option></select></div><div class="form-group"><label>品種</label><input class="form-control" value="柴犬"></div></div>
+    <div class="form-group"><label>注意事項</label><textarea class="form-control">アレルギーなし。散歩中は引っ張り癖あり。</textarea></div>`,
+    `<button class="btn btn-ghost" onclick="closeModal()">キャンセル</button><button class="btn btn-primary" onclick="closeModal();showToast('ペット情報を更新しました','success')">保存する</button>`);
+}
+function openPostRequestModal(){
+  openModal('依頼を投稿する',
+    `<div class="form-group"><label>サービス種類</label><select class="form-control"><option>🦮 散歩・運動</option><option>🏠 日中お預かり</option><option>🌙 宿泊・泊がけ</option><option>🏡 訪問ケア</option></select></div>
+    <div class="form-group"><label>ペット</label><select class="form-control"><option>🐕 ポチ（柴犬）</option></select></div>
+    <div class="form-row"><div class="form-group"><label>開始日</label><input type="date" class="form-control"></div><div class="form-group"><label>終了日</label><input type="date" class="form-control"></div></div>
+    <div class="form-row"><div class="form-group"><label>開始時間</label><input type="time" class="form-control"></div><div class="form-group"><label>終了時間</label><input type="time" class="form-control"></div></div>
+    <div class="form-group"><label>エリア（待ち合わせ）</label><input class="form-control" placeholder="例：茅ヶ崎駅前公園"></div>
+    <div class="form-group"><label>希望報酬（目安）</label><input type="number" class="form-control" placeholder="800"></div>
+    <div class="form-group"><label>ペットの注意事項・備考</label><textarea class="form-control" placeholder="アレルギー・持病・性格など、ケアラーに伝えたいこと"></textarea></div>`,
+    `<button class="btn btn-ghost" onclick="closeModal()">キャンセル</button><button class="btn btn-primary" onclick="closeModal();showToast('依頼を掲示板に投稿しました！','success')">依頼を投稿する</button>`);
+}
+function openReviewModal(){
+  openModal('レビューを書く',
+    `<div style="text-align:center;margin-bottom:20px;"><div style="font-size:14px;color:var(--slate-light);margin-bottom:12px;">さとう まりな さんへの評価</div><div class="star-in" style="justify-content:center;" id="starInput"><span onclick="setStars(1)">★</span><span onclick="setStars(2)">★</span><span onclick="setStars(3)">★</span><span onclick="setStars(4)">★</span><span onclick="setStars(5)">★</span></div></div>
+    <div class="form-group"><label>コメント</label><textarea class="form-control" placeholder="サービスはいかがでしたか？次の飼い主さんの参考になります。"></textarea></div>`,
+    `<button class="btn btn-ghost" onclick="closeModal()">後で書く</button><button class="btn btn-primary" onclick="closeModal();showToast('レビューを投稿しました！ありがとうございます','success')">投稿する</button>`);
+}
+function setStars(n){document.querySelectorAll('#starInput span').forEach((s,i)=>s.classList.toggle('lit',i<n));}
+function openAdminRejectModal(){
+  openModal('却下理由を入力',
+    `<div class="form-group"><label>却下理由</label><select class="form-control"><option>写真が不鮮明・不足</option><option>自己紹介が不十分</option><option>対応エリアが範囲外</option><option>その他</option></select></div>
+    <div class="form-group"><label>ケアラーへのメッセージ（任意）</label><textarea class="form-control" placeholder="改善点や再申請の案内を記載できます"></textarea></div>`,
+    `<button class="btn btn-ghost" onclick="closeModal()">キャンセル</button><button class="btn btn-danger" onclick="closeModal();showToast('申請を却下しました')">却下する</button>`);
+}
+function adminApprove(btn){
+  const row=btn.closest('tr');
+  row.querySelector('td:nth-child(5)').innerHTML='<span class="badge badge-green">承認済み</span>';
+  row.querySelector('td:nth-child(6)').innerHTML='<span style="font-size:12px;color:var(--slate-light);">承認済み</span>';
+  showToast('ケアラーを承認しました','success');
+}
+
+// ===== MESSAGES =====
+function sendMsg(){
+  const inp=document.getElementById('msgInput');
+  const text=inp.value.trim();if(!text)return;
+  const body=document.getElementById('chatBody');
+  const b=document.createElement('div');b.className='msg-bubble mine';
+  const now=new Date();const t=now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  b.innerHTML=text+`<div class="time">${t}</div>`;
+  body.appendChild(b);body.scrollTop=body.scrollHeight;inp.value='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.activeElement.id==='msgInput')sendMsg();});
+
+// ===== TOAST =====
+function showToast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast show'+(type?' '+type:'');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ===== SCROLL FADE =====
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80);});
+},{threshold:.1});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// Init
+renderCarers();renderRequests();
+</script>
+</body>
+</html>

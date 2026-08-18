@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "agent_id": "pawmate_a01",
+    "agent_code": "A01",
+    "source": {
+      "document": "pawmate_agent_team.md",
+      "section": "A01｜Chief of Staff Agent",
+      "priority_band": "Priority 1"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "Chief of Staff Agent",
+    "tagline": "今日の5チケットとGateを一本に束ねる",
+    "mission": "PawMate全体の秘書・PMO。日次5チケット運用、ブロッカー管理、Gate判定、Keiへの意思決定依頼を担う。",
+    "main_tasks": [
+      "`pawmate_daily_calendar_fast.md` の毎朝チェック",
+      "`pawmate_tickets.md` のStatus更新案",
+      "1日5チケットの優先順位調整",
+      "Waiting / Blocked / Done の棚卸し",
+      "Gate条件との差分管理"
+    ],
+    "typical_scenarios": [
+      "今日の5チケット運用で担当領域の前捌きが必要なとき",
+      "Gate前、外部接触前、リリース前に判断材料を整えるとき"
+    ],
+    "value_for_user": "Chief of Staff Agentが、今日の5チケットとGateを一本に束ねることでKeiの判断と実行を軽くする。",
+    "canonical_docs": [
+      "pawmate_agent_team.md",
+      "pawmate_roadmap.md",
+      "pawmate_tickets.md",
+      "pawmate_daily_calendar_fast.md"
+    ]
+  },
+  "review_summary": {
+    "fitness_to_role": "pawmate_agent_team.md の担当領域とチケットに直結",
+    "concreteness": "標準成果物、担当チケット、Kei確認事項に接続可能",
+    "distinctiveness": "隣接エージェントと成果物単位で責務を分離",
+    "request_definition_readiness": "004へ直結可能",
+    "improvement_notes": ""
+  }
+}

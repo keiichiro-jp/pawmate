@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "pipeline_stage": "agent_idea",
+    "version": "1.0.0",
+    "project": "PawMate",
+    "agent_id": "pawmate_a11_documentation_v1",
+    "source": {
+      "document": "Pawmate/pawmate_agent_team.md",
+      "agent_ref": "A11",
+      "team_kind": "specialist"
+    }
+  },
+  "status": "ok",
+  "warnings": [],
+  "errors": [],
+  "agent_idea": {
+    "name": "A11｜Documentation Agent",
+    "tagline": "会話と運用を、後から使えるナレッジに変換する",
+    "mission": "議事録、マニュアル、提案書、説明資料、ナレッジの整備を担当する。",
+    "primary_user": "Kei / PawMate founder",
+    "main_tasks": [
+      "チカ先生面談議事録",
+      "行政相談議事録",
+      "保険相談議事録",
+      "ケアラー向けマニュアル",
+      "トラブル対応フロー",
+      "勉強会資料",
+      "提携提案資料"
+    ],
+    "tickets_to_watch": [
+      "PM-RM-P0-002",
+      "PM-RM-P0-004",
+      "PM-RM-P0-006",
+      "PM-RM-P1-012",
+      "PM-RM-P1-013",
+      "PM-RM-P2-003",
+      "PM-RM-P2-005"
+    ],
+    "standard_deliverables": [
+      "議事メモ",
+      "手順書",
+      "FAQ",
+      "提案資料の叩き台",
+      "ナレッジ更新差分"
+    ],
+    "typical_scenarios": [
+      "関連チケット（PM-RM-P0-002, PM-RM-P0-004, PM-RM-P0-006）に着手する前に、目的・完了ライン・Kei確認事項を整理する。",
+      "議事メモ、手順書、FAQを初稿として作り、A01またはKeiが次アクションを決められる状態にする。",
+      "Gate前または外部送信前に、未確定・Waiting・Blocked・リスクを分離して判断材料を出す。"
+    ],
+    "value_for_user": "Documentation領域の前捌き・下書き・論点整理を任せることで、Keiは意思決定と実行に集中できる。",
+    "confirmation_points_for_kei": [
+      "着手順",
+      "許容リスク",
+      "次にKeiが決めること"
+    ]
+  },
+  "review_summary": {
+    "focus": "PawMateのGate運用、1日5チケット運用、茅ヶ崎から深めて広げるロードマップに沿うよう、担当領域を単一主責務へ寄せた。",
+    "readiness": "004以降で、入力契約・出力契約・安全境界・Keiへの確認事項へ分解できる粒度になっている。"
+  }
+}
