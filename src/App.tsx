@@ -809,16 +809,52 @@ function BookingsPage({ goTo, notify, pets }: { goTo: (page: PageId) => void; no
 }
 
 function MessagesPage({ notify }: { notify: (message: string) => void }) {
-  const [messages, setMessages] = useState([
-    { mine: false, text: "はじめまして。ポチちゃんの散歩代行、喜んで対応します。" },
-    { mine: true, text: "初回なのでMeet & Greetからお願いできますか？" },
-    { mine: false, text: "もちろんです。公園で30分ほど、性格や散歩ルートを確認しましょう。" },
+  const [threads, setThreads] = useState([
+    {
+      name: "さとう まりな",
+      topic: "Meet & Greet調整中",
+      messages: [
+        { mine: false, text: "はじめまして。ポチちゃんの散歩代行、喜んで対応します。" },
+        { mine: true, text: "初回なのでMeet & Greetからお願いできますか？" },
+        { mine: false, text: "もちろんです。公園で30分ほど、性格や散歩ルートを確認しましょう。" },
+      ],
+    },
+    {
+      name: "ほしの みお",
+      topic: "ムギのキャットシッター相談",
+      messages: [
+        { mine: true, text: "来週の木曜、9時から18時でムギのシッターをお願いしたいです。人見知りな猫ですが大丈夫でしょうか。" },
+        { mine: false, text: "ご相談ありがとうございます。人見知りさん、大歓迎です。初回はご自宅でのMeet & Greetからいかがでしょう。" },
+        { mine: true, text: "助かります。当日、隠れて出てこないかもしれませんが…。" },
+        { mine: false, text: "大丈夫ですよ。無理に触らず、餌皿とトイレの様子から健康チェックをします。食べた量は写真つきでご報告しますね。" },
+        { mine: true, text: "ぜひお願いします。木曜の午前中に顔合わせは可能ですか？" },
+        { mine: false, text: "木曜10時でしたら伺えます。ムギちゃんのお気に入りのおもちゃがあれば教えてください。" },
+      ],
+    },
+    {
+      name: "きむら あいこ",
+      topic: "宿泊ケア相談",
+      messages: [
+        { mine: true, text: "9月の連休に2泊の宿泊お預かりをお願いできますか？シニア犬で、朝夕の投薬があります。" },
+        { mine: false, text: "対応可能です。お薬の種類と回数、かかりつけの動物病院を教えていただけますか？" },
+        { mine: true, text: "朝夕1錠ずつ、ごはんに混ぜて与えています。お薬手帳の写真をお送りしますね。病院は茅ヶ崎の海辺動物病院です。" },
+        { mine: false, text: "ありがとうございます。投薬は毎回チェックリストでご報告します。夜間の緊急連絡フローも顔合わせのときにご説明しますね。" },
+        { mine: true, text: "心強いです。それでは今週末にMeet & Greetをお願いします。" },
+      ],
+    },
   ]);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [text, setText] = useState("");
+
+  const active = threads[activeIndex];
 
   function send() {
     if (!text.trim()) return;
-    setMessages([...messages, { mine: true, text }]);
+    setThreads(threads.map((thread, index) =>
+      index === activeIndex
+        ? { ...thread, messages: [...thread.messages, { mine: true, text }] }
+        : thread,
+    ));
     setText("");
     notify("メッセージを送信しました");
   }
@@ -827,13 +863,20 @@ function MessagesPage({ notify }: { notify: (message: string) => void }) {
     <Stack title="メッセージ" subtitle="予約確定後の詳細調整、面談日程、鍵の受け渡し方法を安全に残せます。">
       <div className="message-layout">
         <aside>
-          <button className="message-person active" type="button">さとう まりな<span>Meet & Greet調整中</span></button>
-          <button className="message-person" type="button">ほしの みお<span>ムギのキャットシッター相談</span></button>
-          <button className="message-person" type="button">きむら あいこ<span>宿泊ケア相談</span></button>
+          {threads.map((thread, index) => (
+            <button
+              key={thread.name}
+              className={cx("message-person", index === activeIndex && "active")}
+              type="button"
+              onClick={() => setActiveIndex(index)}
+            >
+              {thread.name}<span>{thread.topic}</span>
+            </button>
+          ))}
         </aside>
         <section>
           <div className="chat-stream">
-            {messages.map((message, index) => (
+            {active.messages.map((message, index) => (
               <div className={cx("bubble", message.mine && "mine")} key={index}>{message.text}</div>
             ))}
           </div>
