@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 import {
   adminApplicants,
   adminBookingRows,
@@ -118,6 +118,37 @@ function pageFromLocation(): PageId {
 
 function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
+}
+
+/** 消印風スタンプ（装飾のみ）: 円形・掠れたインク・エリア名＋日付 */
+function Postmark({ ring, line1, line2, className }: { ring: string; line1: string; line2: string; className?: string }) {
+  const uid = useId().replace(/:/g, "");
+  return (
+    <span className={cx("postmark", className)} aria-hidden="true">
+      <svg viewBox="0 0 120 120">
+        <defs>
+          <path id={`ring-${uid}`} d="M 60,60 m -44,0 a 44,44 0 1,1 88,0 a 44,44 0 1,1 -88,0" fill="none" />
+          <filter id={`rough-${uid}`}>
+            <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" result="n" seed="7" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" />
+            <feComponentTransfer>
+              <feFuncA type="table" tableValues="0 0.82" />
+            </feComponentTransfer>
+          </filter>
+        </defs>
+        <g filter={`url(#rough-${uid})`} fill="none" stroke="currentColor">
+          <circle cx="60" cy="60" r="54" strokeWidth="2.4" strokeDasharray="18 2.5 30 1.5 44 2" />
+          <circle cx="60" cy="60" r="35" strokeWidth="1.3" strokeDasharray="26 2 14 1.5 40 2.5" />
+          <text fontSize="11.5" fontFamily="'Cormorant Garamond', serif" fontWeight="600" letterSpacing="2.6" fill="currentColor" stroke="none">
+            <textPath href={`#ring-${uid}`} startOffset="0%">{ring}</textPath>
+          </text>
+          <text x="60" y="57" textAnchor="middle" fontSize="13" fontFamily="'Cormorant Garamond', serif" fontWeight="600" letterSpacing="1.5" fill="currentColor" stroke="none">{line1}</text>
+          <path d="M 34 66 Q 47 63.5, 60 66 T 86 66" strokeWidth="1" strokeDasharray="10 1.5 22 1" />
+          <text x="60" y="80" textAnchor="middle" fontSize="10" fontFamily="'Cormorant Garamond', serif" letterSpacing="2" fill="currentColor" stroke="none">{line2}</text>
+        </g>
+      </svg>
+    </span>
+  );
 }
 
 export default function App() {
@@ -331,7 +362,7 @@ function LandingPage({ goTo, openCarer }: { goTo: (page: PageId) => void; openCa
         <div className="hero-inner">
           <div className="hero-copy">
             <p className="eyebrow">登録情報確認型 · 湘南エリア先行</p>
-            <h1>信頼できるプロが、<br />いつもの場所で、<br />いつものように。</h1>
+            <h1>信頼できるプロが、<br />いつもの場所で、<br /><span className="klee">いつものように</span>。</h1>
             <p className="lead">
               湘南で暮らす有資格のケアラーが、ペットの日常をそっと支えます。
               旅行を諦めない。出張を諦めない。体調不良の日も罪悪感を持たない。
@@ -344,8 +375,19 @@ function LandingPage({ goTo, openCarer }: { goTo: (page: PageId) => void; openCa
               {areas.map((area) => <span key={area}>{area}</span>)}
             </div>
           </div>
-          <div className="hero-panel">
-            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=900&q=80" alt="湘南で散歩する犬" />
+          <div className="hero-collage">
+            <figure className="polaroid main tilt-r">
+              <span className="tape" />
+              <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=900&q=80" alt="湘南で散歩する犬" />
+              <figcaption className="polaroid-caption">おさんぽ日和</figcaption>
+            </figure>
+            <figure className="polaroid sub tilt-l">
+              <span className="tape" />
+              <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&q=80" alt="くつろぐ猫" />
+              <figcaption className="polaroid-caption">おるすばん中</figcaption>
+            </figure>
+            <Postmark className="hero-postmark" ring="PAWMATE · SHONAN · KANAGAWA · JAPAN ·" line1="SHONAN" line2="2026. 8. 18" />
+            <span className="hero-memo">a good day by the sea</span>
           </div>
         </div>
         <div className="hero-search-card">
@@ -427,8 +469,9 @@ function LandingPage({ goTo, openCarer }: { goTo: (page: PageId) => void; openCa
         ))}
       </section>
 
-      <SectionHeader label="Trust Infrastructure" title="信頼してください、ではなく信頼できる構造を作る" />
+      <SectionHeader label="Trust Infrastructure" title="安心のためにさまざまな仕組みを整えました。" />
       <section className="section trust-grid">
+        <Postmark className="trust-postmark" ring="PAWMATE · TRUST · VERIFIED ·" line1="確認済" line2="SHONAN OFFICE" />
         {trustItems.map((item) => (
           <article className="trust-card" key={item.title}>
             <h3>{item.title}</h3>
@@ -453,6 +496,8 @@ function LandingPage({ goTo, openCarer }: { goTo: (page: PageId) => void; openCa
           <button className="btn primary" type="button" onClick={() => goTo("carer-profile")}>ケアラー登録へ</button>
         </div>
         <div className="quote-card">
+          <span className="tape" />
+          <Postmark className="quote-postmark" ring="PAWMATE · STAY RECORD · SHONAN ·" line1="滞在記" line2="2026. 8. 18" />
           <p>「プロフェッショナルな愛情」</p>
           <span>愛情だけでは足りない。技術だけでも足りない。資格を持ったプロが、ペットへの愛情を持ってケアする。</span>
         </div>
