@@ -263,6 +263,65 @@ img {
   margin-top: 22px;
 }
 
+.entry-label {
+  margin: 26px 0 10px;
+  color: var(--deep-ocean-2);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.species-entry {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 560px;
+  margin-bottom: 16px;
+}
+
+.species-entry-card {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  padding: 18px 20px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--soft-shadow);
+  color: var(--deep-ocean-2);
+  text-align: left;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.species-entry-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--shonan-green);
+}
+
+.species-entry-emoji {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.species-entry-card strong {
+  font-size: 16px;
+}
+
+.species-entry-card span:last-child {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.species-switch {
+  width: min(1160px, calc(100% - 48px));
+  margin: 20px auto 0;
+  text-align: center;
+}
+
+.species-switch .link-button {
+  color: var(--deep-ocean);
+  font-weight: 800;
+}
+
 .area-tags span,
 .pill-row span,
 .pill {
@@ -1324,7 +1383,8 @@ td .btn + .btn {
   }
 
   .form-row,
-  .role-grid {
+  .role-grid,
+  .species-entry {
     grid-template-columns: 1fr;
   }
 
@@ -1952,4 +2012,246 @@ body::after {
     width: auto;
     margin-top: 14px;
   }
+}
+
+/* ═════════════════════════════════════════════════════════════
+   全面写真ヒーロー ＋ 種別入り口セクション
+═════════════════════════════════════════════════════════════ */
+.hero-section.hero-full {
+  position: relative;
+  overflow: hidden;
+  min-height: min(78vh, 720px);
+  display: block;
+  padding: 0;
+  background: #2E2921;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.14) saturate(0.88);
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg,
+    rgba(46, 41, 33, 0.82) 0%,
+    rgba(46, 41, 33, 0.55) 42%,
+    rgba(46, 41, 33, 0.12) 72%,
+    rgba(46, 41, 33, 0) 100%);
+}
+
+.hero-full .hero-inner {
+  position: relative;
+  z-index: 2;
+  display: block;
+  padding: 120px 0 140px;
+}
+
+.hero-full .hero-copy h1 {
+  color: var(--paper);
+}
+
+.hero-full .eyebrow {
+  color: rgba(246, 241, 231, 0.8);
+}
+
+.hero-full .lead {
+  color: rgba(246, 241, 231, 0.92);
+}
+
+.hero-full .btn.ghost {
+  border-color: rgba(246, 241, 231, 0.55);
+  color: var(--paper);
+}
+
+.hero-full .btn.ghost:hover {
+  border-color: var(--paper);
+}
+
+.hero-full .area-tags span {
+  border-color: rgba(246, 241, 231, 0.38);
+  color: rgba(246, 241, 231, 0.9);
+}
+
+.hero-full .hero-postmark {
+  top: 30px;
+  right: 34px;
+  left: auto;
+  z-index: 3;
+  color: #D8A79A;
+}
+
+.hero-full .hero-memo {
+  position: absolute;
+  left: auto;
+  right: 44px;
+  bottom: 150px;
+  z-index: 3;
+  color: rgba(246, 241, 231, 0.9);
+}
+
+.hero-full .hero-memo::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 74 26' fill='none' stroke='%23F6F1E7' stroke-width='1.6' stroke-linecap='round' opacity='0.8'%3E%3Cpath d='M4 6 Q 30 22, 62 14'/%3E%3Cpath d='M54 8 L 63 13.5 L 53 18'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+.hero-full .floating-card {
+  position: absolute;
+  z-index: 3;
+}
+
+.hero-full .floating-card.top {
+  top: auto;
+  bottom: 118px;
+  right: 40px;
+  left: auto;
+}
+
+.hero-full .floating-card.bottom {
+  bottom: 44px;
+  right: 40px;
+  left: auto;
+}
+
+/* ---- 種別入り口セクション ---- */
+.species-entry-section {
+  width: min(1160px, calc(100% - 48px));
+  margin: 64px auto 0;
+  text-align: center;
+}
+
+.entry-label {
+  margin: 0 0 18px;
+  color: var(--ink-soft);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+}
+
+.species-entry {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.species-entry-card {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  padding: 30px 24px;
+  border: 1px solid rgba(59, 52, 42, 0.25);
+  border-radius: var(--radius);
+  background: var(--paper-card);
+  box-shadow: 0 2px 8px rgba(59, 52, 42, 0.08);
+  color: var(--ink);
+  text-align: center;
+  transition: transform 0.15s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.species-entry-card:hover {
+  transform: translateY(1px);
+  border-color: var(--moss);
+  background: var(--paper);
+}
+
+.species-entry-emoji {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.species-entry-card strong {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.species-entry-card span:last-child {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+/* ---- レスポンシブ ---- */
+@media (max-width: 980px) {
+  .hero-full .hero-inner {
+    padding: 90px 0 320px;
+  }
+
+  .hero-full .floating-card.top {
+    bottom: 108px;
+    right: 20px;
+  }
+
+  .hero-full .floating-card.bottom {
+    bottom: 34px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-section.hero-full {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .hero-full .hero-inner {
+    padding: 72px 0 36px;
+  }
+
+  .hero-scrim {
+    background: linear-gradient(180deg,
+      rgba(46, 41, 33, 0.82) 0%,
+      rgba(46, 41, 33, 0.6) 55%,
+      rgba(46, 41, 33, 0.35) 100%);
+  }
+
+  .hero-full .floating-card {
+    position: static;
+    width: auto;
+    margin: 12px 20px 0;
+  }
+
+  .hero-full .floating-card.bottom {
+    margin-bottom: 40px;
+  }
+
+  .hero-full .hero-postmark {
+    top: 14px;
+    right: 10px;
+    width: 84px;
+    height: 84px;
+  }
+
+  .hero-full .hero-memo {
+    position: static;
+    display: block;
+    width: fit-content;
+    margin: 4px 24px 0 auto;
+  }
+
+  .species-entry-section {
+    margin-top: 44px;
+  }
+
+  .species-entry {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* ---- タイトルは手書き（Klee One） ---- */
+.hero-copy h1 {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* ---- ヒーロー写真の焦点（顔まわりを見せる） ---- */
+.hero-bg {
+  object-position: 62% 30%;
 }
