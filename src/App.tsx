@@ -17,6 +17,7 @@ import {
   type PetSex,
   type PetSpecies,
   type Role,
+  type Service,
 } from "./data/pawmateData";
 
 const appPages: PageId[] = [
@@ -63,9 +64,12 @@ function Postmark({ ring, line1, line2, className }: { ring: string; line1: stri
   );
 }
 
+type OwnerSpecies = "dog" | "cat" | null;
+
 export default function App() {
   const [page, setPage] = useState<PageId>("landing");
   const [role, setRole] = useState<Role>("owner");
+  const [ownerSpecies, setOwnerSpecies] = useState<OwnerSpecies>(null);
   const [selectedCarer, setSelectedCarer] = useState<Carer>(carers[0]);
   const [pets, setPets] = useState<Pet[]>(initialPets);
   const [toast, setToast] = useState("");
@@ -108,15 +112,15 @@ export default function App() {
   function renderPage() {
     switch (page) {
       case "landing":
-        return <LandingPage goTo={goTo} />;
+        return <LandingPage goTo={goTo} ownerSpecies={ownerSpecies} chooseSpecies={setOwnerSpecies} />;
       case "login":
         return <LoginPage goTo={goTo} notify={notify} />;
       case "register":
-        return <RegisterPage goTo={goTo} notify={notify} role={role} setRole={setRole} />;
+        return <RegisterPage goTo={goTo} notify={notify} role={role} setRole={setRole} ownerSpecies={ownerSpecies} />;
       case "dashboard":
         return <DashboardPage goTo={goTo} pets={pets} />;
       case "carers":
-        return <CarersPage openCarer={openCarer} />;
+        return <CarersPage openCarer={openCarer} ownerSpecies={ownerSpecies} />;
       case "carer-detail":
         return <CarerDetailPage carer={selectedCarer} notify={notify} goTo={goTo} />;
       case "requests":
@@ -132,7 +136,7 @@ export default function App() {
       case "admin":
         return <AdminPage notify={notify} />;
       default:
-        return <LandingPage goTo={goTo} />;
+        return <LandingPage goTo={goTo} ownerSpecies={ownerSpecies} chooseSpecies={setOwnerSpecies} />;
     }
   }
 }
@@ -217,67 +221,103 @@ function AppShell({ page, goTo, children }: { page: PageId; goTo: (page: PageId)
   );
 }
 
-function LandingPage({ goTo }: { goTo: (page: PageId) => void }) {
+function LandingPage({
+  goTo,
+  ownerSpecies,
+  chooseSpecies,
+}: {
+  goTo: (page: PageId) => void;
+  ownerSpecies: "dog" | "cat" | null;
+  chooseSpecies: (species: "dog" | "cat") => void;
+}) {
+  const dogServices = services.filter((s) => s.species.includes("dog"));
+  const catServices = services.filter((s) => s.species.includes("cat"));
+
+  function enter(species: "dog" | "cat") {
+    chooseSpecies(species);
+    goTo("carers");
+  }
+
   return (
     <main>
-      <section className="hero-section">
+      <section className="hero-section hero-full">
+        <img
+          className="hero-bg"
+          src="https://images.unsplash.com/photo-1727419780738-8b9e85ab9ca6?w=1800&q=80"
+          alt="見つめ合う犬と子猫"
+        />
+        <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-inner">
           <div className="hero-copy">
             <p className="eyebrow">登録情報確認型 · 湘南エリア先行</p>
             <h1>信頼できるプロが、<br />いつもの場所で、<br /><span className="klee">いつものように</span>。</h1>
             <p className="lead">
-              湘南で暮らす有資格のケアラーが、犬も猫も、その子の日常をそっと支えます。
-              旅行を諦めない。出張を諦めない。猫だけの留守番に不安を抱えない。
+              湘南で暮らす有資格のケアラーが、その子の日常をそっと支えます。
+              旅行を諦めない。出張を諦めない。留守番に不安を抱えない。
             </p>
             <div className="hero-actions">
-              <button className="btn primary" type="button" onClick={() => goTo("carers")}>ケアラーを探す</button>
               <button className="btn ghost" type="button" onClick={() => goTo("carer-profile")}>プロとして参加する</button>
             </div>
             <div className="area-tags">
               {areas.map((area) => <span key={area}>{area}</span>)}
             </div>
           </div>
-          <div className="hero-collage">
-            <figure className="polaroid main tilt-r">
-              <span className="tape" />
-              <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=900&q=80" alt="湘南でケアラーと過ごす犬" />
-              <figcaption className="polaroid-caption">おさんぽ日和</figcaption>
-            </figure>
-            <figure className="polaroid sub tilt-l">
-              <span className="tape" />
-              <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&q=80" alt="くつろぐ猫" />
-              <figcaption className="polaroid-caption">おるすばん中</figcaption>
-            </figure>
-            <Postmark className="hero-postmark" ring="PAWMATE · SHONAN · KANAGAWA · JAPAN ·" line1="SHONAN" line2="2026. 8. 18" />
-            <span className="hero-memo">a good day by the sea</span>
-            <div className="floating-card top">
-              <strong>Meet & Greet 必須</strong>
-              <span>初回は顔合わせから（猫はご自宅で）</span>
-            </div>
-            <div className="floating-card bottom">
-              <strong>猫の訪問ケアにも対応</strong>
-              <span>いつもの部屋で、いつものごはんを</span>
-            </div>
+          <Postmark className="hero-postmark" ring="PAWMATE · SHONAN · KANAGAWA · JAPAN ·" line1="SHONAN" line2="2026. 8. 18" />
+          <span className="hero-memo">a good day by the sea</span>
+          <div className="floating-card top">
+            <strong>Meet & Greet 必須</strong>
+            <span>初回は顔合わせから（猫はご自宅で）</span>
+          </div>
+          <div className="floating-card bottom">
+            <strong>猫の訪問ケアにも対応</strong>
+            <span>いつもの部屋で、いつものごはんを</span>
           </div>
         </div>
       </section>
 
-      <SectionHeader label="Services" title="すべて有資格プロによる自宅訪問型ケア" />
-      <section className="section grid-4">
-        {services.map((service) => (
-          <article className="service-card" key={service.id}>
-            <div className={cx("service-icon", service.icon)} />
-            <h3>{service.title}</h3>
-            <p>{service.text}</p>
-            <div className="pill-row">
-              {service.species.map((s) => (
-                <span key={s}>{speciesMeta[s].emoji} {speciesMeta[s].label}</span>
-              ))}
-            </div>
-            <strong>{service.price}<span>/{service.unit}</span></strong>
-          </article>
-        ))}
+      <section className="species-entry-section">
+        <p className="entry-label">まずは、いっしょに暮らしている家族を教えてください</p>
+        <div className="species-entry">
+          <button className="species-entry-card" type="button" onClick={() => enter("dog")}>
+            <span className="species-entry-emoji">🐕</span>
+            <strong>犬とくらしています</strong>
+            <span>散歩代行 · 訪問ケア · 宿泊</span>
+          </button>
+          <button className="species-entry-card" type="button" onClick={() => enter("cat")}>
+            <span className="species-entry-emoji">🐈</span>
+            <strong>猫とくらしています</strong>
+            <span>キャットシッター · 宿泊</span>
+          </button>
+        </div>
       </section>
+
+      {ownerSpecies !== "cat" && (
+        <>
+          <SectionHeader label="Services for Dogs" title="🐕 犬の飼い主の方へ" />
+          <section className="section grid-3">
+            {dogServices.map((service) => (
+              <ServiceCard key={service.id} service={service} />
+            ))}
+          </section>
+        </>
+      )}
+      {ownerSpecies !== "dog" && (
+        <>
+          <SectionHeader label="Services for Cats" title="🐈 猫の飼い主の方へ" />
+          <section className="section grid-2">
+            {catServices.map((service) => (
+              <ServiceCard key={service.id} service={service} />
+            ))}
+          </section>
+        </>
+      )}
+      {ownerSpecies && (
+        <p className="species-switch">
+          <button className="link-button" type="button" onClick={() => chooseSpecies(ownerSpecies === "dog" ? "cat" : "dog")}>
+            {ownerSpecies === "dog" ? "🐈 猫の飼い主の方はこちら" : "🐕 犬の飼い主の方はこちら"}
+          </button>
+        </p>
+      )}
 
       <SectionHeader label="Trust Infrastructure" title="安心のためにさまざまな仕組みを整えました。" />
       <section className="section trust-grid">
@@ -344,11 +384,13 @@ function RegisterPage({
   notify,
   role,
   setRole,
+  ownerSpecies,
 }: {
   goTo: (page: PageId) => void;
   notify: (message: string) => void;
   role: Role;
   setRole: (role: Role) => void;
+  ownerSpecies: "dog" | "cat" | null;
 }) {
   return (
     <AuthShell title="無料登録" subtitle="飼い主として依頼するか、プロとして参加するかを選べます。">
@@ -377,7 +419,7 @@ function RegisterPage({
       {role === "owner" && (
         <label className="field">
           <span>ペットの種類</span>
-          <select>
+          <select defaultValue={ownerSpecies ? speciesMeta[ownerSpecies].label : undefined}>
             {speciesList.map((s) => <option key={s}>{speciesMeta[s].label}</option>)}
             <option>これから迎える予定</option>
           </select>
@@ -433,10 +475,10 @@ function DashboardPage({ goTo, pets }: { goTo: (page: PageId) => void; pets: Pet
   );
 }
 
-function CarersPage({ openCarer }: { openCarer: (carer: Carer) => void }) {
+function CarersPage({ openCarer, ownerSpecies }: { openCarer: (carer: Carer) => void; ownerSpecies: "dog" | "cat" | null }) {
   const [query, setQuery] = useState("");
   const [area, setArea] = useState("すべて");
-  const [species, setSpecies] = useState<PetSpecies | "all">("all");
+  const [species, setSpecies] = useState<PetSpecies | "all">(ownerSpecies ?? "all");
   const filtered = useMemo(
     () =>
       carers.filter((carer) => {
@@ -913,6 +955,22 @@ function SectionHeader({ label, title }: { label: string; title: string }) {
       <p>{label}</p>
       <h2>{title}</h2>
     </div>
+  );
+}
+
+function ServiceCard({ service }: { service: Service }) {
+  return (
+    <article className="service-card">
+      <div className={cx("service-icon", service.icon)} />
+      <h3>{service.title}</h3>
+      <p>{service.text}</p>
+      <div className="pill-row">
+        {service.species.map((s) => (
+          <span key={s}>{speciesMeta[s].emoji} {speciesMeta[s].label}</span>
+        ))}
+      </div>
+      <strong>{service.price}<span>/{service.unit}</span></strong>
+    </article>
   );
 }
 
