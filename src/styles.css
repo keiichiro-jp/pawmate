@@ -2038,18 +2038,18 @@ body::after {
 .hero-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(100deg,
-    rgba(46, 41, 33, 0.82) 0%,
-    rgba(46, 41, 33, 0.55) 42%,
-    rgba(46, 41, 33, 0.12) 72%,
-    rgba(46, 41, 33, 0) 100%);
+  background: linear-gradient(155deg,
+    rgba(46, 41, 33, 0.8) 0%,
+    rgba(46, 41, 33, 0.5) 34%,
+    rgba(46, 41, 33, 0.08) 62%,
+    rgba(46, 41, 33, 0) 80%);
 }
 
 .hero-full .hero-inner {
   position: relative;
   z-index: 2;
   display: block;
-  padding: 120px 0 140px;
+  padding: 64px 0 190px;
 }
 
 .hero-full .hero-copy h1 {
@@ -2088,11 +2088,11 @@ body::after {
 
 .hero-full .hero-memo {
   position: absolute;
-  left: auto;
-  right: 44px;
-  bottom: 150px;
+  left: 44px;
+  right: auto;
+  bottom: 30px;
   z-index: 3;
-  color: rgba(246, 241, 231, 0.9);
+  color: rgba(246, 241, 231, 0.95);
 }
 
 .hero-full .hero-memo::after {
@@ -2106,13 +2106,13 @@ body::after {
 
 .hero-full .floating-card.top {
   top: auto;
-  bottom: 118px;
-  right: 40px;
+  bottom: 40px;
+  right: 316px;
   left: auto;
 }
 
 .hero-full .floating-card.bottom {
-  bottom: 44px;
+  bottom: 40px;
   right: 40px;
   left: auto;
 }
@@ -2179,17 +2179,19 @@ body::after {
 /* ---- レスポンシブ ---- */
 @media (max-width: 980px) {
   .hero-full .hero-inner {
-    padding: 90px 0 320px;
+    padding: 80px 0 240px;
   }
 
   .hero-full .floating-card.top {
-    bottom: 108px;
-    right: 20px;
+    bottom: 118px;
+    left: 20px;
+    right: auto;
   }
 
   .hero-full .floating-card.bottom {
     bottom: 34px;
-    right: 20px;
+    left: 20px;
+    right: auto;
   }
 }
 
@@ -2197,17 +2199,22 @@ body::after {
   .hero-section.hero-full {
     min-height: 0;
     padding: 0;
+    background: #2E2921;
   }
 
-  .hero-full .hero-inner {
-    padding: 72px 0 36px;
+  .hero-bg {
+    position: static;
+    width: 100%;
+    height: 44vh;
+    object-position: 50% 38%;
   }
 
   .hero-scrim {
-    background: linear-gradient(180deg,
-      rgba(46, 41, 33, 0.82) 0%,
-      rgba(46, 41, 33, 0.6) 55%,
-      rgba(46, 41, 33, 0.35) 100%);
+    display: none;
+  }
+
+  .hero-full .hero-inner {
+    padding: 30px 0 10px;
   }
 
   .hero-full .floating-card {
@@ -2251,7 +2258,17 @@ body::after {
   letter-spacing: 0.06em;
 }
 
-/* ---- ヒーロー写真の焦点（顔まわりを見せる） ---- */
+/* ---- ヒーロー写真の焦点（顔の帯を見せ、左に余白を作る） ---- */
 .hero-bg {
-  object-position: 62% 30%;
+  object-position: 50% 42%;
+}
+
+/* ---- モバイル: 消印は写真の右上へ（コピーに重ねない） ---- */
+@media (max-width: 620px) {
+  .hero-full .hero-postmark {
+    top: 14px;
+    right: 12px;
+    left: auto;
+    bottom: auto;
+  }
 }
